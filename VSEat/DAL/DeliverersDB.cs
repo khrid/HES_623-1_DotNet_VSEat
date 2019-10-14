@@ -6,11 +6,11 @@ using System.Text;
 
 namespace DAL
 {
-    public class CitiesDB
+    public class DeliverersDB
     {
         public IConfiguration Configuration;
 
-        public CitiesDB(IConfiguration configuration)
+        public DeliverersDB(IConfiguration configuration)
         {
 
             Configuration = configuration;
@@ -18,16 +18,16 @@ namespace DAL
         }
 
 
-        public List<City> GetAllCities()
+        public List<Deliverer> GetAllDeliverers()
         {
-            List<City> results = null;
+            List<Deliverer> results = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from cities";
+                    string query = "Select * from deliverers";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();
@@ -37,13 +37,17 @@ namespace DAL
                         while (dr.Read())
                         {
                             if (results == null)
-                                results = new List<City>();
+                                results = new List<Deliverer>();
 
-                            City member = new City();
+                            Deliverer member = new Deliverer();
 
                             member.id = (int)dr["id"];
-                            member.zip_code= (int)dr["zip_code"];
-                            member.name = (string)dr["name"];
+                            member.username = (string)dr["username"];
+                            member.password = (string)dr["password"];
+                            member.full_name = (string)dr["full_name"];
+                            // Voir si modifications souhaitées
+                            CitiesDB citiesDB = new CitiesDB(Configuration);
+                            member.city = citiesDB.GetCityById((int)dr["fk_cities"]);
 
                             results.Add(member);
 
@@ -60,31 +64,33 @@ namespace DAL
 
         }
 
-        public City GetCityById(int id)
+        public Deliverer GetDelivererById(int id)
         {
-            City result = null;
+            Deliverer result = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = $"Select * from cities where id={id}";
+                    string query = $"Select * from deliverers where id={id}";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();
 
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
-
                         dr.Read();
                         if (result == null)
-                            result = new City();
+                            result = new Deliverer();
 
                         result.id = (int)dr["id"];
-                        result.zip_code = (int)dr["zip_code"];
-                        result.name = (string)dr["name"];
-
+                        result.username = (string)dr["username"];
+                        result.password = (string)dr["password"];
+                        result.full_name = (string)dr["full_name"];
+                        // Voir si modifications souhaitées
+                        CitiesDB citiesDB = new CitiesDB(Configuration);
+                        result.city = citiesDB.GetCityById((int)dr["fk_cities"]);
                     }
                 }
             }

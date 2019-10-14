@@ -6,11 +6,11 @@ using System.Text;
 
 namespace DAL
 {
-    public class CitiesDB
+    public class OrderDishesDB
     {
         public IConfiguration Configuration;
 
-        public CitiesDB(IConfiguration configuration)
+        public OrderDishesDB(IConfiguration configuration)
         {
 
             Configuration = configuration;
@@ -18,16 +18,16 @@ namespace DAL
         }
 
 
-        public List<City> GetAllCities()
+        public List<OrderDish> GetAllOrderDishes()
         {
-            List<City> results = null;
+            List<OrderDish> results = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from cities";
+                    string query = "Select * from order_dishes";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();
@@ -37,13 +37,17 @@ namespace DAL
                         while (dr.Read())
                         {
                             if (results == null)
-                                results = new List<City>();
+                                results = new List<OrderDish>();
 
-                            City member = new City();
+                            OrderDish member = new OrderDish();
 
                             member.id = (int)dr["id"];
-                            member.zip_code= (int)dr["zip_code"];
-                            member.name = (string)dr["name"];
+                            member.quantity = (int)dr["quantity"];
+                            // Voir si modifications souhaitées
+                            OrdersDB ordersDB = new OrdersDB(Configuration);
+                            member.order = ordersDB.GetOrderById((int)dr["fk_orders"]);
+                            DishesDB dishesDB = new DishesDB(Configuration);
+                            member.dish = dishesDB.GetDishById((int)dr["fk_dishes"]);
 
                             results.Add(member);
 
@@ -60,31 +64,33 @@ namespace DAL
 
         }
 
-        public City GetCityById(int id)
+        public OrderDish GetOrderById(int id)
         {
-            City result = null;
+            OrderDish result = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = $"Select * from cities where id={id}";
+                    string query = $"Select * from order_dishes where id={id}";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();
 
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
-
                         dr.Read();
                         if (result == null)
-                            result = new City();
+                            result = new OrderDish();
 
                         result.id = (int)dr["id"];
-                        result.zip_code = (int)dr["zip_code"];
-                        result.name = (string)dr["name"];
-
+                        result.quantity = (int)dr["quantity"];
+                        // Voir si modifications souhaitées
+                        OrdersDB ordersDB = new OrdersDB(Configuration);
+                        result.order = ordersDB.GetOrderById((int)dr["fk_orders"]);
+                        DishesDB dishesDB = new DishesDB(Configuration);
+                        result.dish = dishesDB.GetDishById((int)dr["fk_dishes"]);
                     }
                 }
             }

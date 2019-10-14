@@ -45,7 +45,7 @@ namespace DAL
                             member.merchant_name = (string)dr["merchant_name"];
                             // Voir si modifications souhaitées
                             CitiesDB citiesDB = new CitiesDB(Configuration);
-                            member.city= citiesDB.GetCity((int)dr["fk_cities"]);
+                            member.city= citiesDB.GetCityById((int)dr["fk_cities"]);
 
                             results.Add(member);
 
@@ -62,7 +62,7 @@ namespace DAL
 
         }
 
-        public Restaurant GetRestaurant(int id)
+        public Restaurant GetRestaurantById(int id)
         {
             Restaurant result = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -78,7 +78,6 @@ namespace DAL
 
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
-
                         dr.Read();
                         if (result == null)
                             result = new Restaurant();
@@ -87,8 +86,7 @@ namespace DAL
                         result.merchant_name = (string)dr["merchant_name"];
                         // Voir si modifications souhaitées
                         CitiesDB citiesDB = new CitiesDB(Configuration);
-                        result.city = citiesDB.GetCity((int)dr["fk_cities"]);
-
+                        result.city = citiesDB.GetCityById((int)dr["fk_cities"]);
                     }
                 }
             }
