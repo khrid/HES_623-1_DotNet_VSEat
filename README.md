@@ -5,13 +5,10 @@
 * Sylvain Meyer
 
 ## Introduction
-Some restaurants in Valais would like to manage their food delivery in the region. They ask you to create this platform with the help of N-tier and a database. This project aims to cover the subjects presented in following course:
-
-•	623-1 : Implémentation du système d’information / Implementierung des Informationssystems
+Some restaurants in Valais would like to manage their food delivery in the region. They ask you to create this platform with the help of N-tier and a database. This project aims to cover the subjects presented in following course: 623-1 : Implémentation du système d’information / Implementierung des Informationssystems
 
 ### Constraints:
-•	Each order is identified by a number. This number in addition to firstname lastname will be used to cancel the order at least 3 hours before delivery.
-
+Each order is identified by a number. This number in addition to firstname lastname will be used to cancel the order at least 3 hours before delivery.
 
 ### User stories:
 
