@@ -5,7 +5,13 @@ VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{B49F292D-6CF5-41F0-A913-1A2142C9B772}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{9498310F-2969-4B21-9BF7-355C3BA7947F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{9498310F-2969-4B21-9BF7-355C3BA7947F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ressources", "ressources", "{4188A5B7-B41E-46BA-9870-9C92248BB77F}"
+	ProjectSection(SolutionItems) = preProject
+		data_insertion.sql = data_insertion.sql
+		database_creation.sql = database_creation.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
