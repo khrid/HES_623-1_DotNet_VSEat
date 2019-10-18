@@ -6,11 +6,11 @@ using System.Text;
 
 namespace DAL
 {
-    public class DishesDB
+    public class RestaurantsDB : IRestaurantsDB
     {
-        public IConfiguration Configuration;
+        public IConfiguration Configuration { get; }
 
-        public DishesDB(IConfiguration configuration)
+        public RestaurantsDB(IConfiguration configuration)
         {
 
             Configuration = configuration;
@@ -18,16 +18,16 @@ namespace DAL
         }
 
 
-        public List<Dish> GetAllDishes()
+        public List<Restaurant> GetAllRestaurants()
         {
-            List<Dish> results = null;
+            List<Restaurant> results = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from dishes";
+                    string query = "Select * from restaurants";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();
@@ -37,17 +37,15 @@ namespace DAL
                         while (dr.Read())
                         {
                             if (results == null)
-                                results = new List<Dish>();
+                                results = new List<Restaurant>();
 
-                            Dish member = new Dish();
+                            Restaurant member = new Restaurant();
 
                             member.id = (int)dr["id"];
-                            member.name = (string)dr["name"];
-                            member.price = (int)dr["price"];
-                            member.status = (bool)dr["status"];
+                            member.merchant_name = (string)dr["merchant_name"];
                             // Voir si modifications souhaitées
-                            RestaurantsDB restaurantsDB = new RestaurantsDB(Configuration);
-                            member.restaurant = restaurantsDB.GetRestaurantById((int)dr["fk_restaurants"]);
+                            CitiesDB citiesDB = new CitiesDB(Configuration);
+                            member.city = citiesDB.GetCityById((int)dr["fk_cities"]);
 
                             results.Add(member);
 
@@ -64,16 +62,16 @@ namespace DAL
 
         }
 
-        public Dish GetDishById(int id)
+        public Restaurant GetRestaurantById(int id)
         {
-            Dish result = null;
+            Restaurant result = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from dishes where id=@id";
+                    string query = "Select * from restaurants where id=@id";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@id", id);
 
@@ -84,15 +82,13 @@ namespace DAL
                         if (dr.Read())
                         {
                             if (result == null)
-                                result = new Dish();
+                                result = new Restaurant();
 
                             result.id = (int)dr["id"];
-                            result.name = (string)dr["name"];
-                            result.price = (int)dr["price"];
-                            result.status = (bool)dr["status"];
+                            result.merchant_name = (string)dr["merchant_name"];
                             // Voir si modifications souhaitées
-                            RestaurantsDB restaurantsDB = new RestaurantsDB(Configuration);
-                            result.restaurant = restaurantsDB.GetRestaurantById((int)dr["fk_restaurants"]);
+                            CitiesDB citiesDB = new CitiesDB(Configuration);
+                            result.city = citiesDB.GetCityById((int)dr["fk_cities"]);
                         }
                     }
                 }

@@ -6,11 +6,11 @@ using System.Text;
 
 namespace DAL
 {
-    public class OrderDishesDB
+    public class OrdersStatusHistoryDB : IOrdersStatusHistoryDB
     {
-        public IConfiguration Configuration;
+        public IConfiguration Configuration { get; }
 
-        public OrderDishesDB(IConfiguration configuration)
+        public OrdersStatusHistoryDB(IConfiguration configuration)
         {
 
             Configuration = configuration;
@@ -18,16 +18,16 @@ namespace DAL
         }
 
 
-        public List<OrderDish> GetAllOrderDishes()
+        public List<OrdersStatusHistory> GetAllOrdersStatusHistory()
         {
-            List<OrderDish> results = null;
+            List<OrdersStatusHistory> results = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from order_dishes";
+                    string query = "Select * from orders_status_history";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();
@@ -37,17 +37,17 @@ namespace DAL
                         while (dr.Read())
                         {
                             if (results == null)
-                                results = new List<OrderDish>();
+                                results = new List<OrdersStatusHistory>();
 
-                            OrderDish member = new OrderDish();
+                            OrdersStatusHistory member = new OrdersStatusHistory();
 
                             member.id = (int)dr["id"];
-                            member.quantity = (int)dr["quantity"];
+                            member.created_at = (DateTime)dr["created_at"];
                             // Voir si modifications souhaitées
                             OrdersDB ordersDB = new OrdersDB(Configuration);
                             member.order = ordersDB.GetOrderById((int)dr["fk_orders"]);
-                            DishesDB dishesDB = new DishesDB(Configuration);
-                            member.dish = dishesDB.GetDishById((int)dr["fk_dishes"]);
+                            OrdersStatusDB ordersStatusDB = new OrdersStatusDB(Configuration);
+                            member.ordersStatus = ordersStatusDB.GetOrdersStatusById((int)dr["fk_orders_status"]);
 
                             results.Add(member);
 
@@ -64,16 +64,16 @@ namespace DAL
 
         }
 
-        public OrderDish GetOrderDishById(int id)
+        public OrdersStatusHistory GetOrdersStatusHistoryById(int id)
         {
-            OrderDish result = null;
+            OrdersStatusHistory result = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from order_dishes where id=@id";
+                    string query = "Select * from orders_status_history where id=@id";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@id", id);
 
@@ -84,15 +84,15 @@ namespace DAL
                         if (dr.Read())
                         {
                             if (result == null)
-                                result = new OrderDish();
+                                result = new OrdersStatusHistory();
 
                             result.id = (int)dr["id"];
-                            result.quantity = (int)dr["quantity"];
+                            result.created_at = (DateTime)dr["created_at"];
                             // Voir si modifications souhaitées
                             OrdersDB ordersDB = new OrdersDB(Configuration);
                             result.order = ordersDB.GetOrderById((int)dr["fk_orders"]);
-                            DishesDB dishesDB = new DishesDB(Configuration);
-                            result.dish = dishesDB.GetDishById((int)dr["fk_dishes"]);
+                            OrdersStatusDB ordersStatusDB = new OrdersStatusDB(Configuration);
+                            result.ordersStatus = ordersStatusDB.GetOrdersStatusById((int)dr["fk_orders_status"]);
                         }
                     }
                 }
@@ -106,7 +106,7 @@ namespace DAL
 
         }
 
-        public OrderDish AddOrderDish(OrderDish orderDish)
+        public OrdersStatusHistory AddOrdersStatusHistory(OrdersStatusHistory ordersStatusHistory)
         {
 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -115,24 +115,24 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "insert into order_dishes(fk_orders, fk_dishes, quantity) " +
-                        "values(@fk_orders, @fk_dishes, @quantity);" +
+                    string query = "insert into orders_status_history(fk_orders, fk_orders_status, created_at) " +
+                        "values(@fk_orders, @fk_orders_status, @created_at);" +
                         "select scope_identity();";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@fk_orders", orderDish.order.id);
-                    cmd.Parameters.AddWithValue("@fk_dishes", orderDish.dish.id);
-                    cmd.Parameters.AddWithValue("@quantity", orderDish.quantity);
+                    cmd.Parameters.AddWithValue("@fk_orders", ordersStatusHistory.order.id);
+                    cmd.Parameters.AddWithValue("@fk_orders_status", ordersStatusHistory.ordersStatus.id);
+                    cmd.Parameters.AddWithValue("@created_at", ordersStatusHistory.created_at);
 
                     cn.Open();
 
-                    orderDish.id = Convert.ToInt32(cmd.ExecuteScalar());
+                    ordersStatusHistory.id = Convert.ToInt32(cmd.ExecuteScalar());
                 }
             }
             catch (Exception e)
             {
                 throw e;
             }
-            return orderDish;
+            return ordersStatusHistory;
         }
     }
 }

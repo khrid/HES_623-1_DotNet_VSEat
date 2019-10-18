@@ -6,11 +6,11 @@ using System.Text;
 
 namespace DAL
 {
-    public class OrdersStatusDB
+    public class CustomersDB : ICustomersDB
     {
-        public IConfiguration Configuration;
+        public IConfiguration Configuration { get; }
 
-        public OrdersStatusDB(IConfiguration configuration)
+        public CustomersDB(IConfiguration configuration)
         {
 
             Configuration = configuration;
@@ -18,16 +18,16 @@ namespace DAL
         }
 
 
-        public List<OrdersStatus> GetAllOrdersStatus()
+        public List<Customer> GetAllCustomers()
         {
-            List<OrdersStatus> results = null;
+            List<Customer> results = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from orders_status";
+                    string query = "Select * from customers";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();
@@ -37,12 +37,17 @@ namespace DAL
                         while (dr.Read())
                         {
                             if (results == null)
-                                results = new List<OrdersStatus>();
+                                results = new List<Customer>();
 
-                            OrdersStatus member = new OrdersStatus();
+                            Customer member = new Customer();
 
                             member.id = (int)dr["id"];
-                            member.status = (string)dr["status"];
+                            member.username = (string)dr["username"];
+                            member.password = (string)dr["password"];
+                            member.full_name = (string)dr["full_name"];
+                            // Voir si modifications souhaitées
+                            CitiesDB citiesDB = new CitiesDB(Configuration);
+                            member.city = citiesDB.GetCityById((int)dr["fk_cities"]);
 
                             results.Add(member);
 
@@ -59,16 +64,16 @@ namespace DAL
 
         }
 
-        public OrdersStatus GetOrdersStatusById(int id)
+        public Customer GetCustomerById(int id)
         {
-            OrdersStatus result = null;
+            Customer result = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from orders_status where id=@id";
+                    string query = "Select * from customers where id=@id";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@id", id);
 
@@ -79,10 +84,15 @@ namespace DAL
                         if (dr.Read())
                         {
                             if (result == null)
-                                result = new OrdersStatus();
+                                result = new Customer();
 
                             result.id = (int)dr["id"];
-                            result.status = (string)dr["status"];
+                            result.username = (string)dr["username"];
+                            result.password = (string)dr["password"];
+                            result.full_name = (string)dr["full_name"];
+                            // Voir si modifications souhaitées
+                            CitiesDB citiesDB = new CitiesDB(Configuration);
+                            result.city = citiesDB.GetCityById((int)dr["fk_cities"]);
                         }
                     }
                 }

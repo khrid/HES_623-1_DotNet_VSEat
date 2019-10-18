@@ -6,11 +6,11 @@ using System.Text;
 
 namespace DAL
 {
-    public class RestaurantsDB
+    public class OrdersStatusDB : IOrdersStatusDB
     {
-        public IConfiguration Configuration;
+        public IConfiguration Configuration { get; }
 
-        public RestaurantsDB(IConfiguration configuration)
+        public OrdersStatusDB(IConfiguration configuration)
         {
 
             Configuration = configuration;
@@ -18,16 +18,16 @@ namespace DAL
         }
 
 
-        public List<Restaurant> GetAllRestaurants()
+        public List<OrdersStatus> GetAllOrdersStatus()
         {
-            List<Restaurant> results = null;
+            List<OrdersStatus> results = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from restaurants";
+                    string query = "Select * from orders_status";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();
@@ -37,15 +37,12 @@ namespace DAL
                         while (dr.Read())
                         {
                             if (results == null)
-                                results = new List<Restaurant>();
+                                results = new List<OrdersStatus>();
 
-                            Restaurant member = new Restaurant();
+                            OrdersStatus member = new OrdersStatus();
 
                             member.id = (int)dr["id"];
-                            member.merchant_name = (string)dr["merchant_name"];
-                            // Voir si modifications souhaitées
-                            CitiesDB citiesDB = new CitiesDB(Configuration);
-                            member.city = citiesDB.GetCityById((int)dr["fk_cities"]);
+                            member.status = (string)dr["status"];
 
                             results.Add(member);
 
@@ -62,16 +59,16 @@ namespace DAL
 
         }
 
-        public Restaurant GetRestaurantById(int id)
+        public OrdersStatus GetOrdersStatusById(int id)
         {
-            Restaurant result = null;
+            OrdersStatus result = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from restaurants where id=@id";
+                    string query = "Select * from orders_status where id=@id";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@id", id);
 
@@ -82,13 +79,10 @@ namespace DAL
                         if (dr.Read())
                         {
                             if (result == null)
-                                result = new Restaurant();
+                                result = new OrdersStatus();
 
                             result.id = (int)dr["id"];
-                            result.merchant_name = (string)dr["merchant_name"];
-                            // Voir si modifications souhaitées
-                            CitiesDB citiesDB = new CitiesDB(Configuration);
-                            result.city = citiesDB.GetCityById((int)dr["fk_cities"]);
+                            result.status = (string)dr["status"];
                         }
                     }
                 }

@@ -6,9 +6,9 @@ using System.Text;
 
 namespace DAL
 {
-    public class DeliverersDB
+    public class DeliverersDB : IDeliverersDB
     {
-        public IConfiguration Configuration;
+        public IConfiguration Configuration { get; }
 
         public DeliverersDB(IConfiguration configuration)
         {

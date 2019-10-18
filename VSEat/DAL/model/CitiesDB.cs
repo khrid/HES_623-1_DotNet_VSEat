@@ -6,9 +6,9 @@ using System.Text;
 
 namespace DAL
 {
-    public class CitiesDB
+    public class CitiesDB : ICitiesDB
     {
-        public IConfiguration Configuration;
+        public IConfiguration Configuration { get; }
 
         public CitiesDB(IConfiguration configuration)
         {
