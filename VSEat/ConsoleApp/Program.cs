@@ -125,7 +125,21 @@ namespace ConsoleApp
             Console.WriteLine("ORDER");
             Console.WriteLine("----------------------------");
             Console.WriteLine(ordersDB.GetOrderById(2).ToString());
-
+            /*
+            Order myOrder = new Order();
+            Customer myCustomer = new Customer();
+            Deliverer myDeliverer = new Deliverer();
+            myCustomer.id = 6;
+            myDeliverer.id = 6;
+            myOrder.customer = myCustomer;
+            myOrder.deliverer = myDeliverer;
+            myOrder.delivery_time_requested = DateTime.Now;
+            Order newOrder = ordersDB.AddOrder(myOrder);
+            Console.WriteLine();
+            Console.WriteLine("CREATED ORDER");
+            Console.WriteLine("----------------------------");
+            Console.WriteLine(ordersDB.GetOrderById(newOrder.id).ToString());
+            */
 
 
             OrderDishesDB orderDishesDB = new OrderDishesDB(Configuration);
@@ -140,7 +154,22 @@ namespace ConsoleApp
             Console.WriteLine();
             Console.WriteLine("ORDER_DISH");
             Console.WriteLine("----------------------------");
-            Console.WriteLine(orderDishesDB.GetOrderById(2).ToString());
+            Console.WriteLine(orderDishesDB.GetOrderDishById(2).ToString());
+            /*
+            OrderDish myOrderDish = new OrderDish();
+            Order myOrder = new Order();
+            Dish myDish = new Dish();
+            myOrder.id = 3;
+            myDish.id = 6;
+            myOrderDish.order = myOrder;
+            myOrderDish.dish = myDish;
+            myOrderDish.quantity = 2;
+            OrderDish newOrderDish = orderDishesDB.AddOrderDish(myOrderDish);
+            Console.WriteLine();
+            Console.WriteLine("CREATED ORDER_DISH");
+            Console.WriteLine("----------------------------");
+            Console.WriteLine(orderDishesDB.GetOrderDishById(newOrderDish.id).ToString());
+            */
 
 
 
@@ -157,7 +186,21 @@ namespace ConsoleApp
             Console.WriteLine("ORDER_STATUS_HISTORY");
             Console.WriteLine("----------------------------");
             Console.WriteLine(ordersStatusHistoryDB.GetOrdersStatusHistoryById(1).ToString());
-
+            /*
+            OrdersStatusHistory myOrdersStatusHistory = new OrdersStatusHistory();
+            Order myOrder = new Order();
+            OrdersStatus myOrderStatus = new OrdersStatus();
+            myOrder.id = 3;
+            myOrderStatus.id = 4;
+            myOrdersStatusHistory.order = myOrder;
+            myOrdersStatusHistory.ordersStatus = myOrderStatus;
+            myOrdersStatusHistory.created_at = DateTime.Now;
+            OrdersStatusHistory newOrdersStatusHistory = ordersStatusHistoryDB.AddOrdersStatusHistory(myOrdersStatusHistory);
+            Console.WriteLine();
+            Console.WriteLine("CREATED ORDER_STATUS_HISTORY");
+            Console.WriteLine("----------------------------");
+            Console.WriteLine(ordersStatusHistoryDB.GetOrdersStatusHistoryById(newOrdersStatusHistory.id).ToString());
+            */
         }
     }
 }

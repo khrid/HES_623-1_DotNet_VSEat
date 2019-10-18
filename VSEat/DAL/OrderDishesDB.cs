@@ -64,7 +64,7 @@ namespace DAL
 
         }
 
-        public OrderDish GetOrderById(int id)
+        public OrderDish GetOrderDishById(int id)
         {
             OrderDish result = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -104,6 +104,35 @@ namespace DAL
 
             return result;
 
+        }
+
+        public OrderDish AddOrderDish(OrderDish orderDish)
+        {
+
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "insert into order_dishes(fk_orders, fk_dishes, quantity) " +
+                        "values(@fk_orders, @fk_dishes, @quantity);" +
+                        "select scope_identity();";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@fk_orders", orderDish.order.id);
+                    cmd.Parameters.AddWithValue("@fk_dishes", orderDish.dish.id);
+                    cmd.Parameters.AddWithValue("@quantity", orderDish.quantity);
+
+                    cn.Open();
+
+                    orderDish.id = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return orderDish;
         }
     }
 }

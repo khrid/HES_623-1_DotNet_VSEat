@@ -105,5 +105,35 @@ namespace DAL
             return result;
 
         }
+
+        public Order AddOrder(Order order)
+        {
+
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "insert into orders(fk_customers, fk_deliverers, delivery_time_requested) " +
+                        "values(@fk_customers, @fk_deliverers, @delivery_time_requested);" +
+                        "select scope_identity();";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@fk_customers", order.customer.id);
+                    cmd.Parameters.AddWithValue("@fk_deliverers", order.deliverer.id);
+                    cmd.Parameters.AddWithValue("@delivery_time_requested", order.delivery_time_requested);
+
+                    cn.Open();
+
+                    order.id = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return order;
+        }
     }
 }
+

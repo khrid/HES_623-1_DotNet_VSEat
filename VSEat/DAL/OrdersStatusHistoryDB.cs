@@ -105,5 +105,34 @@ namespace DAL
             return result;
 
         }
+
+        public OrdersStatusHistory AddOrdersStatusHistory(OrdersStatusHistory ordersStatusHistory)
+        {
+
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "insert into orders_status_history(fk_orders, fk_orders_status, created_at) " +
+                        "values(@fk_orders, @fk_orders_status, @created_at);" +
+                        "select scope_identity();";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@fk_orders", ordersStatusHistory.order.id);
+                    cmd.Parameters.AddWithValue("@fk_orders_status", ordersStatusHistory.ordersStatus.id);
+                    cmd.Parameters.AddWithValue("@created_at", ordersStatusHistory.created_at);
+
+                    cn.Open();
+
+                    ordersStatusHistory.id = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return ordersStatusHistory;
+        }
     }
 }
