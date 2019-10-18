@@ -42,7 +42,7 @@ namespace DAL
                             City member = new City();
 
                             member.id = (int)dr["id"];
-                            member.zip_code= (int)dr["zip_code"];
+                            member.zip_code = (int)dr["zip_code"];
                             member.name = (string)dr["name"];
 
                             results.Add(member);
@@ -69,22 +69,25 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = $"Select * from cities where id={id}";
+                    string query = "Select * from cities where id=@id";
                     SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@id", id);
 
                     cn.Open();
 
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
 
-                        dr.Read();
-                        if (result == null)
-                            result = new City();
+                        if (dr.Read())
+                        {
 
-                        result.id = (int)dr["id"];
-                        result.zip_code = (int)dr["zip_code"];
-                        result.name = (string)dr["name"];
+                            if (result == null)
+                                result = new City();
 
+                            result.id = (int)dr["id"];
+                            result.zip_code = (int)dr["zip_code"];
+                            result.name = (string)dr["name"];
+                        }
                     }
                 }
             }

@@ -68,19 +68,22 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = $"Select * from orders_status where id={id}";
+                    string query = "Select * from orders_status where id=@id";
                     SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@id", id);
 
                     cn.Open();
 
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
-                        dr.Read();
-                        if (result == null)
-                            result = new OrdersStatus();
+                        if (dr.Read())
+                        {
+                            if (result == null)
+                                result = new OrdersStatus();
 
-                        result.id = (int)dr["id"];
-                        result.status = (string)dr["status"];
+                            result.id = (int)dr["id"];
+                            result.status = (string)dr["status"];
+                        }
                     }
                 }
             }

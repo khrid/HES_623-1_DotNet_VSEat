@@ -45,7 +45,7 @@ namespace DAL
                             member.merchant_name = (string)dr["merchant_name"];
                             // Voir si modifications souhaitées
                             CitiesDB citiesDB = new CitiesDB(Configuration);
-                            member.city= citiesDB.GetCityById((int)dr["fk_cities"]);
+                            member.city = citiesDB.GetCityById((int)dr["fk_cities"]);
 
                             results.Add(member);
 
@@ -71,22 +71,25 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = $"Select * from restaurants where id={id}";
+                    string query = "Select * from restaurants where id=@id";
                     SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@id", id);
 
                     cn.Open();
 
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
-                        dr.Read();
-                        if (result == null)
-                            result = new Restaurant();
+                        if (dr.Read())
+                        {
+                            if (result == null)
+                                result = new Restaurant();
 
-                        result.id = (int)dr["id"];
-                        result.merchant_name = (string)dr["merchant_name"];
-                        // Voir si modifications souhaitées
-                        CitiesDB citiesDB = new CitiesDB(Configuration);
-                        result.city = citiesDB.GetCityById((int)dr["fk_cities"]);
+                            result.id = (int)dr["id"];
+                            result.merchant_name = (string)dr["merchant_name"];
+                            // Voir si modifications souhaitées
+                            CitiesDB citiesDB = new CitiesDB(Configuration);
+                            result.city = citiesDB.GetCityById((int)dr["fk_cities"]);
+                        }
                     }
                 }
             }

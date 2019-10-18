@@ -73,24 +73,27 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = $"Select * from dishes where id={id}";
+                    string query = "Select * from dishes where id=@id";
                     SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@id", id);
 
                     cn.Open();
 
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
-                        dr.Read();
-                        if (result == null)
-                            result = new Dish();
+                        if (dr.Read())
+                        {
+                            if (result == null)
+                                result = new Dish();
 
-                        result.id = (int)dr["id"];
-                        result.name = (string)dr["name"];
-                        result.price = (int)dr["price"];
-                        result.status = (bool)dr["status"];
-                        // Voir si modifications souhaitées
-                        RestaurantsDB restaurantsDB = new RestaurantsDB(Configuration);
-                        result.restaurant = restaurantsDB.GetRestaurantById((int)dr["fk_restaurants"]);
+                            result.id = (int)dr["id"];
+                            result.name = (string)dr["name"];
+                            result.price = (int)dr["price"];
+                            result.status = (bool)dr["status"];
+                            // Voir si modifications souhaitées
+                            RestaurantsDB restaurantsDB = new RestaurantsDB(Configuration);
+                            result.restaurant = restaurantsDB.GetRestaurantById((int)dr["fk_restaurants"]);
+                        }
                     }
                 }
             }

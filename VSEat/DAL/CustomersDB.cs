@@ -73,24 +73,27 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = $"Select * from customers where id={id}";
+                    string query = "Select * from customers where id=@id";
                     SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@id", id);
 
                     cn.Open();
 
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
-                        dr.Read();
-                        if (result == null)
-                            result = new Customer();
+                        if (dr.Read())
+                        {
+                            if (result == null)
+                                result = new Customer();
 
-                        result.id = (int)dr["id"];
-                        result.username = (string)dr["username"];
-                        result.password = (string)dr["password"];
-                        result.full_name = (string)dr["full_name"];
-                        // Voir si modifications souhaitées
-                        CitiesDB citiesDB = new CitiesDB(Configuration);
-                        result.city = citiesDB.GetCityById((int)dr["fk_cities"]);
+                            result.id = (int)dr["id"];
+                            result.username = (string)dr["username"];
+                            result.password = (string)dr["password"];
+                            result.full_name = (string)dr["full_name"];
+                            // Voir si modifications souhaitées
+                            CitiesDB citiesDB = new CitiesDB(Configuration);
+                            result.city = citiesDB.GetCityById((int)dr["fk_cities"]);
+                        }
                     }
                 }
             }

@@ -73,24 +73,27 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = $"Select * from orders where id={id}";
+                    string query = "Select * from orders where id=@id";
                     SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@id", id);
 
                     cn.Open();
 
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
-                        dr.Read();
-                        if (result == null)
-                            result = new Order();
+                        if (dr.Read())
+                        {
+                            if (result == null)
+                                result = new Order();
 
-                        result.id = (int)dr["id"];
-                        result.delivery_time_requested = (DateTime)dr["delivery_time_requested"];
-                        // Voir si modifications souhaitées
-                        CustomersDB customersDB = new CustomersDB(Configuration);
-                        result.customer = customersDB.GetCustomerById((int)dr["fk_customers"]);
-                        DeliverersDB deliverersDB = new DeliverersDB(Configuration);
-                        result.deliverer = deliverersDB.GetDelivererById((int)dr["fk_deliverers"]);
+                            result.id = (int)dr["id"];
+                            result.delivery_time_requested = (DateTime)dr["delivery_time_requested"];
+                            // Voir si modifications souhaitées
+                            CustomersDB customersDB = new CustomersDB(Configuration);
+                            result.customer = customersDB.GetCustomerById((int)dr["fk_customers"]);
+                            DeliverersDB deliverersDB = new DeliverersDB(Configuration);
+                            result.deliverer = deliverersDB.GetDelivererById((int)dr["fk_deliverers"]);
+                        }
                     }
                 }
             }
