@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DTO;
 using Microsoft.Extensions.Configuration;
 
 namespace DAL

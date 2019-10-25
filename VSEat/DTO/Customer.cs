@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DAL
+namespace DTO
 {
-    public class Deliverer
+    public class Customer
     {
-        public Deliverer() { }
+        public Customer() { }
 
         public override string ToString()
         {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DAL
+namespace DTO
 {
     public class OrderDish
     {

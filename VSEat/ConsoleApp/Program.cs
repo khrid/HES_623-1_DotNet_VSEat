@@ -1,4 +1,5 @@
-﻿using DAL;
+﻿using BLL;
+using DTO;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -16,8 +17,8 @@ namespace ConsoleApp
         static void Main(string[] args)
         {
 
-            CitiesDB citiesDB = new CitiesDB(Configuration);
-            List<City> myCities = citiesDB.GetAllCities();
+            CitiesManager citiesManager  = new CitiesManager(Configuration);
+            List<City> myCities = citiesManager.GetAllCities();
             Console.WriteLine("CITIES");
             Console.WriteLine("----------------------------");
             for (int i = 0; i < myCities.Count; i++)
@@ -27,28 +28,12 @@ namespace ConsoleApp
             Console.WriteLine();
             Console.WriteLine("CITY");
             Console.WriteLine("----------------------------");
-            Console.WriteLine(citiesDB.GetCityById(1).ToString());
+            Console.WriteLine(citiesManager.GetCityById(1).ToString());
 
 
 
-            OrdersStatusDB ordersStatusDB = new OrdersStatusDB(Configuration);
-            List<OrdersStatus> myordersStatus = ordersStatusDB.GetAllOrdersStatus();
-            Console.WriteLine();
-            Console.WriteLine("ORDERS_STATUS");
-            Console.WriteLine("----------------------------");
-            for (int i = 0; i < myordersStatus.Count; i++)
-            {
-                Console.WriteLine(myordersStatus[i].ToString());
-            }
-            Console.WriteLine();
-            Console.WriteLine("ORDERS_STATUS");
-            Console.WriteLine("----------------------------");
-            Console.WriteLine(ordersStatusDB.GetOrdersStatusById(1).ToString());
-
-
-
-            RestaurantsDB restaurantsDB = new RestaurantsDB(Configuration);
-            List<Restaurant> myRestaurants = restaurantsDB.GetAllRestaurants();
+            RestaurantsManager restaurantsManager = new RestaurantsManager(Configuration);
+            List<Restaurant> myRestaurants = restaurantsManager.GetAllRestaurants();
             Console.WriteLine();
             Console.WriteLine("RESTAURANTS");
             Console.WriteLine("----------------------------");
@@ -59,148 +44,9 @@ namespace ConsoleApp
             Console.WriteLine();
             Console.WriteLine("RESTAURANT");
             Console.WriteLine("----------------------------");
-            Console.WriteLine(restaurantsDB.GetRestaurantById(1).ToString());
+            Console.WriteLine(restaurantsManager.GetRestaurantById(1).ToString());
 
 
-
-
-            CustomersDB customerDB = new CustomersDB(Configuration);
-            List<Customer> myCustomers = customerDB.GetAllCustomers();
-            Console.WriteLine();
-            Console.WriteLine("CUSTOMERS");
-            Console.WriteLine("----------------------------");
-            for (int i = 0; i < myCustomers.Count; i++)
-            {
-                Console.WriteLine(myCustomers[i].ToString());
-            }
-            Console.WriteLine();
-            Console.WriteLine("CUSTOMER");
-            Console.WriteLine("----------------------------");
-            Console.WriteLine(customerDB.GetCustomerById(1).ToString());
-
-
-
-            DeliverersDB deliverersDB = new DeliverersDB(Configuration);
-            List<Deliverer> myDeliverers = deliverersDB.GetAllDeliverers();
-            Console.WriteLine();
-            Console.WriteLine("DELIVERERS");
-            Console.WriteLine("----------------------------");
-            for (int i = 0; i < myDeliverers.Count; i++)
-            {
-                Console.WriteLine(myDeliverers[i].ToString());
-            }
-            Console.WriteLine();
-            Console.WriteLine("DELIVERER");
-            Console.WriteLine("----------------------------");
-            Console.WriteLine(deliverersDB.GetDelivererById(1).ToString());
-
-
-
-            DishesDB dishesDB = new DishesDB(Configuration);
-            List<Dish> myDishes = dishesDB.GetAllDishes();
-            Console.WriteLine();
-            Console.WriteLine("DISHES");
-            Console.WriteLine("----------------------------");
-            for (int i = 0; i < myDishes.Count; i++)
-            {
-                Console.WriteLine(myDishes[i].ToString());
-            }
-            Console.WriteLine();
-            Console.WriteLine("DISH");
-            Console.WriteLine("----------------------------");
-            Console.WriteLine(dishesDB.GetDishById(1).ToString());
-
-
-
-            OrdersDB ordersDB = new OrdersDB(Configuration);
-            List<Order> myOrders = ordersDB.GetAllOrders();
-            Console.WriteLine();
-            Console.WriteLine("ORDERS");
-            Console.WriteLine("----------------------------");
-            for (int i = 0; i < myOrders.Count; i++)
-            {
-                Console.WriteLine(myOrders[i].ToString());
-            }
-            Console.WriteLine();
-            Console.WriteLine("ORDER");
-            Console.WriteLine("----------------------------");
-            Console.WriteLine(ordersDB.GetOrderById(2).ToString());
-            /*
-            Order myOrder = new Order();
-            Customer myCustomer = new Customer();
-            Deliverer myDeliverer = new Deliverer();
-            myCustomer.id = 6;
-            myDeliverer.id = 6;
-            myOrder.customer = myCustomer;
-            myOrder.deliverer = myDeliverer;
-            myOrder.delivery_time_requested = DateTime.Now;
-            Order newOrder = ordersDB.AddOrder(myOrder);
-            Console.WriteLine();
-            Console.WriteLine("CREATED ORDER");
-            Console.WriteLine("----------------------------");
-            Console.WriteLine(ordersDB.GetOrderById(newOrder.id).ToString());
-            */
-
-
-            OrderDishesDB orderDishesDB = new OrderDishesDB(Configuration);
-            List<OrderDish> myOrderDishes = orderDishesDB.GetAllOrderDishes();
-            Console.WriteLine();
-            Console.WriteLine("ORDER_DISHES");
-            Console.WriteLine("----------------------------");
-            for (int i = 0; i < myOrderDishes.Count; i++)
-            {
-                Console.WriteLine(myOrderDishes[i].ToString());
-            }
-            Console.WriteLine();
-            Console.WriteLine("ORDER_DISH");
-            Console.WriteLine("----------------------------");
-            Console.WriteLine(orderDishesDB.GetOrderDishById(2).ToString());
-            /*
-            OrderDish myOrderDish = new OrderDish();
-            Order myOrder = new Order();
-            Dish myDish = new Dish();
-            myOrder.id = 3;
-            myDish.id = 6;
-            myOrderDish.order = myOrder;
-            myOrderDish.dish = myDish;
-            myOrderDish.quantity = 2;
-            OrderDish newOrderDish = orderDishesDB.AddOrderDish(myOrderDish);
-            Console.WriteLine();
-            Console.WriteLine("CREATED ORDER_DISH");
-            Console.WriteLine("----------------------------");
-            Console.WriteLine(orderDishesDB.GetOrderDishById(newOrderDish.id).ToString());
-            */
-
-
-
-            OrdersStatusHistoryDB ordersStatusHistoryDB = new OrdersStatusHistoryDB(Configuration);
-            List<OrdersStatusHistory> myordersStatusHistory = ordersStatusHistoryDB.GetAllOrdersStatusHistory();
-            Console.WriteLine();
-            Console.WriteLine("ORDER_STATUS_HISTORY");
-            Console.WriteLine("----------------------------");
-            for (int i = 0; i < myordersStatusHistory.Count; i++)
-            {
-                Console.WriteLine(myordersStatusHistory[i].ToString());
-            }
-            Console.WriteLine();
-            Console.WriteLine("ORDER_STATUS_HISTORY");
-            Console.WriteLine("----------------------------");
-            Console.WriteLine(ordersStatusHistoryDB.GetOrdersStatusHistoryById(1).ToString());
-            /*
-            OrdersStatusHistory myOrdersStatusHistory = new OrdersStatusHistory();
-            Order myOrder = new Order();
-            OrdersStatus myOrderStatus = new OrdersStatus();
-            myOrder.id = 3;
-            myOrderStatus.id = 4;
-            myOrdersStatusHistory.order = myOrder;
-            myOrdersStatusHistory.ordersStatus = myOrderStatus;
-            myOrdersStatusHistory.created_at = DateTime.Now;
-            OrdersStatusHistory newOrdersStatusHistory = ordersStatusHistoryDB.AddOrdersStatusHistory(myOrdersStatusHistory);
-            Console.WriteLine();
-            Console.WriteLine("CREATED ORDER_STATUS_HISTORY");
-            Console.WriteLine("----------------------------");
-            Console.WriteLine(ordersStatusHistoryDB.GetOrdersStatusHistoryById(newOrdersStatusHistory.id).ToString());
-            */
         }
     }
 }

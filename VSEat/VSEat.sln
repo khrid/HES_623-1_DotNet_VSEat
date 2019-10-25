@@ -13,6 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ressources", "ressources", 
 		database_creation.sql = database_creation.sql
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{1122583F-E72A-4757-9E78-36EB23E51E10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTO", "DTO\DTO.csproj", "{551AFC41-903A-4D20-BD4D-032DDC0238AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{9498310F-2969-4B21-9BF7-355C3BA7947F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9498310F-2969-4B21-9BF7-355C3BA7947F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9498310F-2969-4B21-9BF7-355C3BA7947F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1122583F-E72A-4757-9E78-36EB23E51E10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1122583F-E72A-4757-9E78-36EB23E51E10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1122583F-E72A-4757-9E78-36EB23E51E10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1122583F-E72A-4757-9E78-36EB23E51E10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{551AFC41-903A-4D20-BD4D-032DDC0238AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{551AFC41-903A-4D20-BD4D-032DDC0238AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{551AFC41-903A-4D20-BD4D-032DDC0238AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{551AFC41-903A-4D20-BD4D-032DDC0238AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
