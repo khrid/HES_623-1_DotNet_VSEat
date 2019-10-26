@@ -15,5 +15,6 @@ namespace BLL
         OrdersStatusHistory AddOrdersStatusHistory(OrdersStatusHistory ordersStatusHistory);
         List<OrdersStatusHistory> GetAllOrdersStatusHistory();
         OrdersStatusHistory GetOrdersStatusHistoryById(int id);
+        OrdersStatusHistory GetCurrentOrderStatusHistoryForOrder(int id);
     }
 }

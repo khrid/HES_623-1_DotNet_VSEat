@@ -106,5 +106,47 @@ namespace DAL
             return result;
 
         }
+
+        public Customer CheckAuthentication(string user, string password)
+        {
+            Customer result = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from customers where username=@user and password=@password";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@user", user);
+                    cmd.Parameters.AddWithValue("@password", password);
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            if (result == null)
+                                result = new Customer();
+
+                            result.id = (int)dr["id"];
+                            result.username = (string)dr["username"];
+                            result.password = (string)dr["password"];
+                            result.full_name = (string)dr["full_name"];
+                            // Voir si modifications souhaitées
+                            CitiesDB citiesDB = new CitiesDB(Configuration);
+                            result.city = citiesDB.GetCityById((int)dr["fk_cities"]);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return result;
+        }
     }
 }

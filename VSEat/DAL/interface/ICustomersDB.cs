@@ -9,5 +9,6 @@ namespace DAL
         IConfiguration Configuration { get; }
         List<Customer> GetAllCustomers();
         Customer GetCustomerById(int id);
+        Customer CheckAuthentication(string user, string password);
     }
 }

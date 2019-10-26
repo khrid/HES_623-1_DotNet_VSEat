@@ -65,6 +65,52 @@ namespace DAL
 
         }
 
+        public List<Dish> GetAllDishesForRestaurant(int id)
+        {
+            List<Dish> results = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from dishes where fk_restaurants = @id";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            if (results == null)
+                                results = new List<Dish>();
+
+                            Dish dish = new Dish();
+
+                            dish.id = (int)dr["id"];
+                            dish.name = (string)dr["name"];
+                            dish.price = (int)dr["price"];
+                            dish.status = (bool)dr["status"];
+                            // Voir si modifications souhaitées
+                            RestaurantsDB restaurantsDB = new RestaurantsDB(Configuration);
+                            dish.restaurant = restaurantsDB.GetRestaurantById((int)dr["fk_restaurants"]);
+
+                            results.Add(dish);
+
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return results;
+        }
+
         public Dish GetDishById(int id)
         {
             Dish result = null;

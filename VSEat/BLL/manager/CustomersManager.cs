@@ -25,5 +25,10 @@ namespace BLL
         {
             return CustomersDB.GetCustomerById(id);
         }
+
+        public Customer CheckAuthentication(string user, string password)
+        {
+            return CustomersDB.CheckAuthentication(user, password);
+        }
     }
 }

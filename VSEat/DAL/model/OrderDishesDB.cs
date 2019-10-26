@@ -135,5 +135,51 @@ namespace DAL
             }
             return orderDish;
         }
+
+        public List<OrderDish> GetOrderDishByOrderId(int id)
+        {
+            List<OrderDish> results = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from order_dishes where fk_orders = @id";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            if (results == null)
+                                results = new List<OrderDish>();
+
+                            OrderDish orderDish = new OrderDish();
+
+                            orderDish.id = (int)dr["id"];
+                            orderDish.quantity = (int)dr["quantity"];
+                            // Voir si modifications souhaitées
+                            OrdersDB ordersDB = new OrdersDB(Configuration);
+                            orderDish.order = ordersDB.GetOrderById((int)dr["fk_orders"]);
+                            DishesDB dishesDB = new DishesDB(Configuration);
+                            orderDish.dish = dishesDB.GetDishById((int)dr["fk_dishes"]);
+
+                            results.Add(orderDish);
+
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return results;
+        }
     }
 }

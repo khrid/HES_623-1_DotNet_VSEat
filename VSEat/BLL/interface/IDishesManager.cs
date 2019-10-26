@@ -10,6 +10,7 @@ namespace BLL
 {
         IDishesDB DishesDB { get; }
         List<Dish> GetAllDishes();
+        List<Dish> GetAllDishesForRestaurant(int id);
         Dish GetDishById(int id);
     }
 }

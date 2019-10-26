@@ -29,5 +29,10 @@ namespace BLL
         {
             return OrderDishesDb.GetOrderDishById(id);
         }
+
+        public List<OrderDish> GetOrderDishByOrderId(int id)
+        {
+            return OrderDishesDb.GetOrderDishByOrderId(id);
+        }
     }
 }

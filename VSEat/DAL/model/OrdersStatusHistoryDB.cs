@@ -135,5 +135,46 @@ namespace DAL
             }
             return ordersStatusHistory;
         }
+
+        public OrdersStatusHistory GetCurrentOrderStatusHistoryForOrder(int id)
+        {
+            OrdersStatusHistory result = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select top 1 * from orders_status_history where fk_orders=@id order by created_at desc;";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            if (result == null)
+                                result = new OrdersStatusHistory();
+
+                            result.id = (int)dr["id"];
+                            result.created_at = (DateTime)dr["created_at"];
+                            // Voir si modifications souhaitées
+                            OrdersDB ordersDB = new OrdersDB(Configuration);
+                            result.order = ordersDB.GetOrderById((int)dr["fk_orders"]);
+                            OrdersStatusDB ordersStatusDB = new OrdersStatusDB(Configuration);
+                            result.ordersStatus = ordersStatusDB.GetOrdersStatusById((int)dr["fk_orders_status"]);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return result;
+        }
     }
 }

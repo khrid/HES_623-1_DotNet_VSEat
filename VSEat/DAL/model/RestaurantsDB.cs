@@ -28,7 +28,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from restaurants";
+                    string query = "Select * from restaurants order by merchant_name";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();

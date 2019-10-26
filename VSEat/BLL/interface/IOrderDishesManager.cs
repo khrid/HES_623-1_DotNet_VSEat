@@ -14,5 +14,6 @@ namespace BLL
         OrderDish AddOrderDish(OrderDish orderDish);
         List<OrderDish> GetAllOrderDishes();
         OrderDish GetOrderDishById(int id);
+        List<OrderDish> GetOrderDishByOrderId(int id);
     }
 }

@@ -28,7 +28,15 @@ namespace BLL
 
         public Order GetOrderById(int id)
         {
-            return OrdersDB.GetOrderById(id);
+            Order o = OrdersDB.GetOrderById(id);
+            if (o != null)
+            {
+                return OrdersDB.GetOrderById(id);
+            }
+            else
+            {
+                return new Order();
+            }
         }
     }
 }

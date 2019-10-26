@@ -11,5 +11,6 @@ namespace BLL
         ICustomersDB CustomersDB { get; }
         List<Customer> GetAllCustomers();
         Customer GetCustomerById(int id);
+        Customer CheckAuthentication(string user, string password);
     }
 }
