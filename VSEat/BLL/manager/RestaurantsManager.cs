@@ -24,5 +24,21 @@ namespace BLL
         {
             return RestaurantsDB.GetRestaurantById(id);
         }
+
+        public List<Restaurant> GetRestaurantByCity(int id)
+        {
+            List<Restaurant> restaurants = GetAllRestaurants();
+            List<Restaurant> restaurantsForCity = new List<Restaurant>();
+
+            foreach (var restaurant in restaurants)
+            {
+                if(restaurant.city.id == id)
+                {
+                    restaurantsForCity.Add(restaurant);
+                }
+            }
+
+            return restaurantsForCity;
+        }
     }
 }

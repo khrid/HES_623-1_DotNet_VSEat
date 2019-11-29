@@ -1,56 +1,87 @@
-﻿@{
+﻿@model IEnumerable<DTO.City>
+@{
     ViewData["Title"] = "Home Page";
+    int n = 0;
+    int parLigne = 4;
 }
 
+<div class="row">
+    <p><h2>Découvrez des restaurants qui livrent près de chez vous</h2></p>
+
+
+    @foreach (var city in Model)
+    {
+
+        // Gestion de l'image de la ville
+        string src = "~/images/cities/_placeholder.png";
+
+        if(System.IO.File.Exists("C:\\Repos\\HES_623-1_DotNet_VSEat\\VSEat\\WebApplication\\wwwroot\\images\\cities\\"+@city.name+".jpg"))
+        {
+            src = "~/images/cities/" + @city.name + ".jpg";
+        }
+
+        <div class="col-md-4">
+            <h3>@city.name</h3>
+            <a href="@Url.Action("List", "Restaurants", new { id = @city.id})" title="Widget View" class="links">
+                <img src="@Url.Content(src)" width="300" height="200" />
+            </a>
+        </div>
+
+
+    }
+</div>
+
+<!--
 <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
     <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#myCarousel" data-slide-to="1"></li>
         <li data-target="#myCarousel" data-slide-to="2"></li>
     </ol>
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src="~/images/banner1.svg" alt="ASP.NET" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    Learn how to build ASP.NET apps that can run anywhere.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner2.svg" alt="Visual Studio" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    There are powerful new features in Visual Studio for building modern web apps.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525030&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner3.svg" alt="Microsoft Azure" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    Learn how Microsoft's Azure cloud platform allows you to build, deploy, and scale web apps.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525027&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
+
+<div class="carousel-inner" role="listbox">
+    <div class="item active">
+        <img src="~/images/banner1.svg" alt="ASP.NET" class="img-responsive" />
+        <div class="carousel-caption" role="option">
+            <p>
+                Learn how to build ASP.NET apps that can run anywhere.
+                <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409">
+                    Learn More
+                </a>
+            </p>
         </div>
     </div>
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
+    <div class="item">
+        <img src="~/images/banner2.svg" alt="Visual Studio" class="img-responsive" />
+        <div class="carousel-caption" role="option">
+            <p>
+                There are powerful new features in Visual Studio for building modern web apps.
+                <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525030&clcid=0x409">
+                    Learn More
+                </a>
+            </p>
+        </div>
+    </div>
+    <div class="item">
+        <img src="~/images/banner3.svg" alt="Microsoft Azure" class="img-responsive" />
+        <div class="carousel-caption" role="option">
+            <p>
+                Learn how Microsoft's Azure cloud platform allows you to build, deploy, and scale web apps.
+                <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525027&clcid=0x409">
+                    Learn More
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+</a>
+<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+</a>
 </div>
 
 <div class="row">
@@ -92,3 +123,4 @@
         </ul>
     </div>
 </div>
+    -->

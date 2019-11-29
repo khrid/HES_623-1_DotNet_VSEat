@@ -1,0 +1,46 @@
+﻿@model IEnumerable<DTO.Dish>
+
+@{
+    
+    ViewData["Title"] = "List";
+}
+
+
+    <div class="row">
+        <p><h2>Plats proposés par @ViewBag.restaurantName</h2></p>
+
+        @{
+            if (Model.Count() > 0)
+            {
+                foreach (var dish in Model)
+                {
+
+                <div class="col-md-2">
+                    @using (Html.BeginForm("AddToCart", "Orders"))
+                    {
+                        <h4>@dish.name</h4> 
+                        <h5>@dish.price  CHF</h5>
+                        <img src="@Url.Content("~/images/restaurants/_placeholder.jpg")" width="150" height="100" /><br /><br />
+                        <label for="qty">Quantité</label>
+                        <select name="qty">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <input type="hidden" name="dishId" value="@dish.id" /><br /><br />
+                        <input type="submit" value="Commander">
+                    }
+                </div>
+
+
+                }
+            }
+            else
+            {
+                <div class="alert alert-warning" role="alert">Ce restaurant ne propose aucun plat  &#128533;</div>
+            }
+        }
+
+    </div>

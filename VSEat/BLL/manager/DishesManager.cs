@@ -23,7 +23,18 @@ namespace BLL
 
         public List<Dish> GetAllDishesForRestaurant(int id)
         {
-            return DishesDB.GetAllDishesForRestaurant(id);
+            List<Dish> dishes = GetAllDishes();
+            List<Dish> dishesForRestaurant = new List<Dish>();
+
+            foreach (var dish in dishes)
+            {
+                if (dish.restaurant.id == id)
+                {
+                    dishesForRestaurant.Add(dish);
+                }
+            }
+
+            return dishesForRestaurant;
         }
 
         public Dish GetDishById(int id)

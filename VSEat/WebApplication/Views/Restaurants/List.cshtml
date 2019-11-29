@@ -1,0 +1,64 @@
+﻿@model IEnumerable<DTO.Restaurant>
+
+@{
+    ViewData["Title"] = "ListRestaurants";
+    string cityname = "";
+    foreach (var restaurant in Model)
+    {
+        cityname = restaurant.city.name;
+        break;
+    }
+}
+
+<div class="row">
+    <p><h2>Restaurants de @cityname</h2></p>
+
+
+    @foreach (var restaurant in Model)
+    {
+
+        <div class="col-md-4">
+            <h3>@restaurant.merchant_name</h3>
+            <a href="@Url.Action("List", "Dishes", new { id = restaurant.id})" title="Widget View" class="links">
+                <img src="@Url.Content("~/images/restaurants/placeholder.jpg")" width="300" height="200" />
+            </a>
+        </div>
+
+
+    }
+</div>
+<!--<p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.merchant_name)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.merchant_name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+-->

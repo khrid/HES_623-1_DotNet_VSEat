@@ -3,16 +3,27 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using BLL;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using WebApplication.Models;
 
 namespace WebApplication.Controllers
 {
     public class HomeController : Controller
     {
+        private IConfiguration Configuration { get; }
+
+        public HomeController(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            CitiesManager citiesManager = new CitiesManager(Configuration);
+            List<DTO.City> cities = citiesManager.GetAllCities();
+            return View(cities);
         }
 
         public IActionResult About()

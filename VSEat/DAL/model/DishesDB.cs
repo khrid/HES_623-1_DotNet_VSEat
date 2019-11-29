@@ -18,11 +18,13 @@ namespace DAL
 
         }
 
+        private string connectionString = "Data Source=153.109.124.35;Initial Catalog=CrittinMeyer_ValaisEat;Persist Security Info=True;User ID=6231db;Password=Pwd46231.";
+
 
         public List<Dish> GetAllDishes()
         {
             List<Dish> results = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
@@ -68,7 +70,7 @@ namespace DAL
         public List<Dish> GetAllDishesForRestaurant(int id)
         {
             List<Dish> results = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
@@ -114,7 +116,7 @@ namespace DAL
         public Dish GetDishById(int id)
         {
             Dish result = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {

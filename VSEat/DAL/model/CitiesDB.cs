@@ -11,6 +11,8 @@ namespace DAL
     {
         public IConfiguration Configuration { get; }
 
+        private string connectionString = "Data Source=153.109.124.35;Initial Catalog=CrittinMeyer_ValaisEat;Persist Security Info=True;User ID=6231db;Password=Pwd46231.";
+
         public CitiesDB(IConfiguration configuration)
         {
 
@@ -22,13 +24,13 @@ namespace DAL
         public List<City> GetAllCities()
         {
             List<City> results = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from cities";
+                    string query = "Select * from cities order by name";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();
@@ -64,7 +66,7 @@ namespace DAL
         public City GetCityById(int id)
         {
             City result = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
