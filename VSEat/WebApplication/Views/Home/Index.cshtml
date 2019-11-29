@@ -15,11 +15,12 @@
         // Gestion de l'image de la ville
         string src = "~/images/cities/_placeholder.png";
 
-        if(System.IO.File.Exists("C:\\Repos\\HES_623-1_DotNet_VSEat\\VSEat\\WebApplication\\wwwroot\\images\\cities\\"+@city.name+".jpg"))
-        {
+        //if (System.IO.File.Exists("~/images/cities/" + @city.name + ".jpg"))
+        //{
             src = "~/images/cities/" + @city.name + ".jpg";
-        }
+        //}
 
+       
         <div class="col-md-4">
             <h3>@city.name</h3>
             <a href="@Url.Action("List", "Restaurants", new { id = @city.id})" title="Widget View" class="links">

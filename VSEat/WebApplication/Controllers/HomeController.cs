@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using BLL;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using WebApplication.Models;
@@ -21,9 +22,16 @@ namespace WebApplication.Controllers
 
         public IActionResult Index()
         {
-            CitiesManager citiesManager = new CitiesManager(Configuration);
-            List<DTO.City> cities = citiesManager.GetAllCities();
-            return View(cities);
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("loggedIn") as string)) 
+            {
+                CitiesManager citiesManager = new CitiesManager(Configuration);
+                List<DTO.City> cities = citiesManager.GetAllCities();
+                return View(cities);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         public IActionResult About()
