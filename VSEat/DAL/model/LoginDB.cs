@@ -19,15 +19,18 @@ namespace DAL
 
         public bool isUserValid(Login login)
         {
-            // add sql to get user data from db
-
             //string connectionString = Configuration.GetConnectionString("DefaultConnection");
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
 
-                    string query = "SELECT count(*) AS 'result' FROM customers WHERE username=@username AND password=@password";
+                    if(String.IsNullOrEmpty(login.username) || String.IsNullOrEmpty(login.password))
+                    {
+                        return false;
+                    }
+
+                    string query = "SELECT id,full_name FROM customers WHERE username=@username AND password=@password";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@username", login.username);
                     cmd.Parameters.AddWithValue("@password", login.password);
@@ -36,9 +39,11 @@ namespace DAL
 
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
-                        dr.Read();
-                        if ((int)dr["result"] == 1)
+
+                        if (dr.Read())
                         {
+                            login.id = (int)dr["id"];
+                            login.fullName= (string)dr["full_name"];
                             return true;
                         }
                         else
