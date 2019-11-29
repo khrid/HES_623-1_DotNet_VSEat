@@ -1,12 +1,17 @@
-﻿using DTO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using DTO;
+using Microsoft.Extensions.Configuration;
 
 namespace DAL
 {
     public interface ILoginDB
-    {
-        bool IsUserValid(Login l);
-    }
+{
+        IConfiguration Configuration { get; }
+        bool isUserValid(Login login);
+
+        // add sql to get user data
+
+}
 }

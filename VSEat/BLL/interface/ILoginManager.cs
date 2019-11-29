@@ -1,12 +1,12 @@
-﻿using DTO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using DTO;
 
 namespace BLL
 {
     public interface ILoginManager
-    {
-        bool IsUserValid(Login l);
-    }
+{
+        bool isUserValid(Login login);
+}
 }

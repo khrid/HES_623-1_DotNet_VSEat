@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using DAL;
 using DTO;
+using DAL;
 using Microsoft.Extensions.Configuration;
 
 namespace BLL
 {
     public class LoginManager : ILoginManager
     {
-        public ILoginDB LoginDBObject { get; }
+
+        public ILoginDB LoginDB { get; }
 
         public LoginManager(IConfiguration configuration)
         {
-            LoginDBObject = new LoginDB(configuration);
+            LoginDB = new LoginDB(configuration);
         }
 
-        public bool IsUserValid(Login l)
+        public bool isUserValid(Login login)
         {
-            return LoginDBObject.IsUserValid(l);
+            return LoginDB.isUserValid(login);
         }
     }
 }
