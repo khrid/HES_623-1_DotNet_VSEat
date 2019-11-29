@@ -10,8 +10,5 @@ namespace DAL
 {
         IConfiguration Configuration { get; }
         bool isUserValid(Login login);
-
-        // add sql to get user data
-
 }
 }

@@ -24,10 +24,10 @@ namespace WebApplication.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(Login l)
+        public IActionResult Index(Login login)
         {
             LoginManager loginManager = new LoginManager(Configuration);
-            bool isValid = loginManager.IsUserValid(l);
+            bool isValid = loginManager.isUserValid(login);
             if (isValid)
             {
                 HttpContext.Session.SetString("loggedIn", "1");
