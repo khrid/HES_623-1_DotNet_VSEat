@@ -32,7 +32,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav ml-auto">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a style="color:white;font-weight:bolder;" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
 
                 </ul>
                 @{
@@ -40,11 +40,18 @@
                     {
                         <ul class="nav pull-right">
                             <li id="fat-menu" class="dropdown">
-                                <a href="#" id="drop3" style="color:white;font-weight:bolder; margin-top: 5px;" role="button" class="dropdown-toggle" data-toggle="dropdown">@Context.Session.GetString("username")<b class="caret"></b></a>
+                                <a href="#" id="drop3" style="color:white;font-weight:bolder; " role="button" class="dropdown-toggle" data-toggle="dropdown">@Context.Session.GetString("username")<b class="caret"></b></a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
                                     <li><a asp-area="" asp-controller="User" asp-action="Me">Mon compte</a></li>
+                                    <li><a asp-area="" asp-controller="Orders" asp-action="MyOrders">Mes commandes</a></li>
                                     <li><a asp-area="" asp-controller="User" asp-action="Logout">Déconnexion</a></li>
                                 </ul>
+                            </li>
+                        </ul>
+                        <ul class="nav pull-right">
+                            <li id="" class="">
+                                <a href="#" id="drop3" style="color:white;font-weight:bolder;   ">Panier</a>
+
                             </li>
                         </ul>
                     }

@@ -31,6 +31,7 @@ namespace WebApplication.Controllers
             if (isValid)
             {
                 HttpContext.Session.SetString("loggedIn", "1");
+                HttpContext.Session.SetInt32("userid", login.id);
                 HttpContext.Session.SetString("username", login.username);
                 return RedirectToAction("Index", "Home");
             }

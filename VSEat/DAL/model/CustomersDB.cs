@@ -17,12 +17,14 @@ namespace DAL
             Configuration = configuration;
 
         }
+        private string connectionString = "Data Source=153.109.124.35;Initial Catalog=CrittinMeyer_ValaisEat;Persist Security Info=True;User ID=6231db;Password=Pwd46231.";
+
 
 
         public List<Customer> GetAllCustomers()
         {
             List<Customer> results = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
@@ -68,7 +70,7 @@ namespace DAL
         public Customer GetCustomerById(int id)
         {
             Customer result = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
@@ -110,7 +112,7 @@ namespace DAL
         public Customer CheckAuthentication(string user, string password)
         {
             Customer result = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
