@@ -17,7 +17,7 @@ namespace DAL
             Configuration = configuration;
         }
 
-        public bool isUserValid(Login login)
+        public bool isUserValid(Login login, string type)
         {
             //string connectionString = Configuration.GetConnectionString("DefaultConnection");
             try
@@ -29,8 +29,15 @@ namespace DAL
                     {
                         return false;
                     }
-
-                    string query = "SELECT id,full_name FROM customers WHERE username=@username AND password=@password";
+                    string table = "customers";
+                    if(type == "customer")
+                    {
+                        table = "customers";
+                    } else if (type == "deliverer")
+                    {
+                        table = "deliverers";
+                    }
+                    string query = "SELECT id,full_name FROM "+table+" WHERE username=@username AND password=@password";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@username", login.username);
                     cmd.Parameters.AddWithValue("@password", login.password);

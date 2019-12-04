@@ -19,7 +19,33 @@ namespace DAL
         }
         private string connectionString = "Data Source=153.109.124.35;Initial Catalog=CrittinMeyer_ValaisEat;Persist Security Info=True;User ID=6231db;Password=Pwd46231.";
 
+        public Customer AddCustomer(Customer customer)
+        {
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "insert into customers(username, password, full_name, fk_cities, address) " +
+                        "values(@username, @password, @full_name, @fk_cities, @address);" +
+                        "select scope_identity();";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@username", customer.username);
+                    cmd.Parameters.AddWithValue("@password", customer.password);
+                    cmd.Parameters.AddWithValue("@full_name", customer.full_name);
+                    cmd.Parameters.AddWithValue("@fk_cities", customer.city.id);
+                    cmd.Parameters.AddWithValue("@address", customer.address);
 
+                    cn.Open();
+
+                    customer.id = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return customer;
+        }
 
         public List<Customer> GetAllCustomers()
         {
@@ -48,6 +74,10 @@ namespace DAL
                             member.username = (string)dr["username"];
                             member.password = (string)dr["password"];
                             member.full_name = (string)dr["full_name"];
+                            if(dr["fullname"] != null)
+                            {
+                                member.address = (string)dr["address"];
+                            }
                             // Voir si modifications souhaitées
                             CitiesDB citiesDB = new CitiesDB(Configuration);
                             member.city = citiesDB.GetCityById((int)dr["fk_cities"]);

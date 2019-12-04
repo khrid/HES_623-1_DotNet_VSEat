@@ -25,5 +25,24 @@ namespace BLL
         {
             return DeliverersDB.GetDelivererById(id);
         }
+
+        public Deliverer GetDelivererForCity(int id)
+        {
+            List<Deliverer> AllDeliverers = GetAllDeliverers();
+            List<Deliverer> DelivererInCity = new List<Deliverer>();
+
+            foreach (var deliverer in AllDeliverers)
+            {
+                if (deliverer.city.id == id)
+                {
+                    DelivererInCity.Add(deliverer);
+                }
+            }
+
+            //if(DelivererInCity.Count > 0)
+            //{
+            return DelivererInCity[new Random().Next(0, DelivererInCity.Count)];
+            //}
+        }
     }
 }

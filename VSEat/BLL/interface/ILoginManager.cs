@@ -7,6 +7,6 @@ namespace BLL
 {
     public interface ILoginManager
 {
-        bool isUserValid(Login login);
+        bool isUserValid(Login login, string type);
 }
 }

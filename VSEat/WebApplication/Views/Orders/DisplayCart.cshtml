@@ -1,0 +1,78 @@
+﻿@model IEnumerable<DTO.OrderDish>
+
+    @{
+        ViewData["Title"] = "DisplayCart";
+        var total = 0;
+    }
+
+    <h2>Mon panier</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Plat
+                </th>
+                <th>
+                    Quantité
+                </th>
+                <th>
+                    Prix (unité)
+                </th>
+                <th>
+                    Prix (total)
+                </th>
+                <th>
+                    Restaurant
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.dish.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.dish.price).- CHF
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.dish.restaurant.merchant_name)
+                    </td>
+                    <td>
+                        @{
+                            var price = item.quantity * item.dish.price;
+                            total += price;
+                            @price;
+                        }.- CHF
+                    </td>
+                    <td>
+                        @Html.ActionLink("Supprimer", "DeleteItem", new { id = item.id })
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>@total.- CHF</th>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    Heure de livraison :
+    <select name="livraisonMinutes">
+        <option value="00">00</option>
+        <option value="15">15</option>
+        <option value="30">30</option>
+        <option value="45">45</option>
+    </select>
+
+    <button onclick="location.href='@Url.Action("Confirm", "Orders")'">Passer commande</button>

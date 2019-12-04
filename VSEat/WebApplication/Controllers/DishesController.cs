@@ -28,6 +28,7 @@ namespace WebApplication.Controllers
             RestaurantsManager restaurantsManager = new RestaurantsManager(Configuration);
             List<DTO.Dish> dishes = dishesManager.GetAllDishesForRestaurant(id);
             ViewBag.restaurantName = restaurantsManager.GetRestaurantById(id).merchant_name;
+            ViewBag.restaurantId = id;
             return View(dishes);
         }
     }

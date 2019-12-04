@@ -11,6 +11,8 @@ namespace DAL
     {
         public IConfiguration Configuration { get; }
 
+        private string connectionString = "Data Source=153.109.124.35;Initial Catalog=CrittinMeyer_ValaisEat;Persist Security Info=True;User ID=6231db;Password=Pwd46231.";
+
         public OrderDishesDB(IConfiguration configuration)
         {
 
@@ -22,7 +24,7 @@ namespace DAL
         public List<OrderDish> GetAllOrderDishes()
         {
             List<OrderDish> results = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
@@ -68,7 +70,7 @@ namespace DAL
         public OrderDish GetOrderDishById(int id)
         {
             OrderDish result = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
@@ -110,7 +112,7 @@ namespace DAL
         public OrderDish AddOrderDish(OrderDish orderDish)
         {
 
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
@@ -139,7 +141,7 @@ namespace DAL
         public List<OrderDish> GetOrderDishByOrderId(int id)
         {
             List<OrderDish> results = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
@@ -181,5 +183,6 @@ namespace DAL
 
             return results;
         }
+
     }
 }

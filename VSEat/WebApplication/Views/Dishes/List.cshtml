@@ -1,38 +1,54 @@
-﻿@model IEnumerable<DTO.Dish>
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<DTO.Dish>
 
 @{
-    
+
     ViewData["Title"] = "List";
+
+   
 }
 
 
     <div class="row">
         <p><h2>Plats proposés par @ViewBag.restaurantName</h2></p>
+        @{ if (@Context.Session.GetInt32("addedToCart").GetValueOrDefault() == 1)
+            {
+                Context.Session.Remove("addedToCart");
+                <div class="alert alert-success" id="success-alert">
+                    <button type="button" class="close" data-dismiss="alert">x</button>
+                    <strong>Super! </strong> Plat ajouté au panier &#128516;
+                </div>
+                <script>
+                    $("#success-alert").fadeTo(5000, 500).slideUp(500, function(){
+                        $("#success-alert").slideUp(500);
+                    });
+                </script>
+            }
 
-        @{
             if (Model.Count() > 0)
             {
                 foreach (var dish in Model)
                 {
 
-                <div class="col-md-2">
-                    @using (Html.BeginForm("AddToCart", "Orders"))
-                    {
-                        <h4>@dish.name</h4> 
-                        <h5>@dish.price  CHF</h5>
-                        <img src="@Url.Content("~/images/restaurants/_placeholder.jpg")" width="150" height="100" /><br /><br />
-                        <label for="qty">Quantité</label>
-                        <select name="qty">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                        <input type="hidden" name="dishId" value="@dish.id" /><br /><br />
-                        <input type="submit" value="Commander">
-                    }
-                </div>
+                    <div class="col-md-2">
+                        @using (Html.BeginForm("AddToCart", "Orders"))
+                        {
+                            <h4>@dish.name</h4>
+                            <h5>@dish.price  CHF</h5>
+                            <img src="@Url.Content("~/images/restaurants/_placeholder.jpg")" width="150" height="100" /><br /><br />
+                            <label for="qty">Quantité</label>
+                            <select name="qty">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                            <input type="hidden" name="dishId" value="@dish.id" />
+                            <input type="hidden" name="restaurantId" value="@ViewBag.restaurantId" /><br /><br />
+                            <input type="submit" value="Commander">
+                        }
+                    </div>
 
 
                 }

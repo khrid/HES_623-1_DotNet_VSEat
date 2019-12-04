@@ -10,6 +10,7 @@ namespace DAL
     public class OrdersDB : IOrdersDB
     {
         public IConfiguration Configuration { get; }
+        private string connectionString = "Data Source=153.109.124.35;Initial Catalog=CrittinMeyer_ValaisEat;Persist Security Info=True;User ID=6231db;Password=Pwd46231.";
 
         public OrdersDB(IConfiguration configuration)
         {
@@ -19,10 +20,12 @@ namespace DAL
         }
 
 
+
         public List<Order> GetAllOrders()
         {
             List<Order> results = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //string connectionString = "Data Source=153.109.124.35;Initial Catalog=CrittinMeyer_ValaisEat;Persist Security Info=True;User ID=6231db;Password=Pwd46231.";
 
             try
             {
@@ -68,7 +71,7 @@ namespace DAL
         public Order GetOrderById(int id)
         {
             Order result = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
@@ -110,7 +113,7 @@ namespace DAL
         public Order AddOrder(Order order)
         {
 
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {

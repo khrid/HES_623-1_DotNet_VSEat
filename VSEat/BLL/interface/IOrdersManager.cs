@@ -9,7 +9,6 @@ namespace BLL
     interface IOrdersManager
     {
         IOrdersDB OrdersDB { get; }
-
         Order AddOrder(Order order);
         List<Order> GetAllOrders();
         Order GetOrderById(int id);

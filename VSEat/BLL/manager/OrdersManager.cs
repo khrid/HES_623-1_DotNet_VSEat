@@ -38,5 +38,21 @@ namespace BLL
                 return new Order();
             }
         }
+
+        public List<Order> GetOrderByDelivererId(int id)
+        {
+            List<Order> AllOrders = GetAllOrders();
+            List<Order> OrdersByDeliverer = new List<Order>();
+
+            foreach (var order in AllOrders)
+            {
+                if(order.deliverer.id == id)
+                {
+                    OrdersByDeliverer.Add(order);
+                }
+            }
+            System.Diagnostics.Debug.WriteLine(OrdersByDeliverer);
+            return OrdersByDeliverer;
+        }
     }
 }

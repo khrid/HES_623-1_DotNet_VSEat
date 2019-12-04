@@ -17,9 +17,10 @@ namespace BLL
             LoginDB = new LoginDB(configuration);
         }
 
-        public bool isUserValid(Login login)
+        public bool isUserValid(Login login, string type)
         {
-            return LoginDB.isUserValid(login);
+            return LoginDB.isUserValid(login, type);
         }
+
     }
 }
