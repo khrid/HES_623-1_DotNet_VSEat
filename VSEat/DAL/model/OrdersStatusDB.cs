@@ -9,20 +9,17 @@ namespace DAL
 {
     public class OrdersStatusDB : IOrdersStatusDB
     {
-        public IConfiguration Configuration { get; }
+        private string connectionString = "";
 
         public OrdersStatusDB(IConfiguration configuration)
         {
-
-            Configuration = configuration;
-
+            connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
 
         public List<OrdersStatus> GetAllOrdersStatus()
         {
             List<OrdersStatus> results = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
@@ -63,7 +60,6 @@ namespace DAL
         public OrdersStatus GetOrdersStatusById(int id)
         {
             OrdersStatus result = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {

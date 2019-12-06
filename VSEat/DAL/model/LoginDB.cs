@@ -9,12 +9,11 @@ namespace DAL
 {
     public class LoginDB : ILoginDB
     {
-        private string connectionString = "Data Source=153.109.124.35;Initial Catalog=CrittinMeyer_ValaisEat;Persist Security Info=True;User ID=6231db;Password=Pwd46231.";
-        public IConfiguration Configuration { get; }
+        private string connectionString = "";
 
         public LoginDB(IConfiguration configuration)
         {
-            Configuration = configuration;
+            connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         public bool isUserValid(Login login, string type)

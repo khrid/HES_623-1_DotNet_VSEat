@@ -16,14 +16,16 @@ namespace WebApplication.Controllers
         private ICustomersManager customersManager { get; }
         private IDeliverersManager deliverersManager { get; }
         private IDishesManager dishesManager { get; }
+        private IOrderDishesManager orderDishesManager{ get; }
 
         public OrdersController(IOrdersManager ordersManager, ICustomersManager customersManager,
-            IDeliverersManager deliverersManager, IDishesManager dishesManager)
+            IDeliverersManager deliverersManager, IDishesManager dishesManager, IOrderDishesManager orderDishesManager)
         {
             this.ordersManager = ordersManager;
             this.customersManager = customersManager;
             this.deliverersManager = deliverersManager;
             this.dishesManager = dishesManager;
+            this.orderDishesManager = orderDishesManager;
         }
 
         public IActionResult Index()
@@ -62,7 +64,6 @@ namespace WebApplication.Controllers
             }
 
             HttpContext.Session.SetInt32("addedToCart", 1);
-            OrderDishesManager orderDishesManager = new OrderDishesManager(Configuration);
             OrderDish orderDish = new OrderDish { order = order, dish = dish, quantity = quantity };
             orderDishesManager.AddOrderDish(orderDish);
 
@@ -72,11 +73,6 @@ namespace WebApplication.Controllers
 
         public IActionResult DisplayCart()
         {
-            OrderDishesManager orderDishesManager = new OrderDishesManager(Configuration);
-            OrdersManager ordersManager = new OrdersManager(Configuration);
-            CustomersManager customersManager = new CustomersManager(Configuration);
-            DeliverersManager deliverersManager = new DeliverersManager(Configuration);
-            DishesManager dishesManager = new DishesManager(Configuration);
 
             int orderid = (int)HttpContext.Session.GetInt32("orderid").GetValueOrDefault();
 

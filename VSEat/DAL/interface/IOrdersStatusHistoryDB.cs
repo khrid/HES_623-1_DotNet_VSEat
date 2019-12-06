@@ -6,7 +6,6 @@ namespace DAL
 {
     public interface IOrdersStatusHistoryDB
     {
-        IConfiguration Configuration { get; }
 
         OrdersStatusHistory AddOrdersStatusHistory(OrdersStatusHistory ordersStatusHistory);
         List<OrdersStatusHistory> GetAllOrdersStatusHistory();

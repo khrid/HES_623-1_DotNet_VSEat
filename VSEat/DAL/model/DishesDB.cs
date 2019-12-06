@@ -9,16 +9,15 @@ namespace DAL
 {
     public class DishesDB : IDishesDB
     {
-        public IConfiguration Configuration { get; }
+
+        private string connectionString = "";
 
         public DishesDB(IConfiguration configuration)
         {
 
-            Configuration = configuration;
+            connectionString = configuration.GetConnectionString("DefaultConnection");
 
         }
-
-        private string connectionString = "Data Source=153.109.124.35;Initial Catalog=CrittinMeyer_ValaisEat;Persist Security Info=True;User ID=6231db;Password=Pwd46231.";
 
 
         public List<Dish> GetAllDishes()

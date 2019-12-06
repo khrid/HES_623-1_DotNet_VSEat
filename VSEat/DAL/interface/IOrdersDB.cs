@@ -6,7 +6,6 @@ namespace DAL
 {
     public interface IOrdersDB
     {
-        IConfiguration Configuration { get; }
 
         Order AddOrder(Order order);
         List<Order> GetAllOrders();

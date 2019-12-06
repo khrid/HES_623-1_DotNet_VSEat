@@ -11,5 +11,6 @@ namespace BLL
 
         List<Deliverer> GetAllDeliverers();
         Deliverer GetDelivererById(int id);
+        Deliverer GetDelivererForCity(int id);
     }
 }

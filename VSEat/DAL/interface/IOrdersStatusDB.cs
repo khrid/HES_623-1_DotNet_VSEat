@@ -6,7 +6,6 @@ namespace DAL
 {
     public interface IOrdersStatusDB
     {
-        IConfiguration Configuration { get; }
 
         List<OrdersStatus> GetAllOrdersStatus();
         OrdersStatus GetOrdersStatusById(int id);

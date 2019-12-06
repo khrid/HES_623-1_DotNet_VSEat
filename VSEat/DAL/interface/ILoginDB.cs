@@ -8,7 +8,6 @@ namespace DAL
 {
     public interface ILoginDB
 {
-        IConfiguration Configuration { get; }
         bool isUserValid(Login login, string type);
 }
 }
