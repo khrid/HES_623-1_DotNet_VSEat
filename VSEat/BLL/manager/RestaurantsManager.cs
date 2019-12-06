@@ -10,7 +10,7 @@ namespace BLL
     {
         private IRestaurantsDB RestaurantsDB { get; }
 
-        public RestaurantsManager(RestaurantsDB restaurantsDB)
+        public RestaurantsManager(IRestaurantsDB restaurantsDB)
         {
             RestaurantsDB = restaurantsDB;
         }

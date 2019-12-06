@@ -41,8 +41,8 @@ namespace WebApplication
             services.AddScoped<ILoginManager, LoginManager>();
             services.AddScoped<ILoginDB, LoginDB>();
 
-            services.AddScoped<IRestaurantsManager, RestaurantsManager>();
             services.AddScoped<IRestaurantsDB, RestaurantsDB>();
+            services.AddScoped<IRestaurantsManager, RestaurantsManager>();
 
             services.AddScoped<ICitiesManager, CitiesManager>();
             services.AddScoped<ICitiesDB, CitiesDB>();
