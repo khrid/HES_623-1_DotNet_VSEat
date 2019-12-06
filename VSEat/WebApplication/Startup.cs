@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BLL;
+using DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -38,15 +39,35 @@ namespace WebApplication
 
             // Injection de dépendances
             services.AddScoped<ILoginManager, LoginManager>();
+            services.AddScoped<ILoginDB, LoginDB>();
+
             services.AddScoped<IRestaurantsManager, RestaurantsManager>();
+            services.AddScoped<IRestaurantsDB, RestaurantsDB>();
+
             services.AddScoped<ICitiesManager, CitiesManager>();
+            services.AddScoped<ICitiesDB, CitiesDB>();
+
             services.AddScoped<IOrderDishesManager, OrderDishesManager>();
+            services.AddScoped<IOrderDishesDB, OrderDishesDB>();
+
             services.AddScoped<IOrdersStatusHistoryManager, OrdersStatusHistoryManager>();
+            services.AddScoped<IOrdersStatusHistoryDB, OrdersStatusHistoryDB>();
+
             services.AddScoped<IOrdersStatusManager, OrdersStatusManager>();
+            services.AddScoped<IOrdersStatusDB, OrdersStatusDB>();
+
+            services.AddScoped<IOrdersDB, OrdersDB>();
             services.AddScoped<IOrdersManager, OrdersManager>();
+
             services.AddScoped<ICustomersManager, CustomersManager>();
+            services.AddScoped<ICustomersDB, CustomersDB>();
+
             services.AddScoped<IDeliverersManager, DeliverersManager>();
+            services.AddScoped<IDeliverersDB, DeliverersDB>();
+
             services.AddScoped<IDishesManager, DishesManager>();
+            services.AddScoped<IDishesDB, DishesDB>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

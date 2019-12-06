@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using BLL;
+using DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +25,7 @@ namespace WebApplication.Controllers
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("loggedIn") as string)) 
             {
-                List<DTO.City> cities = citiesManager.GetAllCities();
+                List<City> cities = citiesManager.GetAllCities();
                 return View(cities);
             }
             else
