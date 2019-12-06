@@ -14,7 +14,7 @@ namespace BLL
 
         public LoginManager(ILoginDB loginDB)
         {
-            LoginDB = LoginDB;
+            LoginDB = loginDB;
         }
 
         public bool isUserValid(Login login, string type)
