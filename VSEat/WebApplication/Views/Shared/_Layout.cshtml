@@ -41,11 +41,11 @@
 
                 </ul>
                 @{
-                    if (@Context.Session.GetString("username") != null && usertype == "customer")
+                    if (@Context.Session.GetString("fullname") != null && usertype == "customer")
                     {
                         <ul class="nav pull-right">
                             <li id="fat-menu" class="dropdown">
-                                <a href="#" id="drop3" style="color:white;font-weight:bolder; " role="button" class="dropdown-toggle" data-toggle="dropdown">@Context.Session.GetString("username")<b class="caret"></b></a>
+                                <a href="#" id="drop3" style="color:white;font-weight:bolder; " role="button" class="dropdown-toggle" data-toggle="dropdown">@Context.Session.GetString("fullname")<b class="caret"></b></a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
                                     <li><a asp-area="" asp-controller="Users" asp-action="Me">Mon compte</a></li>
                                     <li><a asp-area="" asp-controller="Orders" asp-action="MyOrders">Mes commandes</a></li>

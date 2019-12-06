@@ -12,11 +12,18 @@ namespace WebApplication.Controllers
 {
     public class OrdersController : Controller
     {
-        private IConfiguration Configuration { get; }
+        private IOrdersManager ordersManager { get; }
+        private ICustomersManager customersManager { get; }
+        private IDeliverersManager deliverersManager { get; }
+        private IDishesManager dishesManager { get; }
 
-        public OrdersController(IConfiguration configuration)
+        public OrdersController(IOrdersManager ordersManager, ICustomersManager customersManager,
+            IDeliverersManager deliverersManager, IDishesManager dishesManager)
         {
-            Configuration = configuration;
+            this.ordersManager = ordersManager;
+            this.customersManager = customersManager;
+            this.deliverersManager = deliverersManager;
+            this.dishesManager = dishesManager;
         }
 
         public IActionResult Index()
@@ -30,11 +37,6 @@ namespace WebApplication.Controllers
             //System.Diagnostics.Debug.WriteLine(Request.Form["qty"]);
             int quantity = int.Parse(Request.Form["qty"]);
             int dishid = int.Parse(Request.Form["dishId"]);
-
-            OrdersManager ordersManager = new OrdersManager(Configuration);
-            CustomersManager customersManager = new CustomersManager(Configuration);
-            DeliverersManager deliverersManager = new DeliverersManager(Configuration);
-            DishesManager dishesManager = new DishesManager(Configuration);
             Dish dish = dishesManager.GetDishById(dishid);
             int userid = (int)HttpContext.Session.GetInt32("userid");
 

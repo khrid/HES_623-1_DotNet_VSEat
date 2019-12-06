@@ -41,7 +41,7 @@ namespace DAL
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@username", login.username);
                     cmd.Parameters.AddWithValue("@password", login.password);
-
+                    
                     cn.Open();
 
                     using (SqlDataReader dr = cmd.ExecuteReader())
