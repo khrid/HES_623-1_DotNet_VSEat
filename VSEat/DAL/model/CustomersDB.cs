@@ -9,16 +9,16 @@ namespace DAL
 {
     public class CustomersDB : ICustomersDB
     {
-        public IConfiguration Configuration { get; }
+
+        private string connectionString = "";
+        private IConfiguration configuration = null;
 
         public CustomersDB(IConfiguration configuration)
         {
-
-            Configuration = configuration;
+            this.configuration = configuration;
+            connectionString = configuration.GetConnectionString("DefaultConnection");
 
         }
-        private string connectionString = "Data Source=153.109.124.35;Initial Catalog=CrittinMeyer_ValaisEat;Persist Security Info=True;User ID=6231db;Password=Pwd46231.";
-
         public Customer AddCustomer(Customer customer)
         {
             try
@@ -79,7 +79,7 @@ namespace DAL
                                 member.address = (string)dr["address"];
                             }
                             // Voir si modifications souhaitées
-                            CitiesDB citiesDB = new CitiesDB(Configuration);
+                            CitiesDB citiesDB = new CitiesDB(configuration);
                             member.city = citiesDB.GetCityById((int)dr["fk_cities"]);
 
                             results.Add(member);
@@ -124,7 +124,7 @@ namespace DAL
                             result.password = (string)dr["password"];
                             result.full_name = (string)dr["full_name"];
                             // Voir si modifications souhaitées
-                            CitiesDB citiesDB = new CitiesDB(Configuration);
+                            CitiesDB citiesDB = new CitiesDB(configuration);
                             result.city = citiesDB.GetCityById((int)dr["fk_cities"]);
                         }
                     }
@@ -167,7 +167,7 @@ namespace DAL
                             result.password = (string)dr["password"];
                             result.full_name = (string)dr["full_name"];
                             // Voir si modifications souhaitées
-                            CitiesDB citiesDB = new CitiesDB(Configuration);
+                            CitiesDB citiesDB = new CitiesDB(configuration);
                             result.city = citiesDB.GetCityById((int)dr["fk_cities"]);
                         }
                     }

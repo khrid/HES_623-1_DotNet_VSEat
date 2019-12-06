@@ -6,7 +6,6 @@ namespace DAL
 {
     public interface IOrderDishesDB
     {
-        IConfiguration Configuration { get; }
 
         OrderDish AddOrderDish(OrderDish orderDish);
         List<OrderDish> GetAllOrderDishes();

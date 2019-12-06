@@ -16,10 +16,10 @@ namespace WebApplication.Controllers
         private ICustomersManager customersManager { get; }
         private IDeliverersManager deliverersManager { get; }
         private IDishesManager dishesManager { get; }
-        private IOrderDishesManager orderDishesManager { get; }
+        private IOrderDishesManager orderDishesManager{ get; }
 
         public OrdersController(IOrdersManager ordersManager, ICustomersManager customersManager,
-            IDeliverersManager deliverersManager, IDishesManager dishesManager, OrderDishesManager orderDishesManager)
+            IDeliverersManager deliverersManager, IDishesManager dishesManager, IOrderDishesManager orderDishesManager)
         {
             this.ordersManager = ordersManager;
             this.customersManager = customersManager;
@@ -73,7 +73,7 @@ namespace WebApplication.Controllers
 
         public IActionResult DisplayCart()
         {
-            
+
             int orderid = (int)HttpContext.Session.GetInt32("orderid").GetValueOrDefault();
 
             List<OrderDish> orderDishes = orderDishesManager.GetOrderDishByOrderId(orderid);

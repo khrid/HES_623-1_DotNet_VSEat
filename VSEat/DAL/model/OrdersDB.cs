@@ -9,14 +9,14 @@ namespace DAL
 {
     public class OrdersDB : IOrdersDB
     {
-        public IConfiguration Configuration { get; }
-        private string connectionString = "Data Source=153.109.124.35;Initial Catalog=CrittinMeyer_ValaisEat;Persist Security Info=True;User ID=6231db;Password=Pwd46231.";
+        public IConfiguration configuration { get; }
+        private string connectionString = "";
 
         public OrdersDB(IConfiguration configuration)
         {
 
-            Configuration = configuration;
-
+            this.configuration = configuration;
+            connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
 
@@ -48,9 +48,9 @@ namespace DAL
                             member.id = (int)dr["id"];
                             member.delivery_time_requested = (DateTime)dr["delivery_time_requested"];
                             // Voir si modifications souhaitées
-                            CustomersDB customersDB = new CustomersDB(Configuration);
+                            CustomersDB customersDB = new CustomersDB(configuration);
                             member.customer = customersDB.GetCustomerById((int)dr["fk_customers"]);
-                            DeliverersDB deliverersDB = new DeliverersDB(Configuration);
+                            DeliverersDB deliverersDB = new DeliverersDB(configuration);
                             member.deliverer = deliverersDB.GetDelivererById((int)dr["fk_deliverers"]);
 
                             results.Add(member);
@@ -93,9 +93,9 @@ namespace DAL
                             result.id = (int)dr["id"];
                             result.delivery_time_requested = (DateTime)dr["delivery_time_requested"];
                             // Voir si modifications souhaitées
-                            CustomersDB customersDB = new CustomersDB(Configuration);
+                            CustomersDB customersDB = new CustomersDB(configuration);
                             result.customer = customersDB.GetCustomerById((int)dr["fk_customers"]);
-                            DeliverersDB deliverersDB = new DeliverersDB(Configuration);
+                            DeliverersDB deliverersDB = new DeliverersDB(configuration);
                             result.deliverer = deliverersDB.GetDelivererById((int)dr["fk_deliverers"]);
                         }
                     }

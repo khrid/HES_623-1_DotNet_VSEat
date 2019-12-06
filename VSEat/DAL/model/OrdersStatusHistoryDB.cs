@@ -9,12 +9,14 @@ namespace DAL
 {
     public class OrdersStatusHistoryDB : IOrdersStatusHistoryDB
     {
-        public IConfiguration Configuration { get; }
+        public IConfiguration configuration { get; }
+        private string connectionString = "";
 
         public OrdersStatusHistoryDB(IConfiguration configuration)
         {
 
-            Configuration = configuration;
+            this.configuration = configuration;
+            connectionString = configuration.GetConnectionString("DefaultConnection");
 
         }
 
@@ -22,7 +24,6 @@ namespace DAL
         public List<OrdersStatusHistory> GetAllOrdersStatusHistory()
         {
             List<OrdersStatusHistory> results = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
@@ -45,9 +46,9 @@ namespace DAL
                             member.id = (int)dr["id"];
                             member.created_at = (DateTime)dr["created_at"];
                             // Voir si modifications souhaitées
-                            OrdersDB ordersDB = new OrdersDB(Configuration);
+                            OrdersDB ordersDB = new OrdersDB(configuration);
                             member.order = ordersDB.GetOrderById((int)dr["fk_orders"]);
-                            OrdersStatusDB ordersStatusDB = new OrdersStatusDB(Configuration);
+                            OrdersStatusDB ordersStatusDB = new OrdersStatusDB(configuration);
                             member.ordersStatus = ordersStatusDB.GetOrdersStatusById((int)dr["fk_orders_status"]);
 
                             results.Add(member);
@@ -68,7 +69,6 @@ namespace DAL
         public OrdersStatusHistory GetOrdersStatusHistoryById(int id)
         {
             OrdersStatusHistory result = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
@@ -90,9 +90,9 @@ namespace DAL
                             result.id = (int)dr["id"];
                             result.created_at = (DateTime)dr["created_at"];
                             // Voir si modifications souhaitées
-                            OrdersDB ordersDB = new OrdersDB(Configuration);
+                            OrdersDB ordersDB = new OrdersDB(configuration);
                             result.order = ordersDB.GetOrderById((int)dr["fk_orders"]);
-                            OrdersStatusDB ordersStatusDB = new OrdersStatusDB(Configuration);
+                            OrdersStatusDB ordersStatusDB = new OrdersStatusDB(configuration);
                             result.ordersStatus = ordersStatusDB.GetOrdersStatusById((int)dr["fk_orders_status"]);
                         }
                     }
@@ -109,8 +109,6 @@ namespace DAL
 
         public OrdersStatusHistory AddOrdersStatusHistory(OrdersStatusHistory ordersStatusHistory)
         {
-
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
@@ -139,7 +137,6 @@ namespace DAL
         public OrdersStatusHistory GetCurrentOrderStatusHistoryForOrder(int id)
         {
             OrdersStatusHistory result = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
@@ -161,9 +158,9 @@ namespace DAL
                             result.id = (int)dr["id"];
                             result.created_at = (DateTime)dr["created_at"];
                             // Voir si modifications souhaitées
-                            OrdersDB ordersDB = new OrdersDB(Configuration);
+                            OrdersDB ordersDB = new OrdersDB(configuration);
                             result.order = ordersDB.GetOrderById((int)dr["fk_orders"]);
-                            OrdersStatusDB ordersStatusDB = new OrdersStatusDB(Configuration);
+                            OrdersStatusDB ordersStatusDB = new OrdersStatusDB(configuration);
                             result.ordersStatus = ordersStatusDB.GetOrdersStatusById((int)dr["fk_orders_status"]);
                         }
                     }

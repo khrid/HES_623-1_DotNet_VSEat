@@ -9,15 +9,14 @@ namespace DAL
 {
     public class DeliverersDB : IDeliverersDB
     {
-        public IConfiguration Configuration { get; }
 
-        private string connectionString = "Data Source=153.109.124.35;Initial Catalog=CrittinMeyer_ValaisEat;Persist Security Info=True;User ID=6231db;Password=Pwd46231.";
-
+        private string connectionString = "";
+        private IConfiguration configuration = null;
 
         public DeliverersDB(IConfiguration configuration)
         {
-
-            Configuration = configuration;
+            this.configuration = configuration;
+            connectionString = configuration.GetConnectionString("DefaultConnection");
 
         }
 
@@ -50,7 +49,7 @@ namespace DAL
                             member.password = (string)dr["password"];
                             member.full_name = (string)dr["full_name"];
                             // Voir si modifications souhaitées
-                            CitiesDB citiesDB = new CitiesDB(Configuration);
+                            CitiesDB citiesDB = new CitiesDB(configuration);
                             member.city = citiesDB.GetCityById((int)dr["fk_cities"]);
 
                             results.Add(member);
@@ -95,7 +94,7 @@ namespace DAL
                             result.password = (string)dr["password"];
                             result.full_name = (string)dr["full_name"];
                             // Voir si modifications souhaitées
-                            CitiesDB citiesDB = new CitiesDB(Configuration);
+                            CitiesDB citiesDB = new CitiesDB(configuration);
                             result.city = citiesDB.GetCityById((int)dr["fk_cities"]);
                         }
                     }

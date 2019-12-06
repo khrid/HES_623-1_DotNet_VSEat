@@ -9,15 +9,12 @@ namespace DAL
 {
     public class CitiesDB : ICitiesDB
     {
-        public IConfiguration Configuration { get; }
 
-        //private string connectionString = "Data Source=153.109.124.35;Initial Catalog=CrittinMeyer_ValaisEat;Persist Security Info=True;User ID=6231db;Password=Pwd46231.";
+        private string connectionString = null;
 
         public CitiesDB(IConfiguration configuration)
         {
-
-            Configuration = configuration;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
 

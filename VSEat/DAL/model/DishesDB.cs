@@ -9,16 +9,16 @@ namespace DAL
 {
     public class DishesDB : IDishesDB
     {
-        public IConfiguration Configuration { get; }
+
+        private string connectionString = "";
+        private IConfiguration configuration = null;
 
         public DishesDB(IConfiguration configuration)
         {
-
-            Configuration = configuration;
+            this.configuration = configuration;
+            connectionString = configuration.GetConnectionString("DefaultConnection");
 
         }
-
-        private string connectionString = "Data Source=153.109.124.35;Initial Catalog=CrittinMeyer_ValaisEat;Persist Security Info=True;User ID=6231db;Password=Pwd46231.";
 
 
         public List<Dish> GetAllDishes()
@@ -49,7 +49,7 @@ namespace DAL
                             member.price = (int)dr["price"];
                             member.status = (bool)dr["status"];
                             // Voir si modifications souhaitées
-                            RestaurantsDB restaurantsDB = new RestaurantsDB(Configuration);
+                            RestaurantsDB restaurantsDB = new RestaurantsDB(configuration);
                             member.restaurant = restaurantsDB.GetRestaurantById((int)dr["fk_restaurants"]);
 
                             results.Add(member);
@@ -96,7 +96,7 @@ namespace DAL
                             dish.price = (int)dr["price"];
                             dish.status = (bool)dr["status"];
                             // Voir si modifications souhaitées
-                            RestaurantsDB restaurantsDB = new RestaurantsDB(Configuration);
+                            RestaurantsDB restaurantsDB = new RestaurantsDB(configuration);
                             dish.restaurant = restaurantsDB.GetRestaurantById((int)dr["fk_restaurants"]);
 
                             results.Add(dish);
@@ -140,7 +140,7 @@ namespace DAL
                             result.price = (int)dr["price"];
                             result.status = (bool)dr["status"];
                             // Voir si modifications souhaitées
-                            RestaurantsDB restaurantsDB = new RestaurantsDB(Configuration);
+                            RestaurantsDB restaurantsDB = new RestaurantsDB(configuration);
                             result.restaurant = restaurantsDB.GetRestaurantById((int)dr["fk_restaurants"]);
                         }
                     }
