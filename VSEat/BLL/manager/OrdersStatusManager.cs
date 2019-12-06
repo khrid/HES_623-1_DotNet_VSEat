@@ -11,9 +11,9 @@ namespace BLL
     {
         private IOrdersStatusDB OrdersStatusDB { get; }
 
-        public OrdersStatusManager(IConfiguration configuration)
+        public OrdersStatusManager(OrdersStatusDB ordersStatusDB)
         {
-            OrdersStatusDB = new OrdersStatusDB(configuration);
+            OrdersStatusDB = ordersStatusDB;
         }
 
         public List<OrdersStatus> GetAllOrdersStatus()

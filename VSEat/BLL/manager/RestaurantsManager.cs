@@ -10,9 +10,9 @@ namespace BLL
     {
         private IRestaurantsDB RestaurantsDB { get; }
 
-        public RestaurantsManager(IConfiguration configuration)
+        public RestaurantsManager(RestaurantsDB restaurantsDB)
         {
-            RestaurantsDB = new RestaurantsDB(configuration);
+            RestaurantsDB = restaurantsDB;
         }
 
         public List<Restaurant> GetAllRestaurants()

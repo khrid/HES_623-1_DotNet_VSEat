@@ -17,9 +17,9 @@ namespace WebApplication.Controllers
         private ICustomersManager customersManager { get; }
         private ICitiesManager citiesManager { get; }
 
-        public UsersController(ICustomersManager customerManager, ICitiesManager citiesManager)
+        public UsersController(ICustomersManager customersManager, ICitiesManager citiesManager)
         {
-            this.customersManager = customerManager;
+            this.customersManager = customersManager;
             this.citiesManager = citiesManager;
         }
         public IActionResult Index()

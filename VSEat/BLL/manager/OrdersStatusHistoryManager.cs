@@ -11,9 +11,9 @@ namespace BLL
     {
         private IOrdersStatusHistoryDB OrdersStatusHistoryDB { get;  }
 
-        public OrdersStatusHistoryManager(IConfiguration configuration)
+        public OrdersStatusHistoryManager(OrdersStatusHistoryDB ordersStatusHistoryDB)
         {
-            OrdersStatusHistoryDB = new OrdersStatusHistoryDB(configuration);
+            OrdersStatusHistoryDB = ordersStatusHistoryDB;
         }
 
         public OrdersStatusHistory AddOrdersStatusHistory(OrdersStatusHistory ordersStatusHistory)
