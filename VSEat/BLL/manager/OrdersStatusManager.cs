@@ -11,7 +11,7 @@ namespace BLL
     {
         private IOrdersStatusDB OrdersStatusDB { get; }
 
-        public OrdersStatusManager(OrdersStatusDB ordersStatusDB)
+        public OrdersStatusManager(IOrdersStatusDB ordersStatusDB)
         {
             OrdersStatusDB = ordersStatusDB;
         }
