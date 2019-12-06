@@ -11,9 +11,9 @@ namespace BLL
     {
         public IOrdersDB OrdersDB { get; }
 
-        public OrdersManager(IConfiguration configuration)
+        public OrdersManager(OrdersDB ordersDB)
         {
-            OrdersDB = new OrdersDB(configuration);
+            OrdersDB = ordersDB;
         }
 
         public Order AddOrder(Order order)

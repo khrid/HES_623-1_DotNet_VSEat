@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BLL
 {
-    interface IOrdersManager
+    public interface IOrdersManager
     {
         IOrdersDB OrdersDB { get; }
         Order AddOrder(Order order);
