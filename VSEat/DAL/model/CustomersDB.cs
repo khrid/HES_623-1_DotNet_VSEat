@@ -15,7 +15,7 @@ namespace DAL
 
         public CustomersDB(IConfiguration configuration)
         {
-            configuration = configuration;
+            this.configuration = configuration;
             connectionString = configuration.GetConnectionString("DefaultConnection");
 
         }

@@ -11,10 +11,11 @@ namespace DAL
     {
 
         private string connectionString = "";
+        private IConfiguration configuration = null;
 
         public DeliverersDB(IConfiguration configuration)
         {
-
+            this.configuration = configuration;
             connectionString = configuration.GetConnectionString("DefaultConnection");
 
         }
@@ -48,7 +49,7 @@ namespace DAL
                             member.password = (string)dr["password"];
                             member.full_name = (string)dr["full_name"];
                             // Voir si modifications souhaitées
-                            CitiesDB citiesDB = new CitiesDB(Configuration);
+                            CitiesDB citiesDB = new CitiesDB(configuration);
                             member.city = citiesDB.GetCityById((int)dr["fk_cities"]);
 
                             results.Add(member);
@@ -93,7 +94,7 @@ namespace DAL
                             result.password = (string)dr["password"];
                             result.full_name = (string)dr["full_name"];
                             // Voir si modifications souhaitées
-                            CitiesDB citiesDB = new CitiesDB(Configuration);
+                            CitiesDB citiesDB = new CitiesDB(configuration);
                             result.city = citiesDB.GetCityById((int)dr["fk_cities"]);
                         }
                     }
