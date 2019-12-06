@@ -10,12 +10,10 @@ namespace WebApplication.Controllers
 {
     public class CitiesController : Controller
     {
-        private ICitiesManager citiesManager { get; }
         private IRestaurantsManager restaurantsManager{ get; }
 
-        public CitiesController(ICitiesManager citiesManager, IRestaurantsManager restaurantsManager)
+        public CitiesController(IRestaurantsManager restaurantsManager)
         {
-            this.citiesManager = citiesManager;
             this.restaurantsManager = restaurantsManager;
         }
         public IActionResult Index()

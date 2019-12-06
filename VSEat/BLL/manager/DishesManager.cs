@@ -11,9 +11,9 @@ namespace BLL
     {
         private IDishesDB DishesDB { get; }
 
-        public DishesManager(IConfiguration configuration)
+        public DishesManager(IDishesDB dishesDB)
         {
-            DishesDB = new DishesDB(configuration);
+            DishesDB = dishesDB;
         }
 
         public List<Dish> GetAllDishes()

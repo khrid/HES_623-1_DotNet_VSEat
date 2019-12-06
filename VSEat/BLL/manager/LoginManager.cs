@@ -12,9 +12,9 @@ namespace BLL
 
         private ILoginDB LoginDB { get; }
 
-        public LoginManager(IConfiguration configuration)
+        public LoginManager(ILoginDB loginDB)
         {
-            LoginDB = new LoginDB(configuration);
+            LoginDB = LoginDB;
         }
 
         public bool isUserValid(Login login, string type)

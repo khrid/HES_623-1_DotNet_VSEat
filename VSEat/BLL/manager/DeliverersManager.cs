@@ -11,9 +11,9 @@ namespace BLL
     {
         private IDeliverersDB DeliverersDB { get; }
 
-        public DeliverersManager(IConfiguration configuration)
+        public DeliverersManager(IDeliverersDB deliverersDB)
         {
-            DeliverersDB = new DeliverersDB(configuration);
+            DeliverersDB = deliverersDB;
         }
 
         public List<Deliverer> GetAllDeliverers()

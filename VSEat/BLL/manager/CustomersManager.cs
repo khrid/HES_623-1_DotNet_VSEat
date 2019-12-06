@@ -11,7 +11,7 @@ namespace BLL
     {
         private ICustomersDB CustomersDB { get; }
 
-        public CustomersManager(IConfiguration configuration)
+        public CustomersManager(ICustomersDB configuration)
         {
             CustomersDB = new CustomersDB(configuration);
         }
