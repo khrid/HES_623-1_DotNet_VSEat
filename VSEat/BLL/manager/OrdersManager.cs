@@ -9,7 +9,7 @@ namespace BLL
 {
     public class OrdersManager : IOrdersManager
     {
-        public IOrdersDB OrdersDB { get; }
+        private IOrdersDB OrdersDB { get; }
 
         public OrdersManager(IConfiguration configuration)
         {
@@ -44,6 +44,7 @@ namespace BLL
             List<Order> AllOrders = GetAllOrders();
             List<Order> OrdersByDeliverer = new List<Order>();
 
+            // TODO Gérer le fait que le livreur ne doive pas avoir plus de 5 commandes par 30mn
             foreach (var order in AllOrders)
             {
                 if(order.deliverer.id == id)

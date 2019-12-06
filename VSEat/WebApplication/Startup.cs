@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BLL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -41,6 +42,17 @@ namespace WebApplication
                 options.Cookie.IsEssential = true;
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // Injection de dépendances
+            services.AddScoped<ICitiesManager, CitiesManager>();
+            services.AddScoped<ICustomersManager, CustomersManager>();
+            services.AddScoped<IDeliverersManager, DeliverersManager>();
+            services.AddScoped<IDishesManager, DishesManager>();
+            services.AddScoped<ILoginManager, LoginManager>();
+            services.AddScoped<IOrderDishesManager, OrderDishesManager>();
+            services.AddScoped<IOrdersStatusHistoryManager, OrdersStatusHistoryManager>();
+            services.AddScoped<IOrdersStatusManager, OrdersStatusManager>();
+            services.AddScoped<IRestaurantsManager, RestaurantsManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

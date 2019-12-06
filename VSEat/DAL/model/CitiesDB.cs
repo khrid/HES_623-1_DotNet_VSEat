@@ -11,13 +11,13 @@ namespace DAL
     {
         public IConfiguration Configuration { get; }
 
-        private string connectionString = "Data Source=153.109.124.35;Initial Catalog=CrittinMeyer_ValaisEat;Persist Security Info=True;User ID=6231db;Password=Pwd46231.";
+        //private string connectionString = "Data Source=153.109.124.35;Initial Catalog=CrittinMeyer_ValaisEat;Persist Security Info=True;User ID=6231db;Password=Pwd46231.";
 
         public CitiesDB(IConfiguration configuration)
         {
 
             Configuration = configuration;
-
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
         }
 
 

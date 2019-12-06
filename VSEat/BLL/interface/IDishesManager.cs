@@ -6,9 +6,8 @@ using System.Text;
 
 namespace BLL
 {
-    interface IDishesManager
+    public interface IDishesManager
 {
-        IDishesDB DishesDB { get; }
         List<Dish> GetAllDishes();
         List<Dish> GetAllDishesForRestaurant(int id);
         Dish GetDishById(int id);

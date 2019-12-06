@@ -9,7 +9,7 @@ namespace BLL
 {
     public class OrdersStatusHistoryManager : IOrdersStatusHistoryManager
     {
-        public IOrdersStatusHistoryDB OrdersStatusHistoryDB { get;  }
+        private IOrdersStatusHistoryDB OrdersStatusHistoryDB { get;  }
 
         public OrdersStatusHistoryManager(IConfiguration configuration)
         {

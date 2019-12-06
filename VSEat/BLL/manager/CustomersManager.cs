@@ -9,7 +9,7 @@ namespace BLL
 {
     public class CustomersManager : ICustomersManager
     {
-        public ICustomersDB CustomersDB { get; }
+        private ICustomersDB CustomersDB { get; }
 
         public CustomersManager(IConfiguration configuration)
         {

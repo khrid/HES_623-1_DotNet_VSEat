@@ -9,7 +9,7 @@ namespace BLL
 {
     public class DeliverersManager : IDeliverersManager
     {
-        public IDeliverersDB DeliverersDB { get; }
+        private IDeliverersDB DeliverersDB { get; }
 
         public DeliverersManager(IConfiguration configuration)
         {

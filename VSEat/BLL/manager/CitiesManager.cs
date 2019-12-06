@@ -9,11 +9,11 @@ namespace BLL
 {
     public class CitiesManager : ICitiesManager
     {
-        public ICitiesDB CitiesDB { get; }
+        private ICitiesDB CitiesDB { get; }
 
-        public CitiesManager(IConfiguration configuration)
+        public CitiesManager(ICitiesDB citiesDB)
         {
-            CitiesDB = new CitiesDB(configuration);
+            CitiesDB = citiesDB;
         }
 
         public List<City> GetAllCities()

@@ -6,9 +6,8 @@ using System.Text;
 
 namespace BLL
 {
-    interface IDeliverersManager
+    public interface IDeliverersManager
 {
-        IDeliverersDB DeliverersDB { get; }
 
         List<Deliverer> GetAllDeliverers();
         Deliverer GetDelivererById(int id);

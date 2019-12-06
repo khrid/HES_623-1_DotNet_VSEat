@@ -1,11 +1,14 @@
 ﻿@model IEnumerable<DTO.OrderDish>
 
-    @{
-        ViewData["Title"] = "DisplayCart";
-        var total = 0;
-    }
+@{
+    ViewData["Title"] = "DisplayCart";
+    var total = 0;
+}
 
-    <h2>Mon panier</h2>
+<h2>Mon panier</h2>
+
+@if (Model != null)
+{
 
     <table class="table">
         <thead>
@@ -66,13 +69,32 @@
             </tr>
         </tbody>
     </table>
+    <span>
+        <h4>Heure de livraison: @DateTime.Now.Hour</h4>
+        <select name="livraisonHeures">
+            @for (int i = 11; i <= 22; i++)
+            {
+                if (i > DateTime.Now.Hour)
+                {
+                    <option value="@i"> @i </option>
+                }
+            }
+        </select> :
+        <select name="livraisonMinutes">
+            <option value="00"> 00 </option>
+            <option value="15"> 15 </option>
+            <option value="30"> 30 </option>
+            <option value="45"> 45 </option>
+        </select>
+    </span>
+    <hr />
+    <button onclick="location.href='@Url.Action("Confirm", "Orders")'"> Passer commande </button>
 
-    Heure de livraison :
-    <select name="livraisonMinutes">
-        <option value="00">00</option>
-        <option value="15">15</option>
-        <option value="30">30</option>
-        <option value="45">45</option>
-    </select>
-
-    <button onclick="location.href='@Url.Action("Confirm", "Orders")'">Passer commande</button>
+}
+else
+{
+    <div class="alert alert-info" id="success-info">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Le panier est vide &#128528;
+    </div>
+}

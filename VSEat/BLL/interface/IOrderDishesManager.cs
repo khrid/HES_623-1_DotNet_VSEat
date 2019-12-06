@@ -6,11 +6,8 @@ using System.Text;
 
 namespace BLL
 {
-    interface IOrderDishesManager
+    public interface IOrderDishesManager
     {
-
-        IOrderDishesDB OrderDishesDb{ get; }
-
         OrderDish AddOrderDish(OrderDish orderDish);
         List<OrderDish> GetAllOrderDishes();
         OrderDish GetOrderDishById(int id);

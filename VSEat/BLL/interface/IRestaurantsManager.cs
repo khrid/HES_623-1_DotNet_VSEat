@@ -6,10 +6,10 @@ using System.Text;
 
 namespace BLL
 {
-    interface IRestaurantsManager
-{
-        IRestaurantsDB RestaurantsDB { get; }
+    public interface IRestaurantsManager
+    {
         List<Restaurant> GetAllRestaurants();
         Restaurant GetRestaurantById(int id);
+        List<Restaurant> GetRestaurantByCity(int id);
     }
 }

@@ -6,9 +6,8 @@ using System.Text;
 
 namespace BLL
 {
-    interface ICustomersManager
-{
-        ICustomersDB CustomersDB { get; }
+    public interface ICustomersManager
+    {
         Customer AddCustomer(Customer customer);
         List<Customer> GetAllCustomers();
         Customer GetCustomerById(int id);

@@ -9,7 +9,7 @@ namespace BLL
 {
     public class OrdersStatusManager : IOrdersStatusManager
     {
-        public IOrdersStatusDB OrdersStatusDB { get; }
+        private IOrdersStatusDB OrdersStatusDB { get; }
 
         public OrdersStatusManager(IConfiguration configuration)
         {

@@ -6,9 +6,8 @@ using System.Text;
 
 namespace BLL
 {
-    interface ICitiesManager
-{
-        ICitiesDB CitiesDB { get; }
+    public interface ICitiesManager
+    {
         List<City> GetAllCities();
         City GetCityById(int id);
     }

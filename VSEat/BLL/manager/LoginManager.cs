@@ -10,7 +10,7 @@ namespace BLL
     public class LoginManager : ILoginManager
     {
 
-        public ILoginDB LoginDB { get; }
+        private ILoginDB LoginDB { get; }
 
         public LoginManager(IConfiguration configuration)
         {

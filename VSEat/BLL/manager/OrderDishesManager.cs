@@ -9,7 +9,7 @@ namespace BLL
 {
     public class OrderDishesManager : IOrderDishesManager
     {
-        public IOrderDishesDB OrderDishesDb { get; }
+        private IOrderDishesDB OrderDishesDb { get; }
 
         public OrderDishesManager(IConfiguration configuration)
         {

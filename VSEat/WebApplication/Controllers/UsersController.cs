@@ -14,11 +14,13 @@ namespace WebApplication.Controllers
     public class UsersController : Controller
     {
 
-        private IConfiguration Configuration { get; }
+        private ICustomersManager customersManager { get; }
+        private ICitiesManager citiesManager { get; }
 
-        public UsersController(IConfiguration configuration)
+        public UsersController(ICustomersManager customerManager, ICitiesManager citiesManager)
         {
-            Configuration = configuration;
+            this.customersManager = customerManager;
+            this.citiesManager = citiesManager;
         }
         public IActionResult Index()
         {
@@ -27,7 +29,6 @@ namespace WebApplication.Controllers
 
         public IActionResult Me()
         {
-            CustomersManager customersManager = new CustomersManager(Configuration);
             int id = (int)HttpContext.Session.GetInt32("userid");
             Customer cust = customersManager.GetCustomerById(id);
             return View(cust);
@@ -35,7 +36,6 @@ namespace WebApplication.Controllers
 
         public IActionResult Register()
         {
-            CitiesManager citiesManager = new CitiesManager(Configuration);
             ViewBag.CityList = new SelectList(citiesManager.GetAllCities(), "id", "name");
             return View();
         }
@@ -45,14 +45,12 @@ namespace WebApplication.Controllers
         {
             int cityid = int.Parse(Request.Form["cities"]);
             System.Diagnostics.Debug.WriteLine("---------------" + Request.Form["cities"]);
-            CitiesManager citiesManager = new CitiesManager(Configuration);
 
-            CustomersManager customersManager = new CustomersManager(Configuration);
-            System.Diagnostics.Debug.WriteLine("---------------"+customer.full_name);
+            System.Diagnostics.Debug.WriteLine("---------------" + customer.full_name);
             //System.Diagnostics.Debug.WriteLine("---------------" + customer.city.name);
             customer.city = citiesManager.GetCityById(cityid);
             customersManager.AddCustomer(customer);
-            if(customer.id != 0)
+            if (customer.id != 0)
             {
                 HttpContext.Session.SetInt32("accountCreated", 1);
             }

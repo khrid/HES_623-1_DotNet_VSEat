@@ -8,7 +8,7 @@ namespace BLL
 {
     public class RestaurantsManager : IRestaurantsManager
     {
-        public IRestaurantsDB RestaurantsDB { get; }
+        private IRestaurantsDB RestaurantsDB { get; }
 
         public RestaurantsManager(IConfiguration configuration)
         {

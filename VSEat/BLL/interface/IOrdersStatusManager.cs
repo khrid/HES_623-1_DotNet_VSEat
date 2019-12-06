@@ -6,9 +6,8 @@ using System.Text;
 
 namespace BLL
 {
-    interface IOrdersStatusManager
+    public interface IOrdersStatusManager
     {
-        IOrdersStatusDB OrdersStatusDB { get; }
 
         List<OrdersStatus> GetAllOrdersStatus();
         OrdersStatus GetOrdersStatusById(int id);
