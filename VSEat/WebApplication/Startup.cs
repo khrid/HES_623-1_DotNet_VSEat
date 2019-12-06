@@ -37,15 +37,16 @@ namespace WebApplication
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // Injection de dépendances
-            services.AddScoped<ICitiesManager, CitiesManager>();
-            services.AddScoped<ICustomersManager, CustomersManager>();
-            services.AddScoped<IDeliverersManager, DeliverersManager>();
-            services.AddScoped<IDishesManager, DishesManager>();
             services.AddScoped<ILoginManager, LoginManager>();
+            services.AddScoped<IRestaurantsManager, RestaurantsManager>();
+            services.AddScoped<ICitiesManager, CitiesManager>();
             services.AddScoped<IOrderDishesManager, OrderDishesManager>();
             services.AddScoped<IOrdersStatusHistoryManager, OrdersStatusHistoryManager>();
             services.AddScoped<IOrdersStatusManager, OrdersStatusManager>();
-            services.AddScoped<IRestaurantsManager, RestaurantsManager>();
+            services.AddScoped<IOrdersManager, OrdersManager>();
+            services.AddScoped<ICustomersManager, CustomersManager>();
+            services.AddScoped<IDeliverersManager, DeliverersManager>();
+            services.AddScoped<IDishesManager, DishesManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
