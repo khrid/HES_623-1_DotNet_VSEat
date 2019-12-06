@@ -12,11 +12,11 @@ namespace WebApplication.Controllers
 {
     public class LoginController : Controller
     {
-        private IConfiguration Configuration { get; }
+        private ILoginManager loginManager { get; }
 
-        public LoginController(IConfiguration configuration)
+        public LoginController(ILoginManager loginManager)
         {
-            Configuration = configuration;
+            this.loginManager = loginManager;
         }
         public IActionResult Index()
         {
@@ -26,7 +26,6 @@ namespace WebApplication.Controllers
         [HttpPost]
         public IActionResult Index(Login login)
         {
-            LoginManager loginManager = new LoginManager(Configuration);
             bool isValid = loginManager.isUserValid(login, "customer");
             if (isValid)
             {
@@ -50,7 +49,6 @@ namespace WebApplication.Controllers
         [HttpPost]
         public IActionResult Deliverer(Login login)
         {
-            LoginManager loginManager = new LoginManager(Configuration);
             bool isValid = loginManager.isUserValid(login, "deliverer");
             if (isValid)
             {

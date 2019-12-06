@@ -12,11 +12,13 @@ namespace WebApplication.Controllers
 {
     public class DeliverersController : Controller
     {
-        private IConfiguration Configuration { get; }
+        private IDeliverersManager deliverersManager { get; }
+        private IOrdersManager ordersManager { get; }
 
-        public DeliverersController(IConfiguration configuration)
+        public DeliverersController(IDeliverersManager deliverersManager, IOrdersManager ordersManager)
         {
-            Configuration = configuration;
+            this.deliverersManager = deliverersManager;
+            this.ordersManager = ordersManager;
         }
 
         public IActionResult Index()
@@ -30,7 +32,6 @@ namespace WebApplication.Controllers
 
         public IActionResult MyDeliveries()
         {
-            OrdersManager ordersManager = new OrdersManager(Configuration);
             int id = (int)HttpContext.Session.GetInt32("userid");
             List<Order> list = ordersManager.GetOrderByDelivererId(1);
             return View(list);

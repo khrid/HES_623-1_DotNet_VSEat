@@ -11,5 +11,6 @@ namespace BLL
         Order AddOrder(Order order);
         List<Order> GetAllOrders();
         Order GetOrderById(int id);
+        List<Order> GetOrderByDelivererId(int id);
     }
 }

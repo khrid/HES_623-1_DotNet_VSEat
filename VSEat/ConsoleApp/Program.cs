@@ -17,6 +17,7 @@ namespace ConsoleApp
 
 
         // Managers
+        /*
         CitiesManager citiesManager = new CitiesManager(Configuration);
         CustomersManager customersManager = new CustomersManager(Configuration);
         DeliverersManager deliverersManager = new DeliverersManager(Configuration);
@@ -26,7 +27,7 @@ namespace ConsoleApp
         OrdersStatusHistoryManager ordersStatusHistoryManager = new OrdersStatusHistoryManager(Configuration);
         OrdersStatusManager ordersStatusManager = new OrdersStatusManager(Configuration);
         RestaurantsManager restaurantsManager = new RestaurantsManager(Configuration);
-
+        */
 
         static void Main(string[] args)
         {

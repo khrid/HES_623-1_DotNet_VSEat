@@ -10,11 +10,11 @@ namespace WebApplication.Controllers
 {
     public class RestaurantsController : Controller
     {
-        private IConfiguration Configuration { get; }
+        private IRestaurantsManager restaurantsManager { get; }
 
-        public RestaurantsController(IConfiguration configuration)
+        public RestaurantsController(IRestaurantsManager restaurantsManager)
         {
-            Configuration = configuration;
+            this.restaurantsManager = restaurantsManager;
         }
 
         public IActionResult Index()
@@ -24,8 +24,7 @@ namespace WebApplication.Controllers
 
         public IActionResult List(int id)
         {
-            RestaurantsManager restaurantManager = new RestaurantsManager(Configuration);
-            List<DTO.Restaurant> cities = restaurantManager.GetRestaurantByCity(id);
+            List<DTO.Restaurant> cities = restaurantsManager.GetRestaurantByCity(id);
             return View(cities);
         }
     }

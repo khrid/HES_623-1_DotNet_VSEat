@@ -13,18 +13,17 @@ namespace WebApplication.Controllers
 {
     public class HomeController : Controller
     {
-        private IConfiguration Configuration { get; }
+        private ICitiesManager citiesManager { get; }
 
-        public HomeController(IConfiguration configuration)
+        public HomeController(ICitiesManager citiesManager)
         {
-            Configuration = configuration;
+            this.citiesManager = citiesManager;
         }
 
         public IActionResult Index()
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("loggedIn") as string)) 
             {
-                CitiesManager citiesManager = new CitiesManager(Configuration);
                 List<DTO.City> cities = citiesManager.GetAllCities();
                 return View(cities);
             }
