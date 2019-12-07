@@ -17,15 +17,18 @@ namespace WebApplication.Controllers
         private IDeliverersManager deliverersManager { get; }
         private IDishesManager dishesManager { get; }
         private IOrderDishesManager orderDishesManager{ get; }
+        private IOrdersStatusHistoryManager ordersStatusHistoryManager { get; }
 
         public OrdersController(IOrdersManager ordersManager, ICustomersManager customersManager,
-            IDeliverersManager deliverersManager, IDishesManager dishesManager, IOrderDishesManager orderDishesManager)
+            IDeliverersManager deliverersManager, IDishesManager dishesManager,
+            IOrderDishesManager orderDishesManager, IOrdersStatusHistoryManager ordersStatusHistoryManager)
         {
             this.ordersManager = ordersManager;
             this.customersManager = customersManager;
             this.deliverersManager = deliverersManager;
             this.dishesManager = dishesManager;
             this.orderDishesManager = orderDishesManager;
+            this.ordersStatusHistoryManager = ordersStatusHistoryManager;
         }
 
         public IActionResult Index()
@@ -79,6 +82,13 @@ namespace WebApplication.Controllers
             List<OrderDish> orderDishes = orderDishesManager.GetOrderDishByOrderId(orderid);
 
             return View(orderDishes);
+        }
+
+        public IActionResult MyDeliveries()
+        {
+            int id = (int)HttpContext.Session.GetInt32("userid");
+            List<Order> list = ordersManager.GetOrderByDelivererId(id);
+            return View(list);
         }
     }
 }

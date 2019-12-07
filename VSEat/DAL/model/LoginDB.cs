@@ -18,7 +18,6 @@ namespace DAL
 
         public bool isUserValid(Login login, string type)
         {
-            //string connectionString = Configuration.GetConnectionString("DefaultConnection");
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))

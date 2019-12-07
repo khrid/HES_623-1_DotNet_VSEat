@@ -11,13 +11,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace WebApplication.Controllers
 {
-    public class UsersController : Controller
+    public class CustomersController : Controller
     {
 
         private ICustomersManager customersManager { get; }
         private ICitiesManager citiesManager { get; }
 
-        public UsersController(ICustomersManager customersManager, ICitiesManager citiesManager)
+        public CustomersController(ICustomersManager customersManager, ICitiesManager citiesManager)
         {
             this.customersManager = customersManager;
             this.citiesManager = citiesManager;
@@ -32,6 +32,19 @@ namespace WebApplication.Controllers
             int id = (int)HttpContext.Session.GetInt32("userid");
             Customer cust = customersManager.GetCustomerById(id);
             return View(cust);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateCustomerInformation()
+        {
+            int id = (int)HttpContext.Session.GetInt32("userid");
+            Customer cust = customersManager.GetCustomerById(id);
+            cust.password = Request.Form["password"];
+            cust.full_name = Request.Form["full_name"];
+            cust.address = Request.Form["address"];
+            customersManager.UpdateCustomer(cust);
+            HttpContext.Session.SetInt32("updatedCustomerInformation", 1);
+            return RedirectToAction("Me", "Customers");
         }
 
         public IActionResult Register()
