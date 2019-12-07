@@ -138,6 +138,33 @@ namespace DAL
             }
             return order;
         }
+
+        public int UpdateOrder(Order order)
+        {
+            int result = 0;
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "UPDATE orders SET fk_deliverers=@fk_deliverers, delivery_time_requested=@delivery_time_requested WHERE id=@id";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@id", order.id);
+                    cmd.Parameters.AddWithValue("@fk_deliverers", order.deliverer.id);
+                    cmd.Parameters.AddWithValue("@delivery_time_requested", order.delivery_time_requested);
+
+                    cn.Open();
+
+                    result = cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return result;
+        }
     }
 }
 

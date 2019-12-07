@@ -10,5 +10,6 @@ namespace DAL
         Order AddOrder(Order order);
         List<Order> GetAllOrders();
         Order GetOrderById(int id);
+        int UpdateOrder(Order order);
     }
 }

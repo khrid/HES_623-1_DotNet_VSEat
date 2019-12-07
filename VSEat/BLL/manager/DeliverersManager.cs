@@ -11,6 +11,8 @@ namespace BLL
     {
         private IDeliverersDB DeliverersDB { get; }
 
+        const string TEMP_DELIVERER_NAME = "temp_deliverer";
+
         public DeliverersManager(IDeliverersDB deliverersDB)
         {
             DeliverersDB = deliverersDB;
@@ -26,22 +28,39 @@ namespace BLL
             return DeliverersDB.GetDelivererById(id);
         }
 
-        public Deliverer GetDelivererForCity(int id)
+        public List<Deliverer> GetDeliverersForCity(int id)
         {
             List<Deliverer> AllDeliverers = GetAllDeliverers();
-            List<Deliverer> DelivererInCity = new List<Deliverer>();
+            List<Deliverer> DeliverersInCity = new List<Deliverer>();
 
             foreach (var deliverer in AllDeliverers)
             {
                 if (deliverer.city.id == id)
                 {
-                    DelivererInCity.Add(deliverer);
+                    DeliverersInCity.Add(deliverer);
+                }
+            }
+
+            return DeliverersInCity;
+        }
+
+        public Deliverer GetTempDeliverer()
+        {
+            List<Deliverer> AllDeliverers = GetAllDeliverers();
+            Deliverer TempDeliverer = new Deliverer();
+
+            foreach (var deliverer in AllDeliverers)
+            {
+                if (deliverer.full_name == TEMP_DELIVERER_NAME)
+                {
+                    TempDeliverer= deliverer;
+                    break;
                 }
             }
 
             //if(DelivererInCity.Count > 0)
             //{
-            return DelivererInCity[new Random().Next(0, DelivererInCity.Count)];
+            return TempDeliverer;
             //}
         }
     }

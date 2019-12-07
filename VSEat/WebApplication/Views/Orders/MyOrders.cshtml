@@ -1,0 +1,48 @@
+﻿@model IEnumerable<MyOrdersViewModel>
+
+@{
+    ViewData["Title"] = "MyOrders";
+}
+
+<h2>Mes commandes</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Commandé chez
+            </th>
+            <th>
+                Livré par
+            </th>
+            <th>
+                Date et heure de livraison souhaitée
+            </th>
+            <th>
+                Statut de commande
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.restaurant.merchant_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.deliverer.full_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.order.delivery_time_requested)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ordersStatusHistory.ordersStatus.status)
+            </td>
+            <td>
+                @Html.ActionLink("Annuler la commande", "Cancel", new { id = item.order.id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

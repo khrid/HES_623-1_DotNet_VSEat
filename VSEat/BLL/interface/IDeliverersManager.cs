@@ -7,10 +7,12 @@ using System.Text;
 namespace BLL
 {
     public interface IDeliverersManager
-{
+    {
 
         List<Deliverer> GetAllDeliverers();
         Deliverer GetDelivererById(int id);
-        Deliverer GetDelivererForCity(int id);
+        List<Deliverer> GetDeliverersForCity(int id);
+        Deliverer GetTempDeliverer();
+
     }
 }

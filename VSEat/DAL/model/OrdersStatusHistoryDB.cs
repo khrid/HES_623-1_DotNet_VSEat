@@ -114,13 +114,12 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "insert into orders_status_history(fk_orders, fk_orders_status, created_at) " +
-                        "values(@fk_orders, @fk_orders_status, @created_at);" +
+                    string query = "insert into orders_status_history(fk_orders, fk_orders_status) " +
+                        "values(@fk_orders, @fk_orders_status);" +
                         "select scope_identity();";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@fk_orders", ordersStatusHistory.order.id);
                     cmd.Parameters.AddWithValue("@fk_orders_status", ordersStatusHistory.ordersStatus.id);
-                    cmd.Parameters.AddWithValue("@created_at", ordersStatusHistory.created_at);
 
                     cn.Open();
 

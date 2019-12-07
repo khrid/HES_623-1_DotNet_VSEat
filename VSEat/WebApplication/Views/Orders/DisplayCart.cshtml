@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<DTO.OrderDish>
+@using Microsoft.AspNetCore.Http
 
 @{
     ViewData["Title"] = "DisplayCart";
@@ -6,7 +7,7 @@
 }
 
 <h2>Mon panier</h2>
-
+<h3>@Context.Session.GetString("orderError")</h3>
 @if (Model != null)
 {
 
@@ -45,14 +46,14 @@
                         @Html.DisplayFor(modelItem => item.dish.price).- CHF
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.dish.restaurant.merchant_name)
-                    </td>
-                    <td>
                         @{
                             var price = item.quantity * item.dish.price;
                             total += price;
                             @price;
                         }.- CHF
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.dish.restaurant.merchant_name)
                     </td>
                     <td>
                         @Html.ActionLink("Supprimer", "DeleteItem", new { id = item.id })
@@ -63,33 +64,35 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
                 <th>@total.- CHF</th>
+                <td></td>
                 <td></td>
             </tr>
         </tbody>
     </table>
-    <span>
-        <h4>Heure de livraison: @DateTime.Now.Hour</h4>
-        <select name="livraisonHeures">
-            @for (int i = 11; i <= 22; i++)
-            {
-                if (i > DateTime.Now.Hour)
+    @using (Html.BeginForm("Confirm", "Orders"))
+    {
+        <span>
+            <h4>Heure de livraison: </h4>
+            <select name="livraisonHeures">
+                @for (int i = 11; i <= 22; i++)
                 {
-                    <option value="@i"> @i </option>
+                    if (i > DateTime.Now.Hour + 1)
+                    {
+                        <option value="@i"> @i </option>
+                    }
                 }
-            }
-        </select> :
-        <select name="livraisonMinutes">
-            <option value="00"> 00 </option>
-            <option value="15"> 15 </option>
-            <option value="30"> 30 </option>
-            <option value="45"> 45 </option>
-        </select>
-    </span>
-    <hr />
-    <button onclick="location.href='@Url.Action("Confirm", "Orders")'"> Passer commande </button>
-
+            </select> :
+            <select name="livraisonMinutes">
+                <option value="00"> 00 </option>
+                <option value="15"> 15 </option>
+                <option value="30"> 30 </option>
+                <option value="45"> 45 </option>
+            </select>
+        </span>
+        <hr />
+        <input type="submit" value="Passer commande" />
+    }
 }
 else
 {

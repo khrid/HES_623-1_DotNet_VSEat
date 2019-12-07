@@ -44,7 +44,6 @@ namespace BLL
             List<Order> AllOrders = GetAllOrders();
             List<Order> OrdersByDeliverer = new List<Order>();
 
-            // TODO Gérer le fait que le livreur ne doive pas avoir plus de 5 commandes par 30mn
             foreach (var order in AllOrders)
             {
                 if(order.deliverer.id == id)
@@ -54,6 +53,47 @@ namespace BLL
             }
             System.Diagnostics.Debug.WriteLine(OrdersByDeliverer);
             return OrdersByDeliverer;
+        }
+
+        public List<Order> GetOrderByCustomerId(int id)
+        {
+            List<Order> AllOrders = GetAllOrders();
+            List<Order> OrdersByCustomer = new List<Order>();
+
+            foreach (var order in AllOrders)
+            {
+                if (order.customer.id == id)
+                {
+                    OrdersByCustomer.Add(order);
+                }
+            }
+            System.Diagnostics.Debug.WriteLine(OrdersByCustomer);
+            return OrdersByCustomer;
+        }
+
+        public List<Order> GetOrdersForDelivererInTimespan(int delivererId, DateTime deliveryTime)
+        {
+            List<Order> OrdersInTimespan = new List<Order>();
+            List<Order> OrdersByDeliverer = GetOrderByDelivererId(delivererId);
+
+            DateTime min = deliveryTime.AddMinutes(-30);
+            DateTime max = deliveryTime.AddMinutes(30);
+
+            foreach (var order in OrdersByDeliverer) 
+            {
+                // Si la date de commande demandée est + / - 30mn
+                if(order.delivery_time_requested > min && max > order.delivery_time_requested)
+                {
+                    OrdersInTimespan.Add(order);
+                }
+            }
+
+            return OrdersInTimespan;
+        }
+
+        public int UpdateOrder(Order order)
+        {
+            return OrdersDB.UpdateOrder(order);
         }
     }
 }

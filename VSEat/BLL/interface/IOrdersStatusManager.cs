@@ -8,8 +8,9 @@ namespace BLL
 {
     public interface IOrdersStatusManager
     {
-
+        
         List<OrdersStatus> GetAllOrdersStatus();
         OrdersStatus GetOrdersStatusById(int id);
+        OrdersStatus GetOrdersStatusByStatus(string status);
     }
 }
