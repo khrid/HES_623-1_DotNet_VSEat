@@ -4,6 +4,32 @@
 @{
     ViewData["Title"] = "DisplayCart";
     var total = 0;
+
+    // Gestion des différents petits messages à afficher
+    if (@Context.Session.GetInt32("deletedItem").GetValueOrDefault() == 1)
+    {
+        Context.Session.Remove("deletedItem");
+        <br />
+        <div class="alert alert-success" id="success-alert">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            Plat supprimé avec succès &#128546;
+        </div>
+        <script>
+            $("#success-alert").fadeTo(5000, 500).slideUp(500, function () {
+                $("#success-alert").slideUp(500);
+            });
+        </script>
+    }
+
+    if (@Context.Session.GetString("orderError") != null)
+    {
+        <br />
+        <div class="alert alert-danger" id="success-error">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            @Context.Session.GetString("orderError") &#128517;
+        </div>
+        Context.Session.Remove("orderError");
+    }
 }
 
 <h2>Mon panier</h2>

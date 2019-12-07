@@ -8,8 +8,6 @@ namespace WebApplication.Models
 {
     public class MyOrdersViewModel
     {
-        public int id { get; set; }
-
         public Deliverer deliverer { get; set; }
 
         public Restaurant restaurant { get; set; }
@@ -19,5 +17,7 @@ namespace WebApplication.Models
         public OrdersStatusHistory ordersStatusHistory { get; set; }
 
         public Order order { get; set; }
+
+        public int orderAmount { get; set; }
     }
 }

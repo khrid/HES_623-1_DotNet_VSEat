@@ -21,6 +21,8 @@ namespace WebApplication.Controllers
         private IOrdersStatusHistoryManager ordersStatusHistoryManager { get; }
         private IOrdersStatusManager ordersStatusManager { get; }
 
+        private int MAX_ORDER_PER_DELIVERER = 5;
+
         public OrdersController(IOrdersManager ordersManager, ICustomersManager customersManager,
             IDeliverersManager deliverersManager, IDishesManager dishesManager, IOrderDishesManager orderDishesManager,
             IOrdersStatusHistoryManager ordersStatusHistoryManager, IOrdersStatusManager ordersStatusManager)
@@ -97,8 +99,8 @@ namespace WebApplication.Controllers
             int hours = int.Parse(Request.Form["livraisonHeures"]);
             int minutes = int.Parse(Request.Form["livraisonMinutes"]);
 
-            System.Diagnostics.Debug.WriteLine("---------------> hours = " + hours);
-            System.Diagnostics.Debug.WriteLine("---------------> minutes = " + minutes);
+            //System.Diagnostics.Debug.WriteLine("---------------> hours = " + hours);
+            //System.Diagnostics.Debug.WriteLine("---------------> minutes = " + minutes);
             DateTime deliveryTime = new DateTime(
                         DateTime.Now.Year,
                         DateTime.Now.Month,
@@ -115,7 +117,7 @@ namespace WebApplication.Controllers
             // chercher un livreur
             List<OrderDish> orderDishes = orderDishesManager.GetOrderDishByOrderId(order.id);
             int cityId = orderDishes[0].dish.restaurant.city.id;
-            System.Diagnostics.Debug.WriteLine("---------------> cityid = "+ cityId);
+            //System.Diagnostics.Debug.WriteLine("---------------> cityid = " + cityId);
             // On doit trouver un livreur dispo pour cette commande
             // critères : 1. la ville (le livreur doit être dans la même)
             //            2. la date de livraison souhaitée (le livreur ne doit pas avoir 
@@ -143,10 +145,8 @@ namespace WebApplication.Controllers
                             }
                         }
 
-                        System.Diagnostics.Debug.WriteLine("---------------> count = " + count);
-                        if (count >= 5)
+                        if (count >= MAX_ORDER_PER_DELIVERER)
                         {
-                            System.Diagnostics.Debug.WriteLine("---------------> counta = " + count);
                             HttpContext.Session.SetString("orderError", "Tout les livreurs sont occupés !");
                             canOrder = false;
                         }
@@ -172,7 +172,7 @@ namespace WebApplication.Controllers
                 canOrder = false;
             }
 
-            if(canOrder)
+            if (canOrder)
             {
                 System.Diagnostics.Debug.WriteLine("---------------> deliverer name = " + finalDeliverer.full_name);
                 System.Diagnostics.Debug.WriteLine("---------------> deliveryTime = " + deliveryTime.ToString());
@@ -180,22 +180,24 @@ namespace WebApplication.Controllers
                 order.delivery_time_requested = deliveryTime;
                 ordersManager.UpdateOrder(order);
                 OrdersStatus orderStatus = ordersStatusManager.GetOrdersStatusByStatus(OrdersStatusManager.COMMANDE_RECUE);
-                OrdersStatusHistory ordersStatusHistory = new OrdersStatusHistory { order = order, created_at = new DateTime(), ordersStatus = orderStatus};
+                OrdersStatusHistory ordersStatusHistory = new OrdersStatusHistory { order = order, created_at = new DateTime(), ordersStatus = orderStatus };
                 ordersStatusHistoryManager.AddOrdersStatusHistory(ordersStatusHistory);
 
-                // On considère que la commande est prête directement 
-                // commande reçue -> en cours de prépa -> en cours de livraison
-
+                // On considère que la commande est directement en cours de livraison, on fait progresser les statuts
+                // commande reçue -> en cours de prépa
                 orderStatus = ordersStatusManager.GetOrdersStatusByStatus(OrdersStatusManager.COMMANDE_PREPA);
                 ordersStatusHistory = new OrdersStatusHistory { order = order, created_at = new DateTime(), ordersStatus = orderStatus };
                 ordersStatusHistoryManager.AddOrdersStatusHistory(ordersStatusHistory);
-
+                // en cours de prépa -> en cours de livraison
                 orderStatus = ordersStatusManager.GetOrdersStatusByStatus(OrdersStatusManager.COMMANDE_LIVRAISON);
                 ordersStatusHistory = new OrdersStatusHistory { order = order, created_at = new DateTime(), ordersStatus = orderStatus };
                 ordersStatusHistoryManager.AddOrdersStatusHistory(ordersStatusHistory);
 
-                return RedirectToAction("MyOrders","Orders");
-            } else
+                HttpContext.Session.Remove("orderid");
+
+                return RedirectToAction("MyOrders", "Orders");
+            }
+            else
             {
                 return RedirectToAction("DisplayCart", "Orders");
             }
@@ -213,12 +215,18 @@ namespace WebApplication.Controllers
             foreach (var item in orders)
             {
                 MyOrdersViewModel m = new MyOrdersViewModel();
-                List<OrderDish> o = orderDishesManager.GetOrderDishByOrderId(item.id);
+                List<OrderDish> dishes = orderDishesManager.GetOrderDishByOrderId(item.id);
                 m.ordersStatusHistory = ordersStatusHistoryManager.GetCurrentOrderStatusHistoryForOrder(item.id);
-                m.restaurant = o[0].dish.restaurant;
+                m.restaurant = dishes[0].dish.restaurant;
                 m.deliverer = item.deliverer;
                 m.customer = item.customer;
                 m.order = item;
+
+                foreach (var dish in dishes)
+                {
+                    m.orderAmount += dish.quantity * dish.dish.price;
+                }
+
                 myOrdersViewModels.Add(m);
             }
 
@@ -231,6 +239,47 @@ namespace WebApplication.Controllers
             int id = (int)HttpContext.Session.GetInt32("userid");
             List<Order> list = ordersManager.GetOrderByDelivererId(id);
             return View(list);
+        }
+
+        [HttpGet]
+        public IActionResult DeleteItem(int id)
+        {
+            orderDishesManager.DeleteOrderDish(id);
+            HttpContext.Session.SetInt32("deletedItem", 1);
+            return RedirectToAction("DisplayCart", "Orders");
+        }
+
+        [HttpGet]
+        public IActionResult Cancel(int id)
+        {
+            Order order = ordersManager.GetOrderById(id);
+            return View(order);
+        }
+
+
+        [HttpPost]
+        public IActionResult Cancel()
+        {
+            string nom = Request.Form["nom"];
+            string prenom = Request.Form["prenom"];
+            int orderid = int.Parse(Request.Form["orderid"]);
+            Order order = ordersManager.GetOrderById(orderid);
+
+            // on compare le nom et le prénom de la commande avec ceux saisis
+            if (order.customer.full_name.ToLower() == (prenom + " " + nom).ToLower())
+            {
+                OrdersStatus orderStatus = ordersStatusManager.GetOrdersStatusByStatus(OrdersStatusManager.COMMANDE_ANNULEE);
+                OrdersStatusHistory ordersStatusHistory = new OrdersStatusHistory { order = order, created_at = new DateTime(), ordersStatus = orderStatus };
+                ordersStatusHistoryManager.AddOrdersStatusHistory(ordersStatusHistory);
+                HttpContext.Session.SetInt32("deletedOrder", 1);
+                return RedirectToAction("MyOrders", "Orders");
+            }
+            else
+            {
+                HttpContext.Session.SetInt32("wrongInfos", 1);
+                return RedirectToAction("Cancel", "Orders");
+            }
+
         }
     }
 }

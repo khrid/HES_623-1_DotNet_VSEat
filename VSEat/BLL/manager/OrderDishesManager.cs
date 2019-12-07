@@ -20,6 +20,11 @@ namespace BLL
             return OrderDishesDb.AddOrderDish(orderDish);
         }
 
+        public int DeleteOrderDish(int id)
+        {
+            return OrderDishesDb.DeleteOrderDish(id);
+        }
+
         public List<OrderDish> GetAllOrderDishes()
         {
             return OrderDishesDb.GetAllOrderDishes();

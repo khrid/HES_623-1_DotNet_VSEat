@@ -35,7 +35,7 @@ namespace BLL
 
             foreach (var deliverer in AllDeliverers)
             {
-                if (deliverer.city.id == id)
+                if (deliverer.city.id == id && deliverer.full_name != TEMP_DELIVERER_NAME)
                 {
                     DeliverersInCity.Add(deliverer);
                 }

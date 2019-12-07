@@ -69,11 +69,5 @@ namespace WebApplication.Controllers
             }
             return RedirectToAction("Index", "Login");
         }
-
-        public IActionResult Logout()
-        {
-            HttpContext.Session.Clear();
-            return RedirectToAction("Index", "Login");
-        }
     }
 }

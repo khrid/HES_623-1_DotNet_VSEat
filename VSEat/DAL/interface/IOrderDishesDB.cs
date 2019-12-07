@@ -8,6 +8,7 @@ namespace DAL
     {
 
         OrderDish AddOrderDish(OrderDish orderDish);
+        int DeleteOrderDish(int id);
         List<OrderDish> GetAllOrderDishes();
         OrderDish GetOrderDishById(int id);
         List<OrderDish> GetOrderDishByOrderId(int id);

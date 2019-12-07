@@ -8,10 +8,6 @@ namespace DTO
     {
         public OrderDish() { }
 
-        public override string ToString()
-        {
-            return $"ID: {id} order:{order.id} dish: {dish.name} quantity: {quantity}";
-        }
 
         public int id { get; set; }
         public int quantity { get; set; }

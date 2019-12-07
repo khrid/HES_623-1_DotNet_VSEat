@@ -1,0 +1,59 @@
+﻿@model DTO.Order
+@using Microsoft.AspNetCore.Http
+
+@{
+    ViewData["Title"] = "Cancel";
+
+    if (@Context.Session.GetString("wrongInfos") != null)
+    {
+        <br />
+        <div class="alert alert-danger" id="success-error">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            Les informations saisies sont incorrectes !
+        </div>
+        Context.Session.Remove("wrongInfos");
+    }
+}
+
+<h3>Êtes-vous sûr de vouloir annuler cette commande ?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Numéro de commande
+        </dt>
+        <dd>
+            #@Html.DisplayFor(model => model.id)
+        </dd>
+        <dt>
+            Date et heure
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.delivery_time_requested)
+        </dd>
+    </dl>
+
+
+    <div class="alert alert-warning" id="success-alert">
+        Merci de confirmer l'annulation en entrant votre nom et prénom
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Cancel">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label for="nom" class="control-label">Nom</label>
+                    <input name="nom" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="prenom" class="control-label">Prénom</label>
+                    <input name="prenom" class="form-control" />
+                </div>
+
+                <input name="orderid" class="form-control" type="hidden" value="@Model.id" />
+                <input type="submit" value="Annuler la commande" class="btn btn-default" />
+            </form>
+        </div>
+    </div> <br /><br />
+    <a asp-action="MyOrders">Retour aux commandes</a>
+</div>

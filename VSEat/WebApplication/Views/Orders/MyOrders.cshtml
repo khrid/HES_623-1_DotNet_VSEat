@@ -1,48 +1,179 @@
 ﻿@model IEnumerable<MyOrdersViewModel>
+@using Microsoft.AspNetCore.Http
 
 @{
     ViewData["Title"] = "MyOrders";
+
+    bool active = false;
+    bool archived = false;
+
+    @foreach (var item in Model)
+    {
+        if (item.ordersStatusHistory.ordersStatus.id > 3)
+        {
+            archived = true;
+        }
+        else
+        {
+            active = true;
+        }
+    }
+
+    if (@Context.Session.GetInt32("deletedOrder").GetValueOrDefault() == 1)
+    {
+        Context.Session.Remove("deletedOrder");
+        <br />
+        <div class="alert alert-success" id="success-alert">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            Commande annulée avec succès &#128546;
+        </div>
+        <script>
+            $("#success-alert").fadeTo(5000, 500).slideUp(500, function () {
+                $("#success-alert").slideUp(500);
+            });
+        </script>
+    }
+
 }
 
-<h2>Mes commandes</h2>
+<h2>Mes commandes actives</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Commandé chez
-            </th>
-            <th>
-                Livré par
-            </th>
-            <th>
-                Date et heure de livraison souhaitée
-            </th>
-            <th>
-                Statut de commande
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.restaurant.merchant_name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.deliverer.full_name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.order.delivery_time_requested)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ordersStatusHistory.ordersStatus.status)
-            </td>
-            <td>
-                @Html.ActionLink("Annuler la commande", "Cancel", new { id = item.order.id })
-            </td>
-        </tr>
+@if (active)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Commandé chez
+                </th>
+                <th>
+                    Livré par
+                </th>
+                <th>
+                    Montant à payer
+                </th>
+                <th>
+                    Date et heure de livraison souhaitée
+                </th>
+                <th>
+                    Statut de commande
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                if (item.ordersStatusHistory.ordersStatus.id <= 3)
+                {
+            <tr>
+                <td>
+                    #@Html.DisplayFor(modelItem => item.order.id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.deliverer.full_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.orderAmount).- CHF
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.order.delivery_time_requested)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ordersStatusHistory.ordersStatus.status)
+                </td>
+                <td>
+                    @if (DateTime.Now.AddHours(1) <= item.order.delivery_time_requested)
+                    {
+                        @Html.ActionLink("Annuler la commande", "Cancel", new { id = item.order.id })
+                    }
+
+                </td>
+            </tr>
+                }
+            }
+        </tbody>
+    </table>
 }
-    </tbody>
-</table>
+else
+{
+
+    <div class="alert alert-info" id="success-info">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Aucune commande à afficher &#128528;
+    </div>
+}
+
+<br />
+
+<h2>Mes commandes archivées</h2>
+
+@if (archived)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Commandé chez
+                </th>
+                <th>
+                    Livré par
+                </th>
+                <th>
+                    Montant payé
+                </th>
+                <th>
+                    Date et heure de livraison souhaitée
+                </th>
+                <th>
+                    Statut de commande
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                if (item.ordersStatusHistory.ordersStatus.id > 3)
+                {
+            <tr>
+                <td>
+                    #@Html.DisplayFor(modelItem => item.order.id)
+                </td>
+                <td>
+                    @(item.restaurant.merchant_name + " (" + item.restaurant.city.name + ")")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.deliverer.full_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.orderAmount).- CHF
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.order.delivery_time_requested)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ordersStatusHistory.ordersStatus.status)
+                </td>
+                <td>
+                </td>
+            </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+else
+{
+
+    <div class="alert alert-info" id="success-info">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Aucune commande à afficher &#128528;
+    </div>
+}
