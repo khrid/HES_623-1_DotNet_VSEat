@@ -47,7 +47,7 @@
                             <li id="fat-menu" class="dropdown">
                                 <a href="#" id="drop3" style="color:white;font-weight:bolder; " role="button" class="dropdown-toggle" data-toggle="dropdown">@Context.Session.GetString("fullname")<b class="caret"></b></a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
-                                    <li><a asp-area="" asp-controller="Users" asp-action="Me">Mon compte</a></li>
+                                    <li><a asp-area="" asp-controller="Customers" asp-action="Me">Mon compte</a></li>
                                     <li><a asp-area="" asp-controller="Orders" asp-action="MyOrders">Mes commandes</a></li>
                                     <li><a asp-area="" asp-controller="Users" asp-action="Logout">Déconnexion</a></li>
                                 </ul>
@@ -59,13 +59,15 @@
                             </li>
                         </ul>
                     }
-                    else if (@Context.Session.GetString("username") != null && usertype == "deliverer")
+                    else if (@Context.Session.GetString("fullname") != null && usertype == "deliverer")
                     {
                         <ul class="nav pull-right">
                             <li id="fat-menu" class="dropdown">
-                                <a href="#" id="drop3" style="color:white;font-weight:bolder; " role="button" class="dropdown-toggle" data-toggle="dropdown">@Context.Session.GetString("username")<b class="caret"></b></a>
+                                <a href="#" id="drop3" style="color:white;font-weight:bolder; " role="button" class="dropdown-toggle" data-toggle="dropdown">@Context.Session.GetString("fullname")<b class="caret"></b></a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
-                                    <li><a asp-area="" asp-controller="Users" asp-action="Logout">Déconnexion</a></li>
+                                    <li><a asp-area="" asp-controller="Deliverers" asp-action="Me">Mon compte</a></li>
+                                    <li><a asp-area="" asp-controller="Deliverers" asp-action="MyDeliveries">Mes livraisons</a></li>
+                                    <li><a asp-area="" asp-controller="Deliverers" asp-action="Logout">Déconnexion</a></li>
                                 </ul>
                             </li>
                         </ul>

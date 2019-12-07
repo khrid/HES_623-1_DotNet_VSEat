@@ -47,6 +47,34 @@ namespace DAL
             return customer;
         }
 
+        public int UpdateCustomer(Customer customer)
+        {
+            int result = 0;
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "update customers set password=@password, full_name=@full_name, " +
+                        "address=@address where id=@id;";// +
+                        //"select scope_identity();";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@id", customer.id);
+                    cmd.Parameters.AddWithValue("@password", customer.password);
+                    cmd.Parameters.AddWithValue("@full_name", customer.full_name);
+                    cmd.Parameters.AddWithValue("@address", customer.address);
+
+                    cn.Open();
+
+                    result = cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return result;
+        }
+
         public List<Customer> GetAllCustomers()
         {
             List<Customer> results = null;
@@ -74,7 +102,7 @@ namespace DAL
                             member.username = (string)dr["username"];
                             member.password = (string)dr["password"];
                             member.full_name = (string)dr["full_name"];
-                            if(dr["fullname"] != null)
+                            if(dr["address"] != null)
                             {
                                 member.address = (string)dr["address"];
                             }
@@ -123,6 +151,10 @@ namespace DAL
                             result.username = (string)dr["username"];
                             result.password = (string)dr["password"];
                             result.full_name = (string)dr["full_name"];
+                            if (dr["address"] != null)
+                            {
+                                result.address = (string)dr["address"];
+                            }
                             // Voir si modifications souhaitées
                             CitiesDB citiesDB = new CitiesDB(configuration);
                             result.city = citiesDB.GetCityById((int)dr["fk_cities"]);
@@ -166,6 +198,10 @@ namespace DAL
                             result.username = (string)dr["username"];
                             result.password = (string)dr["password"];
                             result.full_name = (string)dr["full_name"];
+                            if (dr["address"] != null)
+                            {
+                                result.address = (string)dr["address"];
+                            }
                             // Voir si modifications souhaitées
                             CitiesDB citiesDB = new CitiesDB(configuration);
                             result.city = citiesDB.GetCityById((int)dr["fk_cities"]);

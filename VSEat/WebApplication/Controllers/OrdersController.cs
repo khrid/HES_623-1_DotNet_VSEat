@@ -225,5 +225,12 @@ namespace WebApplication.Controllers
 
             return View(myOrdersViewModels);
         }
+
+        public IActionResult MyDeliveries()
+        {
+            int id = (int)HttpContext.Session.GetInt32("userid");
+            List<Order> list = ordersManager.GetOrderByDelivererId(id);
+            return View(list);
+        }
     }
 }

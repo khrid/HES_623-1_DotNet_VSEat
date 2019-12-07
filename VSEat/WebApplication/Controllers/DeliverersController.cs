@@ -30,11 +30,5 @@ namespace WebApplication.Controllers
             return View();
         }
 
-        public IActionResult MyDeliveries()
-        {
-            int id = (int)HttpContext.Session.GetInt32("userid");
-            List<Order> list = ordersManager.GetOrderByDelivererId(1);
-            return View(list);
-        }
     }
 }

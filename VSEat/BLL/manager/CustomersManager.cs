@@ -21,6 +21,11 @@ namespace BLL
             return CustomersDB.AddCustomer(customer);
         }
 
+        public int UpdateCustomer(Customer customer)
+        {
+            return CustomersDB.UpdateCustomer(customer);
+        }
+
         public List<Customer> GetAllCustomers()
         {
             return CustomersDB.GetAllCustomers();

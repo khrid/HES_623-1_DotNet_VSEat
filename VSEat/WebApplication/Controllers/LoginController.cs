@@ -54,9 +54,9 @@ namespace WebApplication.Controllers
             {
                 HttpContext.Session.SetString("loggedIn", "1");
                 HttpContext.Session.SetInt32("userid", login.id);
-                HttpContext.Session.SetString("username", login.username);
+                HttpContext.Session.SetString("fullname", login.fullName);
                 HttpContext.Session.SetString("usertype", "deliverer");
-                return RedirectToAction("Index", "Deliverers");
+                return RedirectToAction("MyDeliveries", "Orders");
             }
             else
             {
