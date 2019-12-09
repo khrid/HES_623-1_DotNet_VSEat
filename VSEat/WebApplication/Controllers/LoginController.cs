@@ -37,6 +37,7 @@ namespace WebApplication.Controllers
             }
             else
             {
+                HttpContext.Session.SetInt32("loginFailed", 1);
                 return View();
             }
         }
@@ -66,7 +67,8 @@ namespace WebApplication.Controllers
             }
             else
             {
-                return RedirectToAction("Deliverer", "Login");
+                HttpContext.Session.SetInt32("loginFailed", 1);
+                return View();
             }
         }
     }

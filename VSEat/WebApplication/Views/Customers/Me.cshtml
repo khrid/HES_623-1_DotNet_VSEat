@@ -26,38 +26,33 @@
         <form asp-action="UpdateCustomerInformation">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="id" class="control-label"></label>
                 <input asp-for="id" class="form-control" type="hidden" />
                 <span asp-validation-for="id" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="username" class="control-label"></label>
+                <label asp-for="username" class="control-label">Pseudo</label>
                 <input asp-for="username" class="form-control" readonly />
                 <span asp-validation-for="username" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="password" class="control-label"></label>
+                <label asp-for="password" class="control-label">Mot de passe</label>
                 <input asp-for="password" class="form-control" type="password" />
                 <span asp-validation-for="password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="full_name" class="control-label"></label>
+                <label asp-for="full_name" class="control-label">Nom</label>
                 <input asp-for="full_name" class="form-control" />
                 <span asp-validation-for="full_name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="address" class="control-label"></label>
+                <label asp-for="address" class="control-label">Adresse</label>
                 <input asp-for="address" class="form-control" />
                 <span asp-validation-for="address" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Valider" class="btn btn-default" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 

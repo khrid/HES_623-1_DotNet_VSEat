@@ -32,11 +32,32 @@ namespace WebApplication.Controllers
         {
             int id = (int)HttpContext.Session.GetInt32("userid");
             Deliverer deliverer = deliverersManager.GetDelivererById(id);
-            deliverer.password = Request.Form["password"];
+            string oldpass = Request.Form["password"][0];
+            string newpass = Request.Form["password"][1];
+            string newpass2 = Request.Form["password"][2];
+
+            if (deliverer.password == oldpass)
+            {
+                if(newpass == newpass2)
+                {
+                    deliverer.password = newpass;
+                }
+                else
+                {
+                    HttpContext.Session.SetInt32("newPasswordsDoNotMatch", 1);
+                    return RedirectToAction("Me", "Deliverers");
+                }
+            }
+            else if (!String.IsNullOrEmpty(oldpass))
+            {
+                HttpContext.Session.SetInt32("currentPasswordDoesNotMatch", 1);
+                return RedirectToAction("Me", "Deliverers");
+            }
+            
             deliverer.full_name = Request.Form["full_name"];
-            //cust.address = Request.Form["address"];
             deliverersManager.UpdateDeliverer(deliverer);
             HttpContext.Session.SetInt32("updatedDelivererInformation", 1);
+            
             return RedirectToAction("Me", "Deliverers");
         }
 

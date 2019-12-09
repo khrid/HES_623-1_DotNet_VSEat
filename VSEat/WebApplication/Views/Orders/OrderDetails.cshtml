@@ -6,10 +6,42 @@
     var total = 0;
 }
 
-<h2>Détail de la commande #@Model.order.id</h2>
+<h2>Détail de la commande</h2>
 
 @if (Model != null)
+
 {
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            #
+        </dt>
+        <dd>
+            #@Model.order.id
+        </dd>
+        <dt>
+            @{
+                string lib;
+                if (Context.Session.GetString("usertype") == "customer") { lib = "Livreur"; } else { lib = "Client"; }
+            }
+            @lib
+        </dt>
+        <dd>
+            @{
+                string value;
+                if (Context.Session.GetString("usertype") == "customer") { value = Model.deliverer.full_name; } else { value = Model.customer.full_name; }
+            }
+            @value
+        </dd>
+        <dt>
+            Date et heure
+        </dt>
+        <dd>
+            @Model.order.delivery_time_requested
+        </dd>
+    </dl>
+
     <h3>Articles</h3>
 
     <table class="table">
@@ -56,7 +88,7 @@
                         @Html.DisplayFor(modelItem => item.dish.restaurant.merchant_name)
                     </td>
                 </tr>
-                            }
+            }
             <tr>
                 <td></td>
                 <td></td>

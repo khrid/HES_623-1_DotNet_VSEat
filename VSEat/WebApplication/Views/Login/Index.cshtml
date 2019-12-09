@@ -37,6 +37,15 @@
             });
         </script>
     }
+
+    if (@Context.Session.GetInt32("loginFailed").GetValueOrDefault() == 1)
+    {
+        <div class="alert alert-danger" id="success-error">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            Le nom d'utilisateur ou le mot de passe est incorrect
+        </div>
+        Context.Session.Remove("loginFailed");
+    }
 }
 
 <hr />
