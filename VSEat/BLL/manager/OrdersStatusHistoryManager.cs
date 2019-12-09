@@ -35,5 +35,10 @@ namespace BLL
         {
             return OrdersStatusHistoryDB.GetCurrentOrderStatusHistoryForOrder(id);
         }
+
+        public List<OrdersStatusHistory> GetEveryOrderStatusHistoryForOrder(int id)
+        {
+            return OrdersStatusHistoryDB.GetEveryOrderStatusHistoryForOrder(id);
+        }
     }
 }

@@ -172,5 +172,48 @@ namespace DAL
 
             return result;
         }
+
+        public List<OrdersStatusHistory> GetEveryOrderStatusHistoryForOrder(int id)
+        {
+            List<OrdersStatusHistory> results = null;
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from orders_status_history where fk_orders=@id order by created_at;";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            if (results == null)
+                                results = new List<OrdersStatusHistory>();
+
+                            OrdersStatusHistory member = new OrdersStatusHistory();
+
+                            member.id = (int)dr["id"];
+                            member.created_at = (DateTime)dr["created_at"];
+                            OrdersDB ordersDB = new OrdersDB(configuration);
+                            member.order = ordersDB.GetOrderById((int)dr["fk_orders"]);
+                            OrdersStatusDB ordersStatusDB = new OrdersStatusDB(configuration);
+                            member.ordersStatus = ordersStatusDB.GetOrdersStatusById((int)dr["fk_orders_status"]);
+
+                            results.Add(member);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return results;
+        }
     }
 }

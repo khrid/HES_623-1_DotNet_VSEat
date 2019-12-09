@@ -1,16 +1,29 @@
-﻿@model DTO.Deliverer
+﻿@using Microsoft.AspNetCore.Http
+@model DTO.Deliverer
 
 @{
     ViewData["Title"] = "Me";
 }
 
-<h2>Me</h2>
-
-<h4>Deliverer</h4>
+<h2>Mon compte</h2>
+@{ if (@Context.Session.GetInt32("updatedDelivererInformation").GetValueOrDefault() == 1)
+    {
+        Context.Session.Remove("updatedDelivererInformation");
+        <div class="alert alert-success" id="success-alert">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <strong>Super! </strong> Informations mises à jour &#128516;
+        </div>
+        <script>
+            $("#success-alert").fadeTo(5000, 500).slideUp(500, function () {
+                $("#success-alert").slideUp(500);
+            });
+        </script>
+    }
+}
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Me">
+        <form asp-action="UpdateDelivererInformation">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="id" class="control-label"></label>

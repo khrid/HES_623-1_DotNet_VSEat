@@ -9,5 +9,6 @@ namespace DAL
 
         List<Deliverer> GetAllDeliverers();
         Deliverer GetDelivererById(int id);
+        int UpdateDeliverer(Deliverer deliverer);
     }
 }

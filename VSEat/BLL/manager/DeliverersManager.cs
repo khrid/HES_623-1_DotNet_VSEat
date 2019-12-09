@@ -18,6 +18,11 @@ namespace BLL
             DeliverersDB = deliverersDB;
         }
 
+        public int UpdateDeliverer(Deliverer deliverer)
+        {
+            return DeliverersDB.UpdateDeliverer(deliverer);
+        }
+
         public List<Deliverer> GetAllDeliverers()
         {
             return DeliverersDB.GetAllDeliverers();

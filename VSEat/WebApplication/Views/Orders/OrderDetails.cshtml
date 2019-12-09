@@ -1,0 +1,124 @@
+﻿@model OrderDetailsViewModel
+@using Microsoft.AspNetCore.Http
+
+@{
+    ViewData["Title"] = "OrderDetails";
+    var total = 0;
+}
+
+<h2>Détail de la commande #@Model.order.id</h2>
+
+@if (Model != null)
+{
+    <h3>Articles</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Plat
+                </th>
+                <th>
+                    Quantité
+                </th>
+                <th>
+                    Prix (unité)
+                </th>
+                <th>
+                    Prix (total)
+                </th>
+                <th>
+                    Restaurant
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.orderDishes)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.dish.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.dish.price).- CHF
+                    </td>
+                    <td>
+                        @{
+                            var price = item.quantity * item.dish.price;
+                            total += price;
+                            @price;
+                        }.- CHF
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.dish.restaurant.merchant_name)
+                    </td>
+                </tr>
+                            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>@total.- CHF</th>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Historique</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Date/heure
+                </th>
+                <th>
+                    Statut
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ordersStatusCompleteHistory)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.created_at)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ordersStatus.status)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+else
+{
+    <div class="alert alert-info" id="success-info">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Oh ! Il y a un problème avec cette commande &#128528;
+    </div>
+}
+
+
+<br />
+<br />
+
+@{
+    string redirection;
+    if (@Context.Session.GetString("usertype") == "customer")
+    {
+        redirection = "MyOrders";
+    }
+    else
+    {
+        redirection = "MyDeliveries";
+    }
+}
+
+<a asp-action=@redirection>Retour aux commandes</a>

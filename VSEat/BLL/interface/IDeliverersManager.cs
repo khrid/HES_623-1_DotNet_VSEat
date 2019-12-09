@@ -10,6 +10,7 @@ namespace BLL
     {
 
         List<Deliverer> GetAllDeliverers();
+        int UpdateDeliverer(Deliverer deliverer);
         Deliverer GetDelivererById(int id);
         List<Deliverer> GetDeliverersForCity(int id);
         Deliverer GetTempDeliverer();

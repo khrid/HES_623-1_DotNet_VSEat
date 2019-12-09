@@ -21,6 +21,25 @@ namespace WebApplication.Controllers
             this.ordersManager = ordersManager;
         }
 
+        public IActionResult Me()
+        {
+            int id = (int)HttpContext.Session.GetInt32("userid");
+            Deliverer deliverer = deliverersManager.GetDelivererById(id);
+            return View(deliverer);
+        }
+
+        public IActionResult UpdateDelivererInformation()
+        {
+            int id = (int)HttpContext.Session.GetInt32("userid");
+            Deliverer deliverer = deliverersManager.GetDelivererById(id);
+            deliverer.password = Request.Form["password"];
+            deliverer.full_name = Request.Form["full_name"];
+            //cust.address = Request.Form["address"];
+            deliverersManager.UpdateDeliverer(deliverer);
+            HttpContext.Session.SetInt32("updatedDelivererInformation", 1);
+            return RedirectToAction("Me", "Deliverers");
+        }
+
         public IActionResult Index()
         {
             /*OrdersManager ordersManager = new OrdersManager(Configuration);

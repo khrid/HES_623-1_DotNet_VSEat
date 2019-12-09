@@ -1,52 +1,198 @@
-﻿@model IEnumerable<DTO.Order>
+﻿@model IEnumerable<MyOrdersViewModel>
+@using Microsoft.AspNetCore.Http
 
 @{
-    ViewData["Title"] = "Mes livraisons";
-    @Model.Count();
+    ViewData["Title"] = "MyDeliveries";
+    //@Model.Count();
+
+    bool active = false;
+    bool archived = false;
+
+    @foreach (var item in Model)
+    {
+        if (item.ordersStatusHistory.ordersStatus.id > 3)
+        {
+            archived = true;
+        }
+        else
+        {
+        active = true;
+        }
+    }
+
+    if (@Context.Session.GetInt32("deliveredOrder").GetValueOrDefault() == 1)
+    {
+        Context.Session.Remove("deliveredOrder");
+        <br />
+        <div class="alert alert-success" id="success-alert">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            Commande livrée avec succès &#128516;
+        </div>
+        <script>
+            $("#success-alert").fadeTo(5000, 500).slideUp(500, function () {
+                $("#success-alert").slideUp(500);
+            });
+        </script>
+    }
 }
 
-<h2>Mes livraisons</h2>
 
-<!--
-<p>
-    <a asp-action="Create">Create New</a>
-</p>-->
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                N° commande
-            </th>
-            <th>
-                Client
-            </th>
-            <th>
-                Date de livraison demandée
-            </th>
-            <!--<th></th>-->
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.customer.full_name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.delivery_time_requested)
-            </td>
-            <!--
-    <td>
-        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-    </td>
-    -->
-        </tr>
-        }
-    </tbody>
-</table>
+<h2>Mes commandes à livrer</h2>
+
+@if (active)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Client
+                </th>
+                <th>
+                    Restaurant
+                </th>
+                <th>
+                    Montant
+                </th>
+                <th>
+                    Date de livraison demandée
+                </th>
+                <th>
+                    Statut de la commande
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                if (item.ordersStatusHistory.ordersStatus.id <= 3)
+                {
+            <tr>
+                <td>
+                    #@Html.DisplayFor(modelItem => item.order.id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.customer.full_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.restaurant.merchant_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.orderAmount).- CHF
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.order.delivery_time_requested)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ordersStatusHistory.ordersStatus.status)
+                </td>
+                <td>
+                    @Html.ActionLink("Voir le détail", "OrderDetails", new { id = item.order.id })
+
+                </td>
+                <td>
+                    @if (item.ordersStatusHistory.ordersStatus.id == 3)
+                    {
+                        @Html.ActionLink("Marquer comme livrée", "Deliver", new { id = item.order.id })
+                    }
+                </td>
+            </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+else
+{
+
+    <div class="alert alert-info" id="success-info">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Aucune commande à afficher &#128528;
+    </div>
+}
+
+<br />
+
+<h2>Mes commandes archivées</h2>
+
+@if (archived)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Client
+                </th>
+                <th>
+                    Restaurant
+                </th>
+                <th>
+                    Montant
+                </th>
+                <th>
+                    Date de livraison demandée
+                </th>
+                <th>
+                    Statut de la commande
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                if (item.ordersStatusHistory.ordersStatus.id > 3)
+                {
+            <tr>
+                <td>
+                    #@Html.DisplayFor(modelItem => item.order.id)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.customer.full_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.restaurant.merchant_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.orderAmount).- CHF
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.order.delivery_time_requested)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ordersStatusHistory.ordersStatus.status)
+                </td>
+                <td>
+                    @Html.ActionLink("Voir le détail", "OrderDetails", new { id = item.order.id })
+
+                </td>
+                <td>
+                    @if (item.ordersStatusHistory.ordersStatus.id == 3)
+                    {
+                        @Html.ActionLink("Marquer comme livrée", "Deliver", new { id = item.order.id })
+                    }
+                </td>
+            </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+else
+{
+
+    <div class="alert alert-info" id="success-info">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Aucune commande à afficher &#128528;
+    </div>
+}
+

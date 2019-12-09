@@ -21,6 +21,33 @@ namespace DAL
         }
 
 
+        public int UpdateDeliverer(Deliverer deliverer)
+        {
+            int result = 0;
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "update deliverers set password=@password, full_name=@full_name " +
+                        "where id=@id;";// +
+                                                         //"select scope_identity();";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@id", deliverer.id);
+                    cmd.Parameters.AddWithValue("@password", deliverer.password);
+                    cmd.Parameters.AddWithValue("@full_name", deliverer.full_name);
+
+                    cn.Open();
+
+                    result = cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return result;
+        }
+
         public List<Deliverer> GetAllDeliverers()
         {
             List<Deliverer> results = null;

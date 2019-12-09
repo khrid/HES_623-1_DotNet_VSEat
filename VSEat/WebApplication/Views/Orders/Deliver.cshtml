@@ -1,0 +1,44 @@
+﻿@model DTO.Order
+@using Microsoft.AspNetCore.Http
+
+@{
+    ViewData["Title"] = "Deliver";
+}
+
+<h3>Êtes-vous sûr de vouloir livrer cette commande ?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Numéro de commande
+        </dt>
+        <dd>
+            #@Html.DisplayFor(model => model.id)
+        </dd>
+        <dt>
+            Client
+        </dt>
+        <dd>
+            #@Html.DisplayFor(model => model.customer.full_name)
+        </dd>
+        <dt>
+            Date et heure
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.delivery_time_requested)
+        </dd>
+    </dl>
+
+
+   
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Deliver">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input name="orderid" class="form-control" type="hidden" value="@Model.id" />
+                <input type="submit" value="Valider" class="btn btn-default" />
+            </form>
+        </div>
+    </div> <br /><br />
+    <a asp-action="MyDeliveries">Retour aux commandes</a>
+</div>

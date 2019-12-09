@@ -236,9 +236,29 @@ namespace WebApplication.Controllers
 
         public IActionResult MyDeliveries()
         {
-            int id = (int)HttpContext.Session.GetInt32("userid");
-            List<Order> list = ordersManager.GetOrderByDelivererId(id);
-            return View(list);
+            int userid = (int)HttpContext.Session.GetInt32("userid");
+            List<Order> orders = ordersManager.GetOrderByDelivererId(userid);
+            List<MyOrdersViewModel> myOrdersViewModels = new List<MyOrdersViewModel>();
+
+            foreach (var item in orders)
+            {
+                MyOrdersViewModel m = new MyOrdersViewModel();
+                List<OrderDish> dishes = orderDishesManager.GetOrderDishByOrderId(item.id);
+                m.ordersStatusHistory = ordersStatusHistoryManager.GetCurrentOrderStatusHistoryForOrder(item.id);
+                m.restaurant = dishes[0].dish.restaurant;
+                m.deliverer = item.deliverer;
+                m.customer = item.customer;
+                m.order = item;
+
+                foreach (var dish in dishes)
+                {
+                    m.orderAmount += dish.quantity * dish.dish.price;
+                }
+
+                myOrdersViewModels.Add(m);
+            }
+
+            return View(myOrdersViewModels);
         }
 
         [HttpGet]
@@ -248,6 +268,46 @@ namespace WebApplication.Controllers
             HttpContext.Session.SetInt32("deletedItem", 1);
             return RedirectToAction("DisplayCart", "Orders");
         }
+
+        public IActionResult OrderDetails(int id)
+        {
+            Order order = ordersManager.GetOrderById(id);
+            OrderDetailsViewModel orderDetailsViewModel = new OrderDetailsViewModel();
+
+            orderDetailsViewModel.order = order;
+            orderDetailsViewModel.orderDishes = orderDishesManager.GetOrderDishByOrderId(order.id);
+            orderDetailsViewModel.ordersStatusCompleteHistory = ordersStatusHistoryManager.GetEveryOrderStatusHistoryForOrder(order.id);
+            orderDetailsViewModel.restaurant = orderDetailsViewModel.orderDishes[0].dish.restaurant;
+            orderDetailsViewModel.deliverer = order.deliverer;
+            orderDetailsViewModel.customer = order.customer;
+
+            foreach (var dish in orderDetailsViewModel.orderDishes)
+            {
+                orderDetailsViewModel.orderAmount += dish.quantity * dish.dish.price;
+            }
+
+            return View(orderDetailsViewModel);
+        }
+
+        [HttpGet]
+        public IActionResult Deliver(int id)
+        {
+            Order order = ordersManager.GetOrderById(id);
+            return View(order);
+        }
+
+        [HttpPost]
+        public IActionResult Deliver()
+        {
+            int orderid = int.Parse(Request.Form["orderid"]);
+            Order order = ordersManager.GetOrderById(orderid);
+            OrdersStatus orderStatus = ordersStatusManager.GetOrdersStatusByStatus(OrdersStatusManager.COMMANDE_LIVREE);
+            OrdersStatusHistory ordersStatusHistory = new OrdersStatusHistory { order = order, created_at = new DateTime(), ordersStatus = orderStatus };
+            ordersStatusHistoryManager.AddOrdersStatusHistory(ordersStatusHistory);
+            HttpContext.Session.SetInt32("deliveredOrder", 1);
+            return RedirectToAction("MyDeliveries", "Orders");
+        }
+
 
         [HttpGet]
         public IActionResult Cancel(int id)
