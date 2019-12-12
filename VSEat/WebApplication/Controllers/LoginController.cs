@@ -68,7 +68,7 @@ namespace WebApplication.Controllers
             else
             {
                 HttpContext.Session.SetInt32("loginFailed", 1);
-                return View();
+                return View("Index");
             }
         }
     }

@@ -71,6 +71,8 @@ namespace WebApplication.Controllers
                 order = new Order { customer = customer, deliverer = deliverer, delivery_time_requested = DateTime.Now };
                 order = ordersManager.AddOrder(order);
                 HttpContext.Session.SetInt32("orderid", order.id);
+                // on stocke l'id de la ville pour qu'on ne puisse commander que dans une ville par commande
+                HttpContext.Session.SetInt32("cityid", dish.restaurant.city.id);
             }
 
             HttpContext.Session.SetInt32("addedToCart", 1);
@@ -167,7 +169,7 @@ namespace WebApplication.Controllers
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine("---------------> counta = " + count);
+                //System.Diagnostics.Debug.WriteLine("---------------> counta = " + count);
                 HttpContext.Session.SetString("orderError", "Pas de livreurs pour cette ville !");
                 canOrder = false;
             }
@@ -194,6 +196,7 @@ namespace WebApplication.Controllers
                 ordersStatusHistoryManager.AddOrdersStatusHistory(ordersStatusHistory);
 
                 HttpContext.Session.Remove("orderid");
+                HttpContext.Session.Remove("cityid");
 
                 return RedirectToAction("MyOrders", "Orders");
             }
@@ -206,29 +209,41 @@ namespace WebApplication.Controllers
 
         public IActionResult MyOrders()
         {
-            int userid = (int)HttpContext.Session.GetInt32("userid");
-
-            List<Order> orders = ordersManager.GetOrderByCustomerId(userid);
-
-            List<MyOrdersViewModel> myOrdersViewModels = new List<MyOrdersViewModel>();
-
-            foreach (var item in orders)
+            if(HttpContext.Session.GetString("usertype") != "customer")
             {
-                MyOrdersViewModel m = new MyOrdersViewModel();
-                List<OrderDish> dishes = orderDishesManager.GetOrderDishByOrderId(item.id);
-                m.ordersStatusHistory = ordersStatusHistoryManager.GetCurrentOrderStatusHistoryForOrder(item.id);
-                m.restaurant = dishes[0].dish.restaurant;
-                m.deliverer = item.deliverer;
-                m.customer = item.customer;
-                m.order = item;
-
-                foreach (var dish in dishes)
-                {
-                    m.orderAmount += dish.quantity * dish.dish.price;
-                }
-
-                myOrdersViewModels.Add(m);
+                return RedirectToAction("MyDeliveries", "Orders");
             }
+            int userid = (int)HttpContext.Session.GetInt32("userid");
+            System.Diagnostics.Debug.WriteLine("---------------> userid = " + userid);
+            List<Order> orders = ordersManager.GetOrderByCustomerId(userid);
+            System.Diagnostics.Debug.WriteLine("---------------> orders.Count = " + orders.Count());
+            System.Diagnostics.Debug.WriteLine("---------------> orders.Any = " + orders.Any());
+            List<MyOrdersViewModel> myOrdersViewModels = null;
+
+            if (orders.Count() > 0)
+            {
+                myOrdersViewModels = new List<MyOrdersViewModel>();
+                foreach (var item in orders)
+                {
+                    MyOrdersViewModel m = new MyOrdersViewModel();
+                    List<OrderDish> dishes = orderDishesManager.GetOrderDishByOrderId(item.id);
+                    m.ordersStatusHistory = ordersStatusHistoryManager.GetCurrentOrderStatusHistoryForOrder(item.id);
+                    m.restaurant = dishes[0].dish.restaurant;
+                    m.deliverer = item.deliverer;
+                    m.customer = item.customer;
+                    m.order = item;
+
+                    foreach (var dish in dishes)
+                    {
+                        m.orderAmount += dish.quantity * dish.dish.price;
+                    }
+
+                    myOrdersViewModels.Add(m);
+                }
+            }
+
+
+
 
 
             return View(myOrdersViewModels);
@@ -236,6 +251,11 @@ namespace WebApplication.Controllers
 
         public IActionResult MyDeliveries()
         {
+
+            if (HttpContext.Session.GetString("usertype") != "deliverer")
+            {
+                return RedirectToAction("MyOrders", "Orders");
+            }
             int userid = (int)HttpContext.Session.GetInt32("userid");
             List<Order> orders = ordersManager.GetOrderByDelivererId(userid);
             List<MyOrdersViewModel> myOrdersViewModels = new List<MyOrdersViewModel>();

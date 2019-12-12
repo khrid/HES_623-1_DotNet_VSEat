@@ -46,12 +46,11 @@ namespace BLL
 
             foreach (var order in AllOrders)
             {
-                if(order.deliverer.id == id)
+                if (order.deliverer.id == id)
                 {
                     OrdersByDeliverer.Add(order);
                 }
             }
-            System.Diagnostics.Debug.WriteLine(OrdersByDeliverer);
             return OrdersByDeliverer;
         }
 
@@ -60,14 +59,17 @@ namespace BLL
             List<Order> AllOrders = GetAllOrders();
             List<Order> OrdersByCustomer = new List<Order>();
 
-            foreach (var order in AllOrders)
+            if (AllOrders != null)
             {
-                if (order.customer.id == id)
+                foreach (var order in AllOrders)
                 {
-                    OrdersByCustomer.Add(order);
+                    if (order.customer.id == id)
+                    {
+                        OrdersByCustomer.Add(order);
+                    }
                 }
             }
-            System.Diagnostics.Debug.WriteLine(OrdersByCustomer);
+
             return OrdersByCustomer;
         }
 
@@ -79,10 +81,10 @@ namespace BLL
             DateTime min = deliveryTime.AddMinutes(-30);
             DateTime max = deliveryTime.AddMinutes(30);
 
-            foreach (var order in OrdersByDeliverer) 
+            foreach (var order in OrdersByDeliverer)
             {
                 // Si la date de commande demandée est + / - 30mn
-                if(order.delivery_time_requested > min && max > order.delivery_time_requested)
+                if (order.delivery_time_requested > min && max > order.delivery_time_requested)
                 {
                     OrdersInTimespan.Add(order);
                 }

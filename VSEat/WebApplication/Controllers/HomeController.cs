@@ -25,6 +25,11 @@ namespace WebApplication.Controllers
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("loggedIn") as string)) 
             {
+
+                if (HttpContext.Session.GetString("usertype") != "customer")
+                {
+                    return RedirectToAction("MyDeliveries", "Orders");
+                }
                 List<City> cities = citiesManager.GetAllCities();
                 return View(cities);
             }
