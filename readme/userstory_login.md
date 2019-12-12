@@ -2,7 +2,7 @@
 _A customer must create an account with his/her address before using the website_
 
 #### Steps
-1. Connect to VS Eat website
+1. Access the VS Eat website
 2. Click on "_Créer un compte_"
 3. Fill the required fields
     1. Username
