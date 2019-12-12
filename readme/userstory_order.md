@@ -12,4 +12,4 @@ _A logged customer can choose dishes from a list given by each restaurant availa
 6. Click on the "_Panier_" link at the top right of the page
 7. Pick a delivery time
 8. Click on the "_Passer commande_" button
-9. The price to pay to the courier will be displayed in the table, "_Montant à payer_" row.
+9. The price to pay to the courier will be displayed in the table, "_Montant à payer_" column.
