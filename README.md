@@ -20,3 +20,14 @@ A logged customer can choose dishes from a list given by each restaurant availab
 The system will assign the delivery of an order to one courier who is available in the same city as the restaurant where the order is made. One courier cannot have more than 5 orders to deliver every 30 minutes.
 #### delivery interface
 each courier can log in the system to see his/her upcoming deliveries. Once one delivery is made the delivery person will archive it by pressing a button on the delivery interface.
+
+### Deliverables
+Deliverables for this project are:
+*	A functional and « in production » MVC application
+    *	Normalized code based on given standards
+    *	Application must run and be bug free
+*	Technical documentation
+    *	Comment your code in order to make your code easily understandable
+    *	1 or more readme files which explain all required steps to run the application (database path, database users/passwords, application users/passwords…), ESSENTIAL for the correction!
+*	1 logbook explaining how you organized yourself in your project, what problems you encountered and how you solved it. Use day granularity.
+
