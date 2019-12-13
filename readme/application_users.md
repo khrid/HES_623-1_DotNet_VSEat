@@ -2,6 +2,7 @@
 
 ##### Customers
 _Not an exhaustive list !_
+
 | Username | Password | 
 |----------|----------|
 | sylvain.meyer | Pass1234 | 
@@ -14,8 +15,8 @@ _Not an exhaustive list !_
 ##### Deliverers
 | Username | Password | City |
 |----------|----------|-------|
-| josiane.salamin	| 1234Pass	Chalais | 
-| lea.gay	1234Pass | Chalais | 
+| josiane.salamin	| 1234Pass |	Chalais | 
+| lea.gay |	1234Pass | Chalais | 
 | olivier.clausen	| 1234Pass	| Chamoson | 
 | leonie.farquet	| 1234Pass	| Conthey | 
 | noel.barmaz	| 1234Pass	| Conthey | 
