@@ -76,7 +76,9 @@
                     #@Html.DisplayFor(modelItem => item.order.id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.customer.full_name)
+                    @Html.DisplayFor(modelItem => item.customer.full_name)<br />
+                    @Html.DisplayFor(modelItem => item.customer.address)<br />
+                    @Html.DisplayFor(modelItem => item.customer.city.zip_code) @Html.DisplayFor(modelItem => item.customer.city.name)<br />
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.restaurant.merchant_name)
