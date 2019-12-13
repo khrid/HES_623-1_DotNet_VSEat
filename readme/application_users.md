@@ -29,3 +29,5 @@ _Not an exhaustive list !_
 | megane.depreux	| 1234Pass	| Sierre | 
 | steven.varone	| 1234Pass	| Sion | 
 | jose.ferreira	| 1234Pass	| Sion | 
+
+_No deliverers for Fully and Vernayaz_
