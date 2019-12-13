@@ -24,9 +24,9 @@ namespace WebApplication.Controllers
         public IActionResult Me()
         {
 
-            if (HttpContext.Session.GetString("usertype") != "customer")
+            if (HttpContext.Session.GetString("usertype") != "deliverer")
             {
-                return RedirectToAction("Deliverers", "Me");
+                return RedirectToAction("Me", "Customers");
             }
             int id = (int)HttpContext.Session.GetInt32("userid");
             Deliverer deliverer = deliverersManager.GetDelivererById(id);

@@ -55,13 +55,14 @@ namespace DAL
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
                     string query = "update customers set password=@password, full_name=@full_name, " +
-                        "address=@address where id=@id;";// +
+                        "address=@address, fk_cities=@city where id=@id;";// +
                         //"select scope_identity();";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@id", customer.id);
                     cmd.Parameters.AddWithValue("@password", customer.password);
                     cmd.Parameters.AddWithValue("@full_name", customer.full_name);
                     cmd.Parameters.AddWithValue("@address", customer.address);
+                    cmd.Parameters.AddWithValue("@city", customer.city.id);
 
                     cn.Open();
 

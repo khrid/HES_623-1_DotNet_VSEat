@@ -19,6 +19,24 @@
             });
         </script>
     }
+
+    if (@Context.Session.GetInt32("newPasswordsDoNotMatch").GetValueOrDefault() == 1)
+    {
+        <div class="alert alert-danger" id="success-error">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            Les nouveaux mots de passe ne correspondent pas !
+        </div>
+        Context.Session.Remove("newPasswordsDoNotMatch");
+    }
+
+    if (@Context.Session.GetInt32("currentPasswordDoesNotMatch").GetValueOrDefault() == 1)
+    {
+        <div class="alert alert-danger" id="success-error">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            Le mot de passe actuel est incorrect !
+        </div>
+        Context.Session.Remove("currentPasswordDoesNotMatch");
+    }
 }
 <hr />
 <div class="row">
@@ -35,7 +53,17 @@
                 <span asp-validation-for="username" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="password" class="control-label">Mot de passe</label>
+                <label asp-for="password" class="control-label">Ancien mot de passe</label>
+                <input asp-for="password" class="form-control" type="password" />
+                <span asp-validation-for="password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="password" class="control-label">Nouveau mot de passe</label>
+                <input asp-for="password" class="form-control" type="password" />
+                <span asp-validation-for="password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="password" class="control-label">Confirmation nouveau mot de passe</label>
                 <input asp-for="password" class="form-control" type="password" />
                 <span asp-validation-for="password" class="text-danger"></span>
             </div>
@@ -48,6 +76,10 @@
                 <label asp-for="address" class="control-label">Adresse</label>
                 <input asp-for="address" class="form-control" />
                 <span asp-validation-for="address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="city" class="control-label">Ville</label><br />
+                @Html.DropDownList("cities", ViewBag.CityList as SelectList)
             </div>
             <div class="form-group">
                 <input type="submit" value="Valider" class="btn btn-default" />

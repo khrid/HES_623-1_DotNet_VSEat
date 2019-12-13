@@ -24,7 +24,7 @@ namespace WebApplication.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Home"); ;
         }
 
         public IActionResult Me()
@@ -32,10 +32,11 @@ namespace WebApplication.Controllers
 
             if (HttpContext.Session.GetString("usertype") != "customer")
             {
-                return RedirectToAction("Deliverers", "Me");
+                return RedirectToAction("Me", "Deliverers");
             }
             int id = (int)HttpContext.Session.GetInt32("userid");
             Customer cust = customersManager.GetCustomerById(id);
+            ViewBag.CityList = new SelectList(citiesManager.GetAllCities(), "id", "name",cust.city.id);
             return View(cust);
         }
 
@@ -44,9 +45,32 @@ namespace WebApplication.Controllers
         {
             int id = (int)HttpContext.Session.GetInt32("userid");
             Customer cust = customersManager.GetCustomerById(id);
-            cust.password = Request.Form["password"];
+
+            string oldpass = Request.Form["password"][0];
+            string newpass = Request.Form["password"][1];
+            string newpass2 = Request.Form["password"][2];
+
+            if (cust.password == oldpass)
+            {
+                if (newpass == newpass2)
+                {
+                    cust.password = newpass;
+                }
+                else
+                {
+                    HttpContext.Session.SetInt32("newPasswordsDoNotMatch", 1);
+                    return RedirectToAction("Me", "Customers");
+                }
+            }
+            else if (!String.IsNullOrEmpty(oldpass))
+            {
+                HttpContext.Session.SetInt32("currentPasswordDoesNotMatch", 1);
+                return RedirectToAction("Me", "Customers");
+            }
+
             cust.full_name = Request.Form["full_name"];
             cust.address = Request.Form["address"];
+            cust.city.id = int.Parse(Request.Form["cities"]);
             customersManager.UpdateCustomer(cust);
             HttpContext.Session.SetInt32("updatedCustomerInformation", 1);
             return RedirectToAction("Me", "Customers");
@@ -61,18 +85,30 @@ namespace WebApplication.Controllers
         [HttpPost]
         public IActionResult Register(Customer customer)
         {
-            int cityid = int.Parse(Request.Form["cities"]);
-            System.Diagnostics.Debug.WriteLine("---------------" + Request.Form["cities"]);
 
-            System.Diagnostics.Debug.WriteLine("---------------" + customer.full_name);
-            //System.Diagnostics.Debug.WriteLine("---------------" + customer.city.name);
-            customer.city = citiesManager.GetCityById(cityid);
-            customersManager.AddCustomer(customer);
-            if (customer.id != 0)
+            string newpass = Request.Form["password"][0];
+            string newpass2 = Request.Form["password"][1];
+            if(newpass != newpass2)
             {
-                HttpContext.Session.SetInt32("accountCreated", 1);
+                HttpContext.Session.SetInt32("newPasswordsDoNotMatch", 1);
+                return RedirectToAction("Register", "Customers");
             }
-            return RedirectToAction("Index", "Login");
+            else
+            {
+                int cityid = int.Parse(Request.Form["cities"]);
+                //System.Diagnostics.Debug.WriteLine("---------------" + Request.Form["cities"]);
+                //System.Diagnostics.Debug.WriteLine("---------------" + customer.full_name);
+                //System.Diagnostics.Debug.WriteLine("---------------" + customer.city.name);
+                customer.city = citiesManager.GetCityById(cityid);
+                customersManager.AddCustomer(customer);
+                if (customer.id != 0)
+                {
+                    HttpContext.Session.SetInt32("accountCreated", 1);
+                }
+                return RedirectToAction("Index", "Login");
+            }
+
+            
         }
     }
 }

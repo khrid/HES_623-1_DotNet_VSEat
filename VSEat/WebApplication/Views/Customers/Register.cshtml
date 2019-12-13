@@ -1,7 +1,18 @@
-﻿@model DTO.Customer
+﻿@using Microsoft.AspNetCore.Http
+@model DTO.Customer
 
 @{
     ViewData["Title"] = "Register";
+
+    if (@Context.Session.GetInt32("newPasswordsDoNotMatch").GetValueOrDefault() == 1)
+    {
+        <div class="alert alert-danger" id="success-error">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            Les mots de passe ne correspondent pas !
+        </div>
+        Context.Session.Remove("newPasswordsDoNotMatch");
+    }
+
 }
 
 <h2>S'enregistrer</h2>
@@ -21,7 +32,7 @@
                 <span asp-validation-for="full_name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="address" class="control-label">Addresse</label>
+                <label asp-for="address" class="control-label">Adresse</label>
                 <input asp-for="address" class="form-control" />
                 <span asp-validation-for="address" class="text-danger"></span>
             </div>
@@ -31,6 +42,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="password" class="control-label">Mot de passe</label>
+                <input asp-for="password" type="password" class="form-control" />
+                <span asp-validation-for="password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="password" class="control-label">Confirmer le mot de passe</label>
                 <input asp-for="password" type="password" class="form-control" />
                 <span asp-validation-for="password" class="text-danger"></span>
             </div>
