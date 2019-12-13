@@ -1,10 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Http
 @model DTO.Customer
-@using Microsoft.AspNetCore.Http;
 
 @{
     ViewData["Title"] = "Register";
-
 
     // Gestion des différents petits messages à afficher
     if (@Context.Session.GetInt32("creationError").GetValueOrDefault() == 1)
@@ -21,7 +19,6 @@
             });
         </script>
     }
-}
 
     if (@Context.Session.GetInt32("newPasswordsDoNotMatch").GetValueOrDefault() == 1)
     {
@@ -31,6 +28,9 @@
         </div>
         Context.Session.Remove("newPasswordsDoNotMatch");
     }
+
+}
+
 
 }
 
@@ -77,6 +77,6 @@
 </div>
 
 <div>
-    <a asp-action="Index" asp-controller="Login" >Retour à la connexion</a>
+    <a asp-action="Index" asp-controller="Login">Retour à la connexion</a>
 </div>
 
