@@ -147,7 +147,8 @@ namespace WebApplication.Controllers
                             }
                         }
 
-                        if (count >= MAX_ORDER_PER_DELIVERER)
+                        // One courier cannot have more than 5 orders to deliver every 30 minutes
+                        if (count > MAX_ORDER_PER_DELIVERER)
                         {
                             HttpContext.Session.SetString("orderError", "Tout les livreurs sont occupés !");
                             canOrder = false;

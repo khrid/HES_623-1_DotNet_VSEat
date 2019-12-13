@@ -71,6 +71,10 @@ namespace WebApplication.Controllers
             if (customer.id != 0)
             {
                 HttpContext.Session.SetInt32("accountCreated", 1);
+            } else
+            {
+                HttpContext.Session.SetInt32("creationError", 1);
+                return RedirectToAction("Register", "Customers");
             }
             return RedirectToAction("Index", "Login");
         }

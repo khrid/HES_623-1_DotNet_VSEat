@@ -18,6 +18,14 @@ namespace BLL
 
         public Customer AddCustomer(Customer customer)
         {
+            List<Customer> Customers = GetAllCustomers();
+            foreach (var c in Customers)
+            {
+                if(c.username == customer.username)
+                {
+                    return customer;
+                }
+            }
             return CustomersDB.AddCustomer(customer);
         }
 

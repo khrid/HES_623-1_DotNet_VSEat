@@ -1,7 +1,25 @@
 ﻿@model DTO.Customer
+@using Microsoft.AspNetCore.Http;
 
 @{
     ViewData["Title"] = "Register";
+
+
+    // Gestion des différents petits messages à afficher
+    if (@Context.Session.GetInt32("creationError").GetValueOrDefault() == 1)
+    {
+        Context.Session.Remove("creationError");
+        <br />
+        <div class="alert alert-warning" id="success-alert">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            Erreur lors de la création du compte
+        </div>
+        <script>
+            $("#success-alert").fadeTo(5000, 500).slideUp(500, function () {
+                $("#success-alert").slideUp(500);
+            });
+        </script>
+    }
 }
 
 <h2>S'enregistrer</h2>
@@ -42,6 +60,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Retour à la connexion</a>
+    <a asp-action="Index" asp-controller="Login" >Retour à la connexion</a>
 </div>
 
