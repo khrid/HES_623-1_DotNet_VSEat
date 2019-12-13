@@ -11,5 +11,6 @@ namespace DAL
         List<Order> GetAllOrders();
         Order GetOrderById(int id);
         int UpdateOrder(Order order);
+        int DeleteOrderById(int id);
     }
 }

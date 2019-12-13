@@ -97,5 +97,10 @@ namespace BLL
         {
             return OrdersDB.UpdateOrder(order);
         }
+
+        public int DeleteOrderById(int id)
+        {
+            return OrdersDB.DeleteOrderById(id);
+        }
     }
 }

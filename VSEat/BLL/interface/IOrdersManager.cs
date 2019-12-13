@@ -15,5 +15,6 @@ namespace BLL
         List<Order> GetOrderByCustomerId(int id);
         List<Order> GetOrdersForDelivererInTimespan(int delivererId, DateTime deliveryTime);
         int UpdateOrder(Order order);
+        int DeleteOrderById(int id);
     }
 }

@@ -285,7 +285,21 @@ namespace WebApplication.Controllers
         [HttpGet]
         public IActionResult DeleteItem(int id)
         {
+            OrderDish od = orderDishesManager.GetOrderDishById(id);
+            int orderid = od.order.id;
+            List<OrderDish> orderDishes = orderDishesManager.GetOrderDishByOrderId(orderid);
+
+
             orderDishesManager.DeleteOrderDish(id);
+
+            // S'il y a qu'un seul item dans la commande, il faut supprimer le verrour sur la ville
+            if (orderDishes.Count() == 1)
+            { 
+                HttpContext.Session.Remove("orderid");
+                HttpContext.Session.Remove("cityid");
+                ordersStatusHistoryManager.DeleteOrderStatusHistoryByOrderId(orderid);
+                ordersManager.DeleteOrderById(orderid);
+            }
             HttpContext.Session.SetInt32("deletedItem", 1);
             return RedirectToAction("DisplayCart", "Orders");
         }

@@ -14,5 +14,6 @@ namespace BLL
         OrdersStatusHistory GetOrdersStatusHistoryById(int id);
         OrdersStatusHistory GetCurrentOrderStatusHistoryForOrder(int id);
         List<OrdersStatusHistory> GetEveryOrderStatusHistoryForOrder(int id);
+        int DeleteOrderStatusHistoryByOrderId(int id);
     }
 }
